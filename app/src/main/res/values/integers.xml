@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="num_columns">2</integer>
+    <integer name="image_background_fade_millis">2000</integer>
+    <integer name="transition_duration_millis">400</integer>
+
+</resources>

@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">DoubanMovies</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget interdum ante, at adipiscing ipsum. Phasellus pellentesque commodo libero, id volutpat ipsum pretium at. Duis sit amet egestas nisi. Donec id dui eu lectus volutpat posuere. Nunc et viverra ante, vel malesuada tortor. Pellentesque ut interdum tellus, sit amet hendrerit dui. Sed accumsan, nisl eu tincidunt tempus, neque lorem sodales odio, non tristique orci lorem quis augue. In sodales rutrum faucibus. Morbi egestas massa sit amet ante pellentesque, eu laoreet ante congue. Sed aliquet, dolor ac placerat pellentesque, risus leo fermentum quam, eget eleifend tellus nulla euismod tellus. Donec adipiscing cursus leo et faucibus. Aliquam erat volutpat.</string>
+    <string name="small">small</string>
+    <string name="medium">medium</string>
+    <string name="list">list</string>
+    <string name="search_failed">search failed!</string>
+    <string name="searching_for">searching ...</string>
+
+    <!--menu-->
+    <string name="ic_search">搜索</string>
+    <string name="ic_setting">设置</string>
+    <string name="ic_sub_collect">收藏</string>
+    <!--MainActivity_NavigationView-->
+    <string name="nav_home">首页</string>
+    <string name="nav_collect">收藏</string>
+    <string name="nav_top250">豆瓣top250</string>
+    <!--MainActivity_NavigationView_header-->
+    <string name="user_name">用户昵称</string>
+    <string name="user_introduction">用户介绍</string>
+    <string name="user_edit">用户设置…</string>
+    <string name="ok">确定</string>
+    <string name="select_header">请选择获得头像方式</string>
+    <string name="openDrawer">open</string>
+    <string name="closeDrawer">close</string>
+    <!--MainActivity-->
+    <string name="collect_completed">收藏成功!  (＾－＾)V</string>
+    <string name="collect_cancel">取消收藏!  ︿(￣︶￣)︿</string>
+    <string name="exit">再按一次退出程序</string>
+    <!--SubjectItem-->
+    <string name="genres">类型:</string>
+    <string name="directors">导演:</string>
+    <string name="director">(导演)</string>
+    <string name="casts">主演:</string>
+    <string name="dir_and_cast">(导演兼主演)</string>
+    <string name="cast">(主演)</string>
+    <string name="collect">(</string>
+    <string name="count">人评价)</string>
+    <string name="box">票房:</string>
+    <string name="ake">又名:</string>
+    <string name="countries">制片国家或地区:</string>
+    <string name="summary">简介：</string>
+    <string name="no_rating">暂无评分</string>
+    <string name="overflow">取消收藏</string>
+    <string name="douban_rating">豆瓣评分：</string>
+    <!--SubjectActivity-->
+    <string name="cast_list">演员列表：</string>
+    <string name="recommend_list">相关推荐：</string>
+    <string name="recommend_load_fail">获取失败请重试…</string>
+    <string name="recommend_loading">正在加载推荐…</string>
+    <!--CelebrityActivity-->
+    <string name="gender">性别：</string>
+    <string name="bron_place">出生地：</string>
+    <string name="cel_ake">更多中文名：</string>
+    <string name="cel_ake_en">更多英文名：</string>
+    <!--adapter-->
+    <string name="load_completed">加载完毕！</string>
+    <string name="loading">正在加载更多…</string>
+    <!--SearchActivity-->
+    <string name="searching">正在搜索…</string>
+    <string name="query_hint">请输入要查询的电影…</string>
+    <string name="search_message">正在搜索…</string>
+    <string name="search_no_result">搜索无结果…</string>
+    <string name="search_error">刷新失败，请检查网络…</string>
+    <!--CollectAdapter-->
+    <string name="delete">移除</string>
+    <string name="enter">详细</string>
+    <string name="refresh">刷新</string>
+    <!--WebActivity-->
+    <string name="open">在浏览器中打开</string>
+    <string name="web_no_tips">打开失败，没有找到可以打开该链接的其它应用 :(</string>
+    <string name="skip">去豆瓣查看</string>
+    <string name="cancel">是否要取消收藏…</string>
+    <!--SimpleSubjectAdapter_FootView_tips-->
+    <string name="foot_loading">正在加载更多…</string>
+    <string name="foot_fail">加载失败，请点击重试。</string>
+</resources>

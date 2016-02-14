@@ -1,0 +1,70 @@
+<ScrollView
+    android:id="@+id/scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/details_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/reveal_container"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#000">
+
+            <ImageView
+                android:id="@+id/background_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:tint="@color/background_photo_tint"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/header_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="start|bottom"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:scaleType="fitCenter"
+                android:tint="@color/main_photo_tint"
+                tools:ignore="ContentDescription"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/text_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:transitionGroup="true">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:fontFamily="sans-serif-light"
+                android:textAppearance="@android:style/TextAppearance.Material.Title"
+                android:textSize="40sp"/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/lorem"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textSize="20sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
