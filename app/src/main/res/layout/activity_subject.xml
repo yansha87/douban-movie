@@ -66,7 +66,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey_white_1000"
+                    android:background="@color/gray_white_1000"
                     android:padding="8dp">
 
                     <ImageView
@@ -115,7 +115,7 @@
                             android:id="@+id/tv_subj_collect_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/grey_500"
+                            android:textColor="@color/gray_500"
                             android:textSize="12sp" />
 
                         <TextView
@@ -124,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:gravity="center"
-                            android:textColor="@color/grey_black_1000"
+                            android:textColor="@color/gray_black_1000"
                             android:textSize="18sp" />
 
                         <TextView
@@ -132,7 +132,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:textColor="@color/grey_black_1000"
+                            android:textColor="@color/gray_black_1000"
                             android:textSize="14sp" />
 
 
@@ -141,7 +141,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:textColor="@color/grey_500" />
+                            android:textColor="@color/gray_500" />
 
                         <TextView
                             android:id="@+id/tv_subj_ake"
@@ -169,10 +169,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/grey_white_1000"
+                    android:background="@color/gray_white_1000"
                     android:lines="3"
                     android:padding="12dp"
-                    android:textColor="@color/grey_black_1000"
+                    android:textColor="@color/gray_black_1000"
                     android:textSize="14sp" />
 
                 <include layout="@layout/view_cast_layout" />
@@ -182,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:textColor="@color/grey_500" />
+                    android:textColor="@color/gray_500" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/re_subj_recommend"

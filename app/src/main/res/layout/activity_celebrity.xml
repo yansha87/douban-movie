@@ -38,21 +38,21 @@
                         android:id="@+id/tv_cel_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey_black_1000"
+                        android:textColor="@color/gray_black_1000"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/tv_cel_name_en"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/grey_500" />
+                        android:textColor="@color/gray_500" />
 
                     <TextView
                         android:id="@+id/tv_cel_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:textColor="@color/grey_black_1000"
+                        android:textColor="@color/gray_black_1000"
                         android:textSize="14sp" />
 
                     <TextView
@@ -60,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:textColor="@color/grey_black_1000"
+                        android:textColor="@color/gray_black_1000"
                         android:textSize="14sp" />
 
                     <TextView
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/grey_500" />
+                android:textColor="@color/gray_500" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_cel_works"

@@ -19,6 +19,7 @@ import com.demon.doubanmovies.utils.DensityUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+// 收藏
 public class CollectFragment extends BaseFragment
         implements OnRefreshListener,
         CollectAdapter.OnItemClickListener {
@@ -26,7 +27,6 @@ public class CollectFragment extends BaseFragment
     private List<SubjectBean> mData = new ArrayList<>();
     private CollectAdapter mAdapter;
     private View mView;
-
 
     @Nullable
     @Override

@@ -86,18 +86,10 @@ public class SubjectActivity extends AppCompatActivity
     private static final String SHARE_IMAGE = "share_image";
     private static final String URI_FOR_FILE = "file:/";
     private static final String URI_FOR_IMAGE = ".png";
-
-    private int[] cast_id = {R.id.view_cast_layout_1,
-            R.id.view_cast_layout_2, R.id.view_cast_layout_3, R.id.view_cast_layout_4,
-            R.id.view_cast_layout_5, R.id.view_cast_layout_6};
-
-    private CastViewHolder[] castViewHolders = new CastViewHolder[6];
-
     @Bind(R.id.refresh_subj)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.btn_subj_skip)
     FloatingActionButton mBtn;
-
     //film header
     @Bind(R.id.header_container_subj)
     AppBarLayout mHeaderContainer;
@@ -127,19 +119,20 @@ public class SubjectActivity extends AppCompatActivity
     TextView mAke;
     @Bind(R.id.tv_subj_countries)
     TextView mCountries;
-
     @Bind(R.id.film_container_subj)
     LinearLayout mFilmContainer;
     //film summary
     @Bind(R.id.tv_subj_summary)
     TextView mSummaryText;
-
     //film recommend
     @Bind(R.id.tv_subj_recommend_tip)
     TextView mRecommendTip;
     @Bind(R.id.re_subj_recommend)
     RecyclerView mRecommend;
-
+    private int[] cast_id = {R.id.view_cast_layout_1,
+            R.id.view_cast_layout_2, R.id.view_cast_layout_3, R.id.view_cast_layout_4,
+            R.id.view_cast_layout_5, R.id.view_cast_layout_6};
+    private CastViewHolder[] castViewHolders = new CastViewHolder[6];
     //film subject
     private String mId;
     private String mContent;

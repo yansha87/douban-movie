@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.setTabTextColors(Color.parseColor("#aaffffff"), Color.WHITE);
+        mTabLayout.setTabTextColors(Color.GRAY, getResources().getColor(R.color.blue_500));
         mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

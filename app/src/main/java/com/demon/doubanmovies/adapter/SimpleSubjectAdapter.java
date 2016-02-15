@@ -2,7 +2,6 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,7 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.utils.CelebrityUtil;
 import com.demon.doubanmovies.utils.DensityUtil;
-import com.demon.doubanmovies.utils.StringUtil;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -31,20 +28,19 @@ import butterknife.ButterKnife;
 
 public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
-    //ItemView的类型，FootView应用于加载更多
-    private static final int TYPE_ITEM = 0;
-    private static final int TYPE_FOOT = 1;
-
     //FootView的显示类型
     public static final int FOOT_LOADING = 0;
     public static final int FOOT_COMPLETED = 1;
     public static final int FOOT_FAIL = 2;
-    private FootViewHolder mFootView;
     //用于判断是否是加载失败时点击的FootView
     public static final String FOOT_VIEW_ID = "-1";
-
+    //ItemView的类型，FootView应用于加载更多
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOT = 1;
+    private FootViewHolder mFootView;
     private Context mContext;
     private List<SimpleSubjectBean> mData;
+
     /**
      * 用于加载更多数据
      */
@@ -78,15 +74,15 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         return mData.size();
     }
 
-    public void setTotalDataCount(int totalDataCount) {
-        this.mTotalDataCount = totalDataCount;
-    }
-
     /**
      * 返回adapter数据的总数
      */
     public int getTotalDataCount() {
         return mTotalDataCount;
+    }
+
+    public void setTotalDataCount(int totalDataCount) {
+        this.mTotalDataCount = totalDataCount;
     }
 
     /**
@@ -130,8 +126,11 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             }
             return mFootView;
         } else {
+
+
             View view = LayoutInflater.from(mContext).
                     inflate(R.layout.item_simple_subject_layout, parent, false);
+
             return new ItemViewHolder(view);
         }
     }
@@ -159,6 +158,22 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
     }
 
+    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            if (loadedImage != null) {
+                ImageView imageView = (ImageView) view;
+                boolean firstDisplay = !displayedImages.contains(imageUri);
+                if (firstDisplay) {
+                    FadeInBitmapDisplayer.animate(imageView, 500);
+                    displayedImages.add(imageUri);
+                }
+            }
+        }
+    }
+
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_simple_subject_image)
@@ -169,20 +184,10 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         RatingBar rating_bar;
         @Bind(R.id.tv_item_simple_subject_rating)
         TextView text_rating;
-        @Bind(R.id.tv_item_simple_subject_count)
-        TextView text_collect_count;
         @Bind(R.id.tv_item_simple_subject_title)
         TextView text_title;
-        @Bind(R.id.tv_item_simple_subject_original_title)
-        TextView text_original_title;
-        @Bind(R.id.tv_item_simple_subject_genres)
-        TextView text_genres;
-        @Bind(R.id.tv_item_simple_subject_director)
-        TextView text_director;
-        @Bind(R.id.tv_item_simple_subject_cast)
-        TextView text_cast;
 
-        SimpleSubjectBean sub;
+        SimpleSubjectBean subjectBean;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -191,33 +196,18 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
 
         public void update() {
-            sub = mData.get(getLayoutPosition());
+            subjectBean = mData.get(getLayoutPosition());
+
             if (!isComingFilm) {
                 layout_rating.setVisibility(View.VISIBLE);
-                float rate = (float) sub.getRating().getAverage();
+                float rate = (float) subjectBean.getRating().getAverage();
                 rating_bar.setRating(rate / 2);
                 text_rating.setText(String.format("%s", rate));
-                text_collect_count.setText(mContext.getString(R.string.collect));
-                text_collect_count.append(String.format("%d", sub.getCollect_count()));
-                text_collect_count.append(mContext.getString(R.string.count));
             }
-            String title = sub.getTitle();
-            String original_title = sub.getOriginal_title();
+            String title = subjectBean.getTitle();
             text_title.setText(title);
-            if (original_title.equals(title)) {
-                text_original_title.setVisibility(View.GONE);
-            } else {
-                text_original_title.setText(original_title);
-                text_original_title.setVisibility(View.VISIBLE);
-            }
-            text_genres.setText(StringUtil.getListString(sub.getGenres(), ','));
-            text_director.setText(StringUtil.getSpannableString(
-                    mContext.getString(R.string.directors), Color.GRAY));
-            text_director.append(CelebrityUtil.list2String(sub.getDirectors(), '/'));
-            text_cast.setText(StringUtil.getSpannableString(
-                    mContext.getString(R.string.casts), Color.GRAY));
-            text_cast.append(CelebrityUtil.list2String(sub.getCasts(), '/'));
-            imageLoader.displayImage(sub.getImages().getLarge(),
+
+            imageLoader.displayImage(subjectBean.getImages().getLarge(),
                     image_film, options, imageLoadingListener);
         }
 
@@ -281,22 +271,6 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             if (mCallback != null) {
                 setFootView(FOOT_LOADING);
                 mCallback.onItemClick(FOOT_VIEW_ID, null);
-            }
-        }
-    }
-
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
             }
         }
     }

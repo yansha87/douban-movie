@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="@color/grey_white_1000">
+    android:background="@color/gray_white_1000">
 
     <TextView
         android:id="@+id/tv_item_box_rank"
@@ -44,9 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:layout_gravity="bottom"
-            android:background="@color/grey_800"
+            android:background="@color/gray_800"
             android:gravity="center"
-            android:textColor="@color/grey_white_1000"
+            android:textColor="@color/gray_white_1000"
             android:textSize="12sp" />
     </FrameLayout>
 

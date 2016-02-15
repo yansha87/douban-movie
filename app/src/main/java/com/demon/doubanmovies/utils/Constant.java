@@ -26,10 +26,13 @@ public class Constant {
 
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();
+
     public static final Type cleType = new TypeToken<CelebrityBean>() {
     }.getType();
+
     public static final Type simpleSubTypeList = new TypeToken<List<SimpleSubjectBean>>() {
     }.getType();
+
     public static final Type simpleBoxTypeList = new TypeToken<List<BoxSubjectBean>>() {
     }.getType();
 }

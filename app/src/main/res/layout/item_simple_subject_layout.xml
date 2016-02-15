@@ -1,106 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    android:background="@color/grey_white_1000"
-    android:orientation="horizontal"
-    android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/iv_item_simple_subject_image"
-        android:layout_width="100dp"
-        android:layout_height="142dp"
-        android:layout_gravity="center_vertical"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription" />
+    android:layout_margin="4dp"
+    android:background="@color/gray_white_1000"
+    android:padding="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="4dp" >
+
+        <ImageView
+            android:id="@+id/iv_item_simple_subject_image"
+            android:layout_width="100dp"
+            android:layout_height="142dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
-            android:id="@+id/ll_item_simple_subject_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="vertical" >
 
-            <RatingBar
-                android:id="@+id/rb_item_simple_subject_rating"
-                style="@style/MyRatingBar"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_item_simple_subject_rating"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numStars="5" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RatingBar
+                    android:id="@+id/rb_item_simple_subject_rating"
+                    style="@style/MyRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5" />
+
+                <TextView
+                    android:id="@+id/tv_item_simple_subject_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_500" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_item_simple_subject_rating"
+                android:id="@+id/tv_item_simple_subject_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/red_500" />
-
-            <TextView
-                android:id="@+id/tv_item_simple_subject_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textColor="@color/green_500"
-                android:textSize="12sp" />
+                android:layout_marginTop="4dp"
+                android:singleLine="true"
+                android:textColor="@color/gray_black_1000"
+                android:textSize="15sp" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_item_simple_subject_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:singleLine="true"
-            android:textColor="@color/grey_black_1000"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_item_simple_subject_original_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/grey_500"
-            android:textSize="12sp" />
-
-
-        <TextView
-            android:id="@+id/tv_item_simple_subject_genres"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/blue_500"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_item_simple_subject_director"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@color/blue_500"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_item_simple_subject_cast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@color/blue_500"
-            android:textSize="12sp" />
-
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v7.widget.CardView>

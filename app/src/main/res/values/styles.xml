@@ -50,7 +50,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
+    <style name="MyRatingBar" parent="@android:style/Widget.Holo.RatingBar.Small">
         <item name="android:progressDrawable">@drawable/my_rating_bar</item>
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>

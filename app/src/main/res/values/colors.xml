@@ -258,29 +258,29 @@
     <color name="brown_800">#4e342e</color>
     <color name="brown_900">#3e2723</color>
 
-    <color name="grey_50">#fafafa</color>
-    <color name="grey_100">#f5f5f5</color>
-    <color name="grey_200">#eeeeee</color>
-    <color name="grey_300">#e0e0e0</color>
-    <color name="grey_400">#bdbdbd</color>
-    <color name="grey_500">#9e9e9e</color>
-    <color name="grey_600">#757575</color>
-    <color name="grey_700">#616161</color>
-    <color name="grey_800">#424242</color>
-    <color name="grey_900">#212121</color>
-    <color name="grey_black_1000">#000000</color>
-    <color name="grey_white_1000">#ffffff</color>
+    <color name="gray_50">#fafafa</color>
+    <color name="gray_100">#f5f5f5</color>
+    <color name="gray_200">#eeeeee</color>
+    <color name="gray_300">#e0e0e0</color>
+    <color name="gray_400">#bdbdbd</color>
+    <color name="gray_500">#9e9e9e</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
+    <color name="gray_black_1000">#000000</color>
+    <color name="gray_white_1000">#ffffff</color>
 
-    <color name="blue_grey_50">#eceff1</color>
-    <color name="blue_grey_100">#cfd8dc</color>
-    <color name="blue_grey_200">#b0bec5</color>
-    <color name="blue_grey_300">#90a4ae</color>
-    <color name="blue_grey_400">#78909c</color>
-    <color name="blue_grey_500">#607d8b</color>
-    <color name="blue_grey_600">#546e7a</color>
-    <color name="blue_grey_700">#455a64</color>
-    <color name="blue_grey_800">#37474f</color>
-    <color name="blue_grey_900">#263238</color>
+    <color name="blue_gray_50">#eceff1</color>
+    <color name="blue_gray_100">#cfd8dc</color>
+    <color name="blue_gray_200">#b0bec5</color>
+    <color name="blue_gray_300">#90a4ae</color>
+    <color name="blue_gray_400">#78909c</color>
+    <color name="blue_gray_500">#607d8b</color>
+    <color name="blue_gray_600">#546e7a</color>
+    <color name="blue_gray_700">#455a64</color>
+    <color name="blue_gray_800">#37474f</color>
+    <color name="blue_gray_900">#263238</color>
 
     <color name="translucent_black">#B0000000</color>
 </resources>

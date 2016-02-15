@@ -29,7 +29,6 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
     private List<SubjectBean> mData;
 
     private OnItemClickListener callback;
-
     private SubjectBean undoSub;
 
     public void setOnItemClickListener(OnItemClickListener callback) {

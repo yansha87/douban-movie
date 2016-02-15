@@ -10,9 +10,9 @@
         android:id="@+id/tab_home"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/gray_white_1000"
         android:elevation="4dp"
-        app:tabIndicatorColor="@color/grey_white_1000"
+        app:tabIndicatorColor="@color/blue_500"
         app:tabIndicatorHeight="2dp" />
 
     <android.support.v4.view.ViewPager

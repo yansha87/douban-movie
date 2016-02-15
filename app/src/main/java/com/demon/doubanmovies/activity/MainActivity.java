@@ -29,7 +29,6 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.fragment.HomeFragment;
 import com.demon.doubanmovies.transitions.DetailsActivity;
 import com.demon.doubanmovies.transitions.Utils;
-import com.demon.doubanmovies.tryit.FlickrSearchActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -174,8 +173,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //初始化Viewpager
         mFragmentManager = getSupportFragmentManager();
         mCurFragment = mFragmentManager.findFragmentByTag(mTitle);
         if (mCurFragment == null) {
@@ -187,51 +184,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private class CardAdapter extends RecyclerView.Adapter<CardHolder> {
-        @Override
-        public CardHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            return new CardHolder(inflater.inflate(R.layout.image_card, viewGroup, false));
-        }
-
-        @Override
-        public void onBindViewHolder(CardHolder holder, int position) {
-            holder.bind(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return RADIOHEAD_ALBUM_URLS.length;
-        }
-    }
-
-    private class CardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final ImageView mImage;
-        private int mPosition;
-
-        public CardHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            mImage = (ImageView) itemView.findViewById(R.id.image);
-        }
-
-        public void bind(int position) {
-            Picasso.with(mImage.getContext()).load(RADIOHEAD_ALBUM_URLS[position]).into(mImage);
-            mImage.setTransitionName(RADIOHEAD_ALBUM_NAMES[position]);
-            mImage.setTag(RADIOHEAD_ALBUM_NAMES[position]);
-            mPosition = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            mIsReentering = false;
-            LOG("startActivity(Intent, Bundle)", false);
-            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-            intent.putExtra(EXTRA_CURRENT_ITEM_POSITION, mPosition);
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(
-                    MainActivity.this, mImage, mImage.getTransitionName()).toBundle());
-        }
-    }
 
     @Override
     public void onActivityReenter(int requestCode, Intent data) {

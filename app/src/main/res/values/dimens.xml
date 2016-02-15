@@ -13,4 +13,9 @@
     <dimen name="flickr_list_item_height">170dp</dimen>
     <dimen name="grid_margin">5dp</dimen>
     <dimen name="page_margin">8dp</dimen>
+
+
+    <dimen name="font_large">28sp</dimen>
+    <dimen name="font_medium">20sp</dimen>
+    <dimen name="font_small">14sp</dimen>
 </resources>

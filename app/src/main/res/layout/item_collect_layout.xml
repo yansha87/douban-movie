@@ -34,7 +34,7 @@
                     android:id="@+id/tv_item_collect_title"
                     android:layout_width="136dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey_black_1000"
+                    android:textColor="@color/gray_black_1000"
                     android:textSize="18sp" />
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@color/blue_500"
                     android:padding="1dp"
-                    android:textColor="@color/grey_white_1000"
+                    android:textColor="@color/gray_white_1000"
                     android:textSize="12sp" />
 
                 <TextView
@@ -114,7 +114,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/grey_white_1000"
+                android:textColor="@color/gray_white_1000"
                 android:textSize="24sp" />
 
         </FrameLayout>

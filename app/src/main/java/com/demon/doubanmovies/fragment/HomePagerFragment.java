@@ -5,6 +5,7 @@ import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -47,7 +48,12 @@ import butterknife.ButterKnife;
 
 import static android.support.v7.widget.RecyclerView.OnClickListener;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.demon.doubanmovies.utils.Constant.*;
+import static com.demon.doubanmovies.utils.Constant.API;
+import static com.demon.doubanmovies.utils.Constant.COMING;
+import static com.demon.doubanmovies.utils.Constant.IN_THEATERS;
+import static com.demon.doubanmovies.utils.Constant.US_BOX;
+import static com.demon.doubanmovies.utils.Constant.simpleBoxTypeList;
+import static com.demon.doubanmovies.utils.Constant.simpleSubTypeList;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
@@ -57,7 +63,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     private static final String JSON_TOTAL = "total";
     private static final String JSON_SUBJECTS = "subjects";
-
     private static final String KEY_FRAGMENT_TITLE = "title";
 
     private static final int POS_IN_THEATERS = 0;
@@ -67,18 +72,19 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private static final String[] TYPE = {"in theaters", "coming", "us box"};
 
     private static final String VOLLEY_TAG = "HomePagerFragment";
+    private static final String TAG = "HomePagerFragment";
 
     @Bind(R.id.rv_fragment)
-    RecyclerView mRecView;
+    RecyclerView mRecyclerView;
     @Bind(R.id.fresh_fragment)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.btn_fragment)
     FloatingActionButton mBtn;
 
     private String mDataString;
-    private SimpleSubjectAdapter mSimAdapter;
+    private SimpleSubjectAdapter mSubjectAdapter;
     private BoxAdapter mBoxAdapter;
-    private List<SimpleSubjectBean> mSimData = new ArrayList<>();
+    private List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
     private List<BoxSubjectBean> mBoxData = new ArrayList<>();
     private OnScrollListener mScrollListener;
 
@@ -168,8 +174,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mRecView.getAdapter() != null) {
-                    mRecView.scrollToPosition(0);
+                if (mRecyclerView.getAdapter() != null) {
+                    mRecyclerView.scrollToPosition(0);
                 }
             }
         });
@@ -181,17 +187,22 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private void initSimpleRecyclerView(boolean isComing) {
         int padding = DensityUtil.dp2px(getContext(), 2f);
         setPaddingForRecyclerView(-padding);
-        LinearLayoutManager inManager = new LinearLayoutManager(getActivity());
-        inManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecView.setLayoutManager(inManager);
+
+        Resources res = getResources();
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), res.getInteger(R.integer.num_columns)));
+
+        // LinearLayoutManager inManager = new LinearLayoutManager(getActivity());
+        // inManager.setOrientation(LinearLayoutManager.VERTICAL);
+        // mRecyclerView.setLayoutManager(inManager);
+
         //请求网络数据前先加载上次的电影数据
-        mSimAdapter = new SimpleSubjectAdapter(getActivity(), mSimData, isComing);
+        mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), mSimpleData, isComing);
         if (getRecord() != null) {
-            mSimData = new Gson().fromJson(getRecord(), simpleSubTypeList);
-            mSimAdapter.updateList(mSimData, RECORD_COUNT);
+            mSimpleData = new Gson().fromJson(getRecord(), simpleSubTypeList);
+            mSubjectAdapter.updateList(mSimpleData, RECORD_COUNT);
         }
-        mSimAdapter.setOnItemClickListener(this);
-        mRecView.setAdapter(mSimAdapter);
+        mSubjectAdapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(mSubjectAdapter);
     }
 
     /**
@@ -200,22 +211,23 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private void initBoxRecyclerView() {
         int padding = DensityUtil.dp2px(getContext(), 2f);
         setPaddingForRecyclerView(padding);
+
         GridLayoutManager boxManager = new GridLayoutManager(getActivity(), 3);
-        mRecView.setLayoutManager(boxManager);
+        mRecyclerView.setLayoutManager(boxManager);
         //请求网络数据前先加载上次的电影数据
         if (getRecord() != null) {
             mBoxData = new Gson().fromJson(getRecord(), simpleBoxTypeList);
         }
         mBoxAdapter = new BoxAdapter(getActivity(), mBoxData);
         mBoxAdapter.setOnItemClickListener(this);
-        mRecView.setAdapter(mBoxAdapter);
+        mRecyclerView.setAdapter(mBoxAdapter);
     }
 
     /**
      * 为RecyclerView设置-2dp的padding用于抵消item的margin
      */
     private void setPaddingForRecyclerView(int padding) {
-        mRecView.setPadding(padding, padding, padding, padding);
+        // mRecyclerView.setPadding(padding, padding, padding, padding);
     }
 
     //更新电影数据
@@ -248,8 +260,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                         try {
                             mTotalItem = response.getInt(JSON_TOTAL);
                             mDataString = response.getString(JSON_SUBJECTS);
-                            mSimData = new Gson().fromJson(mDataString, simpleSubTypeList);
-                            mSimAdapter.updateList(mSimData, mTotalItem);
+                            mSimpleData = new Gson().fromJson(mDataString, simpleSubTypeList);
+                            mSubjectAdapter.updateList(mSimpleData, mTotalItem);
                             //实现recyclerView的下拉刷新
                             setOnScrollListener();
                             saveRecord();
@@ -274,7 +286,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      * 为RecyclerView设置下拉刷新及floatingActionButton的消失出现
      */
     private void setOnScrollListener() {
-        if (mRecView == null) {
+        if (mRecyclerView == null) {
             return;
         }
         if (mScrollListener == null) {
@@ -287,8 +299,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                                                  int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     if (newState == SCROLL_STATE_IDLE
-                            && lastVisibleItem + 2 > mSimAdapter.getItemCount()
-                            && mSimAdapter.getItemCount() - 1 < mSimAdapter.getTotalDataCount()) {
+                            && lastVisibleItem + 2 > mSubjectAdapter.getItemCount()
+                            && mSubjectAdapter.getItemCount() - 1 < mSubjectAdapter.getTotalDataCount()) {
                         loadMore();
                     }
                 }
@@ -296,7 +308,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    LinearLayoutManager lm = (LinearLayoutManager) mRecView.getLayoutManager();
+                    LinearLayoutManager lm = (LinearLayoutManager) HomePagerFragment.this.mRecyclerView.getLayoutManager();
                     lastVisibleItem = lm.findLastVisibleItemPosition();
                     if (lm.findFirstVisibleItemPosition() == 0) {
                         if (isShow) {
@@ -312,7 +324,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                     }
                 }
             };
-            mRecView.addOnScrollListener(mScrollListener);
+            mRecyclerView.addOnScrollListener(mScrollListener);
         }
     }
 
@@ -321,8 +333,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      */
     private void loadMore() {
         //防止出现多次加载的情况
-        if (mSimAdapter.getStart() == mStart) return;
-        mStart = mSimAdapter.getStart();
+        if (mSubjectAdapter.getStart() == mStart) return;
+        mStart = mSubjectAdapter.getStart();
         String url = mRequestUrl + ("?start=" + mStart);
         JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @Override
@@ -330,7 +342,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 try {
                     List<SimpleSubjectBean> moreData = new GsonBuilder().create().fromJson(
                             response.getString(JSON_SUBJECTS), simpleSubTypeList);
-                    mSimAdapter.loadMoreData(moreData);
+                    mSubjectAdapter.loadMoreData(moreData);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -338,7 +350,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mSimAdapter.loadFail();
+                mSubjectAdapter.loadFail();
             }
         });
         MyApplication.addRequest(request, VOLLEY_TAG + mTitlePos);

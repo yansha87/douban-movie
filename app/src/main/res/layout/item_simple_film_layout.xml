@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="@color/grey_white_1000"
+    android:background="@color/gray_white_1000"
     android:gravity="center"
     android:padding="8dp">
 
@@ -18,10 +18,10 @@
         android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/grey_800"
+        android:background="@color/gray_800"
         android:gravity="center"
         android:padding="2dp"
         android:singleLine="true"
-        android:textColor="@color/grey_white_1000"
+        android:textColor="@color/gray_white_1000"
         android:textSize="14sp" />
 </FrameLayout>
