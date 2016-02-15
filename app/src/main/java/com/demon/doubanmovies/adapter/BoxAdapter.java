@@ -74,21 +74,21 @@ public class BoxAdapter extends BaseAdapter<BoxAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.tv_item_box_rank)
-        TextView text_rank;
+        TextView textRank;
         @Bind(R.id.iv_item_box_isNew)
-        ImageView image_isNew;
+        ImageView imageIsNew;
         @Bind(R.id.iv_item_box_image)
-        ImageView image_film;
+        ImageView imageMovie;
         @Bind(R.id.tv_item_box_title)
-        TextView text_title;
+        TextView textTitle;
         @Bind(R.id.tv_item_box_noRating)
-        TextView text_no_rating;
+        TextView textNoRating;
         @Bind(R.id.rb_item_box_rating)
         RatingBar ratingBar;
         @Bind(R.id.tv_item_box_rating)
-        TextView text_rating;
+        TextView textRating;
         @Bind(R.id.ll_item_box_rating)
-        LinearLayout layout_rating;
+        LinearLayout layoutRating;
 
         BoxSubjectBean subject;
 
@@ -101,26 +101,26 @@ public class BoxAdapter extends BaseAdapter<BoxAdapter.ViewHolder> {
         public void update() {
             subject = mData.get(getLayoutPosition());
             int rank = subject.getRank();
-            text_rank.setTextColor(getRankTextColor(rank));
+            textRank.setTextColor(getRankTextColor(rank));
             if (rank < 4) {
-                text_rank.setText(RANK[rank]);
+                textRank.setText(RANK[rank]);
             } else {
-                text_rank.setText(String.format("%d%s", rank, RANK[0]));
+                textRank.setText(String.format("%d%s", rank, RANK[0]));
             }
-            image_isNew.setVisibility(subject.getNewX() ? View.VISIBLE : View.GONE);
+            imageIsNew.setVisibility(subject.getNewX() ? View.VISIBLE : View.GONE);
             SimpleSubjectBean simSubject = subject.getSubject();
             float rating = (float) simSubject.getRating().getAverage();
             if (rating == 0) {
-                text_no_rating.setVisibility(View.VISIBLE);
-                layout_rating.setVisibility(View.GONE);
+                textNoRating.setVisibility(View.VISIBLE);
+                layoutRating.setVisibility(View.GONE);
             } else {
                 ratingBar.setRating(rating / 2);
-                text_rating.setText(String.format("%s", rating));
+                textRating.setText(String.format("%s", rating));
             }
-            text_title.setText(simSubject.getTitle());
+            textTitle.setText(simSubject.getTitle());
 
             imageLoader.displayImage(simSubject.getImages().getLarge(),
-                    image_film, options, imageLoadingListener);
+                    imageMovie, options, imageLoadingListener);
         }
 
         private int getRankTextColor(int rank) {

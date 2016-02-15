@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.adapter.SimpleFilmAdapter;
+import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
 import com.demon.doubanmovies.bean.CelebrityBean;
 import com.demon.doubanmovies.bean.SimpleCardBean;
 import com.demon.doubanmovies.bean.WorksEntity;
@@ -36,7 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class CelebrityActivity extends BaseActivity
-        implements SimpleFilmAdapter.OnItemClickListener {
+        implements SimpleMovieAdapter.OnItemClickListener {
 
     private static final String VOLLEY_TAG = "CelActivity";
     private static final String KEY_CEL_ID = "cel_id";
@@ -67,7 +67,7 @@ public class CelebrityActivity extends BaseActivity
     private List<SimpleCardBean> mWorksData = new ArrayList<>();
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
-    private DisplayImageOptions options = MyApplication.getLoaderOptions();
+    private DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
     public static void toActivity(Context context, String id) {
         Intent intent = new Intent(context, CelebrityActivity.class);
@@ -97,7 +97,7 @@ public class CelebrityActivity extends BaseActivity
 
     protected void onStop() {
         super.onStop();
-        MyApplication.removeRequest(VOLLEY_TAG);
+        MovieApplication.removeRequest(VOLLEY_TAG);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class CelebrityActivity extends BaseActivity
                         Toast.LENGTH_SHORT).show();
             }
         });
-        MyApplication.addRequest(request, VOLLEY_TAG);
+        MovieApplication.addRequest(request, VOLLEY_TAG);
     }
 
     /**
@@ -192,8 +192,8 @@ public class CelebrityActivity extends BaseActivity
                     true);
             mWorksData.add(data);
         }
-        SimpleFilmAdapter mWorksAdapter =
-                new SimpleFilmAdapter(CelebrityActivity.this);
+        SimpleMovieAdapter mWorksAdapter =
+                new SimpleMovieAdapter(CelebrityActivity.this);
         mWorksAdapter.setOnItemClickListener(this);
         mWorksView.setAdapter(mWorksAdapter);
         mWorksAdapter.update(mWorksData);

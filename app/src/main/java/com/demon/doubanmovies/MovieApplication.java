@@ -19,7 +19,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.sql.SQLException;
 
-public class MyApplication extends Application {
+public class MovieApplication extends Application {
 
     private static DisplayImageOptions mLoaderOptions;
     private static RequestQueue mQueue;

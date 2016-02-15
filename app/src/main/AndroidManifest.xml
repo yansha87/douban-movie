@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".MovieApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,15 +25,12 @@
             android:name=".transitions.DetailsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".tryit.FlickrSearchActivity"></activity>
         <activity android:name=".activity.CelebrityActivity"></activity>
         <activity android:name=".activity.SearchActivity"></activity>
         <activity android:name=".activity.SubjectActivity"></activity>
         <activity android:name=".activity.WebActivity"></activity>
+        <activity android:name=".activity.PrefsActivity"></activity>
 
-        <meta-data
-            android:name="com.demon.doubanmovies.tryit.FlickrGlideModule"
-            android:value="GlideModule" />
     </application>
 
 </manifest>

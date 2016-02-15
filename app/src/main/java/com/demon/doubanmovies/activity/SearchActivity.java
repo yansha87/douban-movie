@@ -16,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.demon.doubanmovies.IzzySearchView;
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SearchAdapter;
@@ -76,7 +76,7 @@ public class SearchActivity extends AppCompatActivity
                         mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                MyApplication.getHttpQueue().cancelAll(url);
+                                MovieApplication.getHttpQueue().cancelAll(url);
                             }
                         });
                     }
@@ -142,13 +142,13 @@ public class SearchActivity extends AppCompatActivity
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-        MyApplication.addRequest(request, VOLLEY_TAG);
+        MovieApplication.addRequest(request, VOLLEY_TAG);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        MyApplication.removeRequest(VOLLEY_TAG);
+        MovieApplication.removeRequest(VOLLEY_TAG);
     }
 
     @Override

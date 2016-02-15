@@ -50,25 +50,25 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_search_images)
-        ImageView image_film;
+        ImageView imageMovie;
         @Bind(R.id.rb_item_search_rating)
-        RatingBar rating_bar;
+        RatingBar ratingBar;
         @Bind(R.id.tv_item_search_rating)
-        TextView text_rating;
+        TextView textRating;
         @Bind(R.id.tv_item_search_collect_count)
-        TextView text_collect_count;
+        TextView textCollectCount;
         @Bind(R.id.tv_item_search_title)
-        TextView text_title;
+        TextView textTitle;
         @Bind(R.id.tv_item_search_original_title)
-        TextView text_original_title;
+        TextView textOriginalTitle;
         @Bind(R.id.tv_item_search_genres)
-        TextView text_genres;
+        TextView textGenres;
         @Bind(R.id.tv_item_search_director)
-        TextView text_director;
+        TextView textDirector;
         @Bind(R.id.tv_item_search_cast)
-        TextView text_cast;
+        TextView textCast;
 
-        SimpleSubjectBean subj;
+        SimpleSubjectBean mSubject;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -77,24 +77,24 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
         }
 
         public void update() {
-            subj = mData.get(getLayoutPosition());
-            rating_bar.setRating(((float) subj.getRating().getAverage()) / 2);
-            text_rating.setText(String.format("%s", subj.getRating().getAverage()));
-            text_collect_count.setText(mContext.getString(R.string.collect));
-            text_collect_count.append(String.format("%d", subj.getCollect_count()));
-            text_collect_count.append(mContext.getString(R.string.count));
-            text_title.setText(subj.getTitle());
-            if (subj.getOriginal_title().equals(subj.getTitle())) {
-                text_original_title.setVisibility(View.GONE);
+            mSubject = mData.get(getLayoutPosition());
+            ratingBar.setRating(((float) mSubject.getRating().getAverage()) / 2);
+            textRating.setText(String.format("%s", mSubject.getRating().getAverage()));
+            textCollectCount.setText(mContext.getString(R.string.collect));
+            textCollectCount.append(String.format("%d", mSubject.getCollect_count()));
+            textCollectCount.append(mContext.getString(R.string.count));
+            textTitle.setText(mSubject.getTitle());
+            if (mSubject.getOriginal_title().equals(mSubject.getTitle())) {
+                textOriginalTitle.setVisibility(View.GONE);
             } else {
-                text_original_title.setText(subj.getOriginal_title());
+                textOriginalTitle.setText(mSubject.getOriginal_title());
             }
-            text_genres.setText(StringUtil.getListString(subj.getGenres(), ','));
-            text_director.setText(mContext.getString(R.string.directors));
-            text_director.append(CelebrityUtil.list2String(subj.getDirectors(), '/'));
-            text_cast.setText(mContext.getString(R.string.casts));
-            text_cast.append(CelebrityUtil.list2String(subj.getCasts(), '/'));
-            imageLoader.displayImage(subj.getImages().getLarge(), image_film, options);
+            textGenres.setText(StringUtil.getListString(mSubject.getGenres(), ','));
+            textDirector.setText(mContext.getString(R.string.directors));
+            textDirector.append(CelebrityUtil.list2String(mSubject.getDirectors(), '/'));
+            textCast.setText(mContext.getString(R.string.actors));
+            textCast.append(CelebrityUtil.list2String(mSubject.getCasts(), '/'));
+            imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, options);
         }
 
         @Override

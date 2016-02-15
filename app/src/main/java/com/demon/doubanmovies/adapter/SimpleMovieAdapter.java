@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.bean.SimpleCardBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -20,16 +20,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SimpleFilmAdapter extends RecyclerView.Adapter<SimpleFilmAdapter.ViewHolder> {
+public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> {
 
     private Context mContext;
     private List<SimpleCardBean> mData = new ArrayList<>();
     private OnItemClickListener callback;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
-    private DisplayImageOptions options = MyApplication.getLoaderOptions();
+    private DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
-    public SimpleFilmAdapter(Context context) {
+    public SimpleMovieAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -66,9 +66,9 @@ public class SimpleFilmAdapter extends RecyclerView.Adapter<SimpleFilmAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_simple_film_image)
-        ImageView image_film;
+        ImageView imageMovie;
         @Bind(R.id.tv_item_simple_film_text)
-        TextView text_title;
+        TextView textTitle;
 
         SimpleCardBean subj;
 
@@ -80,8 +80,8 @@ public class SimpleFilmAdapter extends RecyclerView.Adapter<SimpleFilmAdapter.Vi
 
         public void update() {
             subj = mData.get(getLayoutPosition());
-            imageLoader.displayImage(subj.getImage(), image_film, options);
-            text_title.setText(subj.getName());
+            imageLoader.displayImage(subj.getImage(), imageMovie, options);
+            textTitle.setText(subj.getName());
         }
 
         @Override

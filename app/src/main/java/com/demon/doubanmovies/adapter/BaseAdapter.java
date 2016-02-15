@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,7 +20,7 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
     protected OnItemClickListener mCallback;
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();
-    protected DisplayImageOptions options = MyApplication.getLoaderOptions();
+    protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mCallback = listener;

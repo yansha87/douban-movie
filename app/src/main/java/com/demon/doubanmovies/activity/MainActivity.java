@@ -1,10 +1,8 @@
 package com.demon.doubanmovies.activity;
 
-import android.app.ActivityOptions;
 import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,45 +14,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.widget.ImageView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.fragment.HomeFragment;
-import com.demon.doubanmovies.transitions.DetailsActivity;
 import com.demon.doubanmovies.transitions.Utils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
 
 import static com.demon.doubanmovies.transitions.Utils.RADIOHEAD_ALBUM_NAMES;
-import static com.demon.doubanmovies.transitions.Utils.RADIOHEAD_ALBUM_URLS;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "MainActivity";
-    private static final boolean DEBUG = true;
-
     public static final String EXTRA_CURRENT_ITEM_POSITION = "extra_current_item_position";
     public static final String EXTRA_OLD_ITEM_POSITION = "extra_old_item_position";
-
+    private static final String TAG = "MainActivity";
+    private static final boolean DEBUG = true;
     private RecyclerView mRecyclerView;
     private Bundle mTmpState;
     private boolean mIsReentering;
-
-    private String mTitle;
-
-    private FragmentManager mFragmentManager;
-    private Fragment mCurFragment;
-
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -133,6 +117,15 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
+    private String mTitle;
+    private FragmentManager mFragmentManager;
+    private Fragment mCurFragment;
+
+    private static void LOG(String message, boolean isReentering) {
+        if (DEBUG) {
+            Log.i(TAG, String.format("%s: %s", isReentering ? "REENTERING" : "EXITING", message));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +133,6 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
         setExitSharedElementCallback(mCallback);
-
-        // Resources res = getResources();
-        // mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        // mRecyclerView.setLayoutManager(new GridLayoutManager(this, res.getInteger(R.integer.num_columns)));
-        // mRecyclerView.setAdapter(new CardAdapter());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = getString(R.string.nav_home);
@@ -184,7 +172,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onActivityReenter(int requestCode, Intent data) {
         LOG("onActivityReenter(int, Intent)", true);
@@ -209,12 +196,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private static void LOG(String message, boolean isReentering) {
-        if (DEBUG) {
-            Log.i(TAG, String.format("%s: %s", isReentering ? "REENTERING" : "EXITING", message));
-        }
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -224,30 +205,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -266,13 +223,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         switch (id) {
             case R.id.action_search:
-                // prepareIntent(SearchActivity.class);
+                prepareIntent(SearchActivity.class);
                 break;
             case R.id.action_settings:
-                // prepareIntent(PrefsActivity.class);
+                prepareIntent(PrefsActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void prepareIntent(Class cla) {
+        this.startActivity(new Intent(MainActivity.this, cla));
     }
 
     @Override

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
@@ -124,7 +124,7 @@ public class TopPagerFragment extends BaseFragment
                     public void onResponse(JSONObject response) {
                         try {
                             String content = response.getString(JSON_SUBJECTS);
-                            mData = MyApplication.
+                            mData = MovieApplication.
                                     getDataSource().insertOrUpDateTop(start, content);
                             mAdapter.updateList(mData, TOP250_TOTAL);
                             setOnScrollListener();
@@ -144,13 +144,13 @@ public class TopPagerFragment extends BaseFragment
                             mRefreshLayout.setRefreshing(false);
                     }
                 });
-        MyApplication.addRequest(request, VOLLEY_TAG + mPosition);
+        MovieApplication.addRequest(request, VOLLEY_TAG + mPosition);
     }
 
     private void loadMore() {
         String moreStart = String.valueOf(mPosition * TOP250_TOTAL + TOP250_COUNT);
         List<SimpleSubjectBean> data;
-        if ((data = MyApplication.getDataSource().
+        if ((data = MovieApplication.getDataSource().
                 getTop(moreStart)) != null && !isRefresh) {
             mAdapter.loadMoreData(data);
         } else {
@@ -167,7 +167,7 @@ public class TopPagerFragment extends BaseFragment
                     public void onResponse(JSONObject response) {
                         try {
                             String content = response.getString(JSON_SUBJECTS);
-                            List<SimpleSubjectBean> data = MyApplication.
+                            List<SimpleSubjectBean> data = MovieApplication.
                                     getDataSource().insertOrUpDateTop(start, content);
                             mAdapter.loadMoreData(data);
                             isRefresh = false;
@@ -182,7 +182,7 @@ public class TopPagerFragment extends BaseFragment
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        MyApplication.addRequest(request, VOLLEY_TAG + mPosition);
+        MovieApplication.addRequest(request, VOLLEY_TAG + mPosition);
     }
 
 
@@ -236,7 +236,7 @@ public class TopPagerFragment extends BaseFragment
     @Override
     public void onStop() {
         super.onStop();
-        MyApplication.removeRequest(VOLLEY_TAG + mPosition);
+        MovieApplication.removeRequest(VOLLEY_TAG + mPosition);
     }
 
     @Override
@@ -281,7 +281,7 @@ public class TopPagerFragment extends BaseFragment
         @Override
         protected List<SimpleSubjectBean> doInBackground(String... strings) {
             String start = strings[0];
-            return MyApplication.getDataSource().getTop(start);
+            return MovieApplication.getDataSource().getTop(start);
         }
 
         @Override

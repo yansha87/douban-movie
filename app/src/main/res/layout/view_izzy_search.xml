@@ -4,7 +4,8 @@
     android:id="@+id/search_bar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <LinearLayout
         android:id="@+id/view_search_edit_frame"
@@ -15,14 +16,16 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <LinearLayout
             android:id="@+id/view_search_plate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <view
                 android:id="@+id/view_search_src_text"
@@ -40,7 +43,8 @@
                 android:paddingRight="8dp"
                 android:singleLine="true"
                 android:textColor="@color/gray_white_1000"
-                android:textCursorDrawable="@null" />
+                android:textCursorDrawable="@null"
+                />
 
             <ImageView
                 android:id="@+id/view_search_close_btn"
@@ -51,7 +55,8 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:src="@drawable/ic_clear"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription"
+                />
 
         </LinearLayout>
 

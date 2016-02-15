@@ -5,27 +5,31 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:background="@color/gray_white_1000"
-    android:padding="6dp">
+    android:padding="6dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="4dp" >
+        android:padding="4dp"
+        >
 
         <ImageView
             android:id="@+id/iv_item_simple_subject_image"
             android:layout_width="100dp"
             android:layout_height="142dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription" />
+            android:src="@mipmap/ic_launcher"
+            tools:ignore="ContentDescription"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:id="@+id/ll_item_simple_subject_rating"
@@ -33,22 +37,25 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <RatingBar
                     android:id="@+id/rb_item_simple_subject_rating"
                     style="@style/MyRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5" />
+                    android:numStars="5"
+                    />
 
                 <TextView
                     android:id="@+id/tv_item_simple_subject_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:textColor="@color/gray_500"
                     android:textSize="12sp"
-                    android:textColor="@color/gray_500" />
+                    />
             </LinearLayout>
 
             <TextView
@@ -58,7 +65,8 @@
                 android:layout_marginTop="4dp"
                 android:singleLine="true"
                 android:textColor="@color/gray_black_1000"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                />
 
         </LinearLayout>
     </LinearLayout>

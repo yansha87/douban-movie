@@ -8,17 +8,19 @@
     android:layout_weight="1"
     android:background="@color/gray_white_1000"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    >
 
     <ImageView
-        android:id="@+id/iv_item_simple_cast_image"
+        android:id="@+id/iv_item_simple_actor_image"
         android:layout_width="80dp"
         android:layout_height="98dp"
         android:scaleType="centerCrop"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        />
 
     <TextView
-        android:id="@+id/tv_item_simple_cast_text"
+        android:id="@+id/tv_item_simple_actor_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -26,5 +28,6 @@
         android:gravity="center"
         android:textColor="@color/gray_800"
         android:textSize="16sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        />
 </LinearLayout>

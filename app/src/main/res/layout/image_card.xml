@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_subject_image"
             android:textColor="@color/gray_black_1000"
-            android:textSize="@dimen/font_small"/>
+            android:textSize="@dimen/size_12sp"/>
 
     </RelativeLayout>
 

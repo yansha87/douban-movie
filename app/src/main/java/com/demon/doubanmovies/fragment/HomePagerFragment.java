@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
@@ -72,14 +72,13 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private static final String[] TYPE = {"in theaters", "coming", "us box"};
 
     private static final String VOLLEY_TAG = "HomePagerFragment";
-    private static final String TAG = "HomePagerFragment";
 
     @Bind(R.id.rv_fragment)
     RecyclerView mRecyclerView;
     @Bind(R.id.fresh_fragment)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.btn_fragment)
-    FloatingActionButton mBtn;
+    FloatingActionButton mFloatingButton;
 
     private String mDataString;
     private SimpleSubjectAdapter mSubjectAdapter;
@@ -139,7 +138,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     @Override
     public void onStop() {
         super.onStop();
-        MyApplication.removeRequest(VOLLEY_TAG + mTitlePos);
+        MovieApplication.removeRequest(VOLLEY_TAG + mTitlePos);
     }
 
     @Override
@@ -171,7 +170,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 updateFilmData();
             }
         });
-        mBtn.setOnClickListener(new OnClickListener() {
+        mFloatingButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mRecyclerView.getAdapter() != null) {
@@ -235,15 +234,15 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         switch (mTitlePos) {
             case POS_IN_THEATERS:
                 mRequestUrl = API + IN_THEATERS;
-                volley_Get_Coming();
+                volleyGetComing();
                 break;
             case POS_COMING:
                 mRequestUrl = API + COMING;
-                volley_Get_Coming();
+                volleyGetComing();
                 break;
             case POS_US_BOX:
                 mRequestUrl = API + US_BOX;
-                volley_Get_USBox();
+                volleyGetUSBox();
                 break;
         }
     }
@@ -251,7 +250,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     /**
      * 通过Volley框架的全局消息队列获取到url对应的数据
      */
-    private void volley_Get_Coming() {
+    private void volleyGetComing() {
         mRefresh.setRefreshing(true);
         JsonObjectRequest request = new JsonObjectRequest(mRequestUrl,
                 new Response.Listener<JSONObject>() {
@@ -279,7 +278,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                         mRefresh.setRefreshing(false);
                     }
                 });
-        MyApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
+        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }
 
     /**
@@ -353,13 +352,13 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 mSubjectAdapter.loadFail();
             }
         });
-        MyApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
+        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }
 
     /**
      * 通过Volley框架的全局消息队列获取到url对应的数据
      */
-    private void volley_Get_USBox() {
+    private void volleyGetUSBox() {
         mRefresh.setRefreshing(true);
         JsonObjectRequest request = new JsonObjectRequest(mRequestUrl,
                 new Response.Listener<JSONObject>() {
@@ -387,7 +386,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                         mRefresh.setRefreshing(false);
                     }
                 });
-        MyApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
+        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }
 
     @Override
@@ -425,10 +424,10 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animator) {
-                mBtn.setVisibility(View.GONE);
+                mFloatingButton.setVisibility(View.GONE);
             }
         });
-        anim.setTarget(mBtn);
+        anim.setTarget(mFloatingButton);
         anim.start();
     }
 
@@ -437,10 +436,10 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animator) {
-                mBtn.setVisibility(View.VISIBLE);
+                mFloatingButton.setVisibility(View.VISIBLE);
             }
         });
-        anim.setTarget(mBtn);
+        anim.setTarget(mFloatingButton);
         anim.start();
     }
 }

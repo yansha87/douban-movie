@@ -94,56 +94,56 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         @Bind(R.id.iv_item_collect_image)
-        ImageView image_film;
+        ImageView imageMovie;
         @Bind(R.id.tv_item_collect_rating)
-        TextView text_rating;
+        TextView textRating;
         @Bind(R.id.tv_item_collect_title)
-        TextView text_title;
+        TextView textTitle;
         @Bind(R.id.tv_item_collect_year)
-        TextView text_year;
+        TextView textYear;
         @Bind(R.id.tv_item_collect_genres)
-        TextView text_genres;
+        TextView textGenres;
         @Bind(R.id.tv_item_collect_cel)
-        TextView text_cast;
+        TextView textCast;
         @Bind(R.id.tv_item_collect_delete)
-        TextView btn_delete;
+        TextView btnDelete;
         @Bind(R.id.tv_item_collect_enter)
-        TextView btn_enter;
+        TextView btnEnter;
 
-        SubjectBean subj;
+        SubjectBean subjectBean;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            btn_delete.setOnClickListener(this);
-            btn_enter.setOnClickListener(this);
+            btnDelete.setOnClickListener(this);
+            btnEnter.setOnClickListener(this);
         }
 
         public void update() {
-            subj = mData.get(getLayoutPosition());
-            if (subj.getRating() != null) {
-                float rate = (float) subj.getRating().getAverage();
-                text_rating.setText(String.format("%s", rate));
+            subjectBean = mData.get(getLayoutPosition());
+            if (subjectBean.getRating() != null) {
+                float rate = (float) subjectBean.getRating().getAverage();
+                textRating.setText(String.format("%s", rate));
             }
-            String title = subj.getTitle();
-            text_title.setText(title);
-            text_year.setText(String.format("  %s  ", subj.getYear()));
-            text_genres.setText(StringUtil.getListString(subj.getGenres(), ','));
-            text_cast.setText(mContext.getString(R.string.directors));
-            text_cast.append(String.format("%s//",
-                    CelebrityUtil.list2String(subj.getDirectors(), ',')));
-            text_cast.append(mContext.getString(R.string.casts));
-            text_cast.append(CelebrityUtil.list2String(subj.getCasts(), ','));
-            if (subj.getLocalImageFile() != null) {
+            String title = subjectBean.getTitle();
+            textTitle.setText(title);
+            textYear.setText(String.format("  %s  ", subjectBean.getYear()));
+            textGenres.setText(StringUtil.getListString(subjectBean.getGenres(), ','));
+            textCast.setText(mContext.getString(R.string.directors));
+            textCast.append(String.format("%s//",
+                    CelebrityUtil.list2String(subjectBean.getDirectors(), ',')));
+            textCast.append(mContext.getString(R.string.actors));
+            textCast.append(CelebrityUtil.list2String(subjectBean.getCasts(), ','));
+            if (subjectBean.getLocalImageFile() != null) {
                 imageLoader.displayImage(
-                        String.format("%s%s", URI_FOR_FILE, subj.getLocalImageFile()),
-                        image_film, options);
+                        String.format("%s%s", URI_FOR_FILE, subjectBean.getLocalImageFile()),
+                        imageMovie, options);
             }
         }
 
         @Override
         public void onClick(View view) {
-            if (view == btn_delete) {
+            if (view == btnDelete) {
                 remove(getLayoutPosition());
             } else {
                 callback.itemClick(mData.get(getLayoutPosition()).getId(),

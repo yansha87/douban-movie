@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="@color/gray_white_1000">
+    android:background="@color/gray_white_1000"
+    >
 
     <TextView
         android:id="@+id/tv_item_box_rank"
@@ -14,7 +15,8 @@
         android:layout_marginTop="2dp"
         android:textSize="14sp"
         android:textStyle="italic"
-        tools:text="rank" />
+        tools:text="rank"
+        />
 
     <ImageView
         android:id="@+id/iv_item_box_isNew"
@@ -23,12 +25,14 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
         android:src="@drawable/bg_film_new"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        />
 
     <FrameLayout
         android:id="@+id/fl_item_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:id="@+id/iv_item_box_image"
@@ -37,7 +41,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            />
 
         <TextView
             android:id="@+id/tv_item_box_title"
@@ -47,14 +52,16 @@
             android:background="@color/gray_800"
             android:gravity="center"
             android:textColor="@color/gray_white_1000"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fl_item_box"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        >
 
         <TextView
             android:id="@+id/tv_item_box_noRating"
@@ -63,7 +70,8 @@
             android:gravity="center"
             android:text="@string/no_rating"
             android:textSize="12sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
         <LinearLayout
             android:id="@+id/ll_item_box_rating"
@@ -71,14 +79,16 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="4dp">
+            android:padding="4dp"
+            >
 
             <RatingBar
                 android:id="@+id/rb_item_box_rating"
                 style="@style/MyRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5" />
+                android:numStars="5"
+                />
 
             <TextView
                 android:id="@+id/tv_item_box_rating"
@@ -88,7 +98,8 @@
                 android:gravity="center"
                 android:textColor="@color/red_500"
                 android:textSize="14sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                />
 
         </LinearLayout>
 

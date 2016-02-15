@@ -126,8 +126,6 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             }
             return mFootView;
         } else {
-
-
             View view = LayoutInflater.from(mContext).
                     inflate(R.layout.item_simple_subject_layout, parent, false);
 
@@ -177,15 +175,15 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_simple_subject_image)
-        ImageView image_film;
+        ImageView imageMovie;
         @Bind(R.id.ll_item_simple_subject_rating)
-        LinearLayout layout_rating;
+        LinearLayout layoutRating;
         @Bind(R.id.rb_item_simple_subject_rating)
-        RatingBar rating_bar;
+        RatingBar ratingBar;
         @Bind(R.id.tv_item_simple_subject_rating)
-        TextView text_rating;
+        TextView textRating;
         @Bind(R.id.tv_item_simple_subject_title)
-        TextView text_title;
+        TextView textTitle;
 
         SimpleSubjectBean subjectBean;
 
@@ -199,16 +197,16 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             subjectBean = mData.get(getLayoutPosition());
 
             if (!isComingFilm) {
-                layout_rating.setVisibility(View.VISIBLE);
+                layoutRating.setVisibility(View.VISIBLE);
                 float rate = (float) subjectBean.getRating().getAverage();
-                rating_bar.setRating(rate / 2);
-                text_rating.setText(String.format("%s", rate));
+                ratingBar.setRating(rate / 2);
+                textRating.setText(String.format("%s", rate));
             }
             String title = subjectBean.getTitle();
-            text_title.setText(title);
+            textTitle.setText(title);
 
             imageLoader.displayImage(subjectBean.getImages().getLarge(),
-                    image_film, options, imageLoadingListener);
+                    imageMovie, options, imageLoadingListener);
         }
 
         @Override
@@ -226,14 +224,14 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
      */
     class FootViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ProgressBar progress_bar;
-        private TextView text_load_tip;
+        private ProgressBar progressBar;
+        private TextView textLoadTip;
 
 
         public FootViewHolder(final View itemView) {
             super(itemView);
-            progress_bar = (ProgressBar) itemView.findViewById(R.id.pb_view_load_tip);
-            text_load_tip = (TextView) itemView.findViewById(R.id.tv_view_load_tip);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.pb_view_load_tip);
+            textLoadTip = (TextView) itemView.findViewById(R.id.tv_view_load_tip);
             itemView.setOnClickListener(this);
         }
 
@@ -248,8 +246,8 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
                 case FOOT_LOADING:
                     params.height = DensityUtil.dp2px(mContext, 40f);
                     itemView.setLayoutParams(params);
-                    progress_bar.setVisibility(View.VISIBLE);
-                    text_load_tip.setText(mContext.getString(R.string.foot_loading));
+                    progressBar.setVisibility(View.VISIBLE);
+                    textLoadTip.setText(mContext.getString(R.string.foot_loading));
                     itemView.setClickable(false);
                     break;
                 case FOOT_COMPLETED:
@@ -260,8 +258,8 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
                 case FOOT_FAIL:
                     params.height = DensityUtil.dp2px(mContext, 40f);
                     itemView.setLayoutParams(params);
-                    progress_bar.setVisibility(View.GONE);
-                    text_load_tip.setText(mContext.getString(R.string.foot_fail));
+                    progressBar.setVisibility(View.GONE);
+                    textLoadTip.setText(mContext.getString(R.string.foot_fail));
                     itemView.setClickable(true);
             }
         }

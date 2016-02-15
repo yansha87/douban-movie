@@ -8,6 +8,7 @@
     android:minHeight="?attr/actionBarSize"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     app:theme="@style/AppTheme.AppBarOverlay"
-    app:titleTextColor="@color/gray_white_1000">
+    app:titleTextColor="@color/gray_white_1000"
+    >
 
 </android.support.v7.widget.Toolbar>

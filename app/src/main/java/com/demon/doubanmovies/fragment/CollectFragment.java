@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.demon.doubanmovies.MyApplication;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.CollectAdapter;
@@ -73,7 +73,7 @@ public class CollectFragment extends BaseFragment
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                MyApplication.getDataSource().deleteFilm(id);
+                                MovieApplication.getDataSource().deleteFilm(id);
                             }
                         }).
                 setCallback(new Snackbar.Callback() {
@@ -101,7 +101,7 @@ public class CollectFragment extends BaseFragment
 
         @Override
         protected List<SubjectBean> doInBackground(Void... voids) {
-            return MyApplication.getDataSource().getFilmForCollected();
+            return MovieApplication.getDataSource().getFilmForCollected();
         }
 
         @Override

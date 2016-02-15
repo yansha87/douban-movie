@@ -37,9 +37,9 @@
     <string name="genres">类型:</string>
     <string name="directors">导演:</string>
     <string name="director">(导演)</string>
-    <string name="casts">主演:</string>
-    <string name="dir_and_cast">(导演兼主演)</string>
-    <string name="cast">(主演)</string>
+    <string name="actors">主演:</string>
+    <string name="dir_and_actor">(导演兼主演)</string>
+    <string name="actor">(主演)</string>
     <string name="collect">(</string>
     <string name="count">人评价)</string>
     <string name="box">票房:</string>
@@ -50,7 +50,7 @@
     <string name="overflow">取消收藏</string>
     <string name="douban_rating">豆瓣评分：</string>
     <!--SubjectActivity-->
-    <string name="cast_list">演员列表：</string>
+    <string name="actor_list">演员列表：</string>
     <string name="recommend_list">相关推荐：</string>
     <string name="recommend_load_fail">获取失败请重试…</string>
     <string name="recommend_loading">正在加载推荐…</string>
