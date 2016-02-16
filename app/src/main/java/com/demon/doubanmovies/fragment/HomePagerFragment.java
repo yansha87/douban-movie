@@ -48,12 +48,7 @@ import butterknife.ButterKnife;
 
 import static android.support.v7.widget.RecyclerView.OnClickListener;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.demon.doubanmovies.utils.Constant.API;
-import static com.demon.doubanmovies.utils.Constant.COMING;
-import static com.demon.doubanmovies.utils.Constant.IN_THEATERS;
-import static com.demon.doubanmovies.utils.Constant.US_BOX;
-import static com.demon.doubanmovies.utils.Constant.simpleBoxTypeList;
-import static com.demon.doubanmovies.utils.Constant.simpleSubTypeList;
+import static com.demon.doubanmovies.utils.Constant.*;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
@@ -67,9 +62,10 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     private static final int POS_IN_THEATERS = 0;
     private static final int POS_COMING = 1;
-    private static final int POS_US_BOX = 2;
+    private static final int POS_TOP = 2;
+    private static final int POS_US_BOX = 3;
 
-    private static final String[] TYPE = {"in theaters", "coming", "us box"};
+    private static final String[] TYPE = {"in theaters", "coming", "top", "us box"};
 
     private static final String VOLLEY_TAG = "HomePagerFragment";
 
@@ -155,6 +151,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
             case POS_COMING:
                 initSimpleRecyclerView(true);
                 break;
+            case POS_TOP:
+                initSimpleRecyclerView(false);
+                break;
             case POS_US_BOX:
                 initBoxRecyclerView();
                 break;
@@ -189,10 +188,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
         Resources res = getResources();
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), res.getInteger(R.integer.num_columns)));
-
-        // LinearLayoutManager inManager = new LinearLayoutManager(getActivity());
-        // inManager.setOrientation(LinearLayoutManager.VERTICAL);
-        // mRecyclerView.setLayoutManager(inManager);
 
         //请求网络数据前先加载上次的电影数据
         mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), mSimpleData, isComing);
@@ -238,6 +233,10 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 break;
             case POS_COMING:
                 mRequestUrl = API + COMING;
+                volleyGetComing();
+                break;
+            case POS_TOP:
+                mRequestUrl = API + TOP250;
                 volleyGetComing();
                 break;
             case POS_US_BOX:

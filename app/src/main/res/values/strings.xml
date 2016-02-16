@@ -32,8 +32,8 @@
     <string name="closeDrawer">close</string>
     -->
     <!--MainActivity-->
-    <string name="collect_completed">收藏成功!  (＾－＾)V</string>
-    <string name="collect_cancel">取消收藏!  ︿(￣︶￣)︿</string>
+    <string name="collect_completed">收藏成功!</string>
+    <string name="collect_cancel">取消收藏!</string>
     <string name="exit">再按一次退出程序</string>
     <!--SubjectItem-->
     <string name="genres">类型:</string>

@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -92,6 +94,8 @@ public class SubjectActivity extends AppCompatActivity
 
     private static final String TAG = "SubjectActivity";
 
+    @Bind(R.id.cl_container)
+    CoordinatorLayout mContainer;
     @Bind(R.id.refresh_subj)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.btn_subject_skip)
@@ -301,7 +305,7 @@ public class SubjectActivity extends AppCompatActivity
                     public void onResponse(String response) {
                         mContent = response;
                         //如果film已经收藏,更新数据
-                        if (isCollect) filmSave();
+                        if (isCollect) saveMovie();
                         mSubject = new Gson().fromJson(mContent, Constant.subType);
                         initAfterGetData();
                         mRefresh.setRefreshing(false);
@@ -338,8 +342,8 @@ public class SubjectActivity extends AppCompatActivity
         mTitle.append(StringUtil.getSpannableString1(
                 String.format("  %s  ", mSubject.getYear()),
                 new ForegroundColorSpan(Color.WHITE),
-                new BackgroundColorSpan(Color.parseColor("#5ea4ff")),
-                new RelativeSizeSpan(0.88f)));
+                new BackgroundColorSpan(R.color.green_500),
+                new RelativeSizeSpan(0.87f)));
 
         mGenres.setText(StringUtil.getListString(mSubject.getGenres(), '/'));
         mCountries.setText(StringUtil.getSpannableString(
@@ -378,7 +382,6 @@ public class SubjectActivity extends AppCompatActivity
      */
     private void getActorData() {
         mActorTip.setText(getString(R.string.actor_list));
-
 
         int directorCount = mSubject.getDirectors().size();
         for (int i = 0; i < directorCount; i++) {
@@ -476,13 +479,8 @@ public class SubjectActivity extends AppCompatActivity
                     this.finish();
                 }
                 break;
-            //case R.id.action_sub_search:
-            //    this.startActivity(new Intent(this, SearchActivity.class));
-            //    break;
             case R.id.action_sub_collect:
                 collectFilmAndSaveImage();
-                //Snackbar.make(item.getActionView(), getString(R.string.collect_completed), Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -494,19 +492,19 @@ public class SubjectActivity extends AppCompatActivity
     private void collectFilmAndSaveImage() {
         if (mSubject == null) return;
         if (isCollect) {
-            cancelSave();
+            unsaveMovie();
             isCollect = false;
         } else {
-            filmSave();
+            saveMovie();
             isCollect = true;
         }
         supportInvalidateOptionsMenu();
     }
 
     /**
-     * 用于保存filmContent和filmImage
+     * 用于保存content和image
      */
-    private void filmSave() {
+    private void saveMovie() {
         if (mFile.exists()) mFile.delete();
         FileOutputStream out = null;
         try {
@@ -525,19 +523,21 @@ public class SubjectActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
-        //将电影信息存入到数据库中
+        // 将电影信息存入到数据库中
         mSubject.setLocalImageFile(mFile.getPath());
         String content = new Gson().toJson(mSubject, Constant.subType);
         MovieApplication.getDataSource().insertOrUpDataFilm(mId, content);
-        // Toast.makeText(this, getString(R.string.collect_completed), Toast.LENGTH_SHORT).show();
+        Snackbar.make(mContainer, getString(R.string.collect_completed), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
-    private void cancelSave() {
-        //将数据从数据库中删除
+    private void unsaveMovie() {
+        // 将数据从数据库中删除
         MovieApplication.getDataSource().deleteFilm(mId);
-        //将保存的海报图片删除
+        // 将保存的海报图片删除
         if (mFile.exists()) mFile.delete();
-        Toast.makeText(this, R.string.collect_cancel, Toast.LENGTH_SHORT).show();
+        Snackbar.make(mContainer, getString(R.string.collect_cancel), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     /**
@@ -590,7 +590,8 @@ public class SubjectActivity extends AppCompatActivity
     @Override
     public void itemClick(String id, String imageUrl) {
         if (id == null) {
-            Toast.makeText(SubjectActivity.this, getString(R.string.no_detail_info), Toast.LENGTH_SHORT).show();
+            Snackbar.make(mContainer, getString(R.string.no_detail_info), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         } else {
             CelebrityActivity.toActivity(SubjectActivity.this, id);
         }

@@ -8,6 +8,7 @@
     >
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/cl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -169,13 +170,9 @@
                     android:id="@+id/tv_subject_actor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginBottom="@dimen/size_4dp"
                     android:textColor="@color/gray_500"
                     />
-
-                <!--
-                <include layout="@layout/view_actor_layout"/>
-                -->
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/re_subject_actor"
@@ -194,7 +191,7 @@
                     android:id="@+id/tv_subject_recommend_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginBottom="@dimen/size_4dp"
                     android:textColor="@color/gray_500"
                     />
 
