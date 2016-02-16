@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="0dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
-    android:layout_marginTop="2dp"
-    android:layout_weight="1"
+    android:layout_marginBottom="@dimen/size_2dp"
+    android:layout_marginTop="@dimen/size_2dp"
     android:background="@color/gray_white_1000"
-    android:orientation="horizontal"
-    android:padding="8dp"
+    android:orientation="vertical"
+    android:padding="@dimen/size_8dp"
     >
 
     <ImageView
         android:id="@+id/iv_item_simple_actor_image"
-        android:layout_width="80dp"
-        android:layout_height="98dp"
+        android:layout_width="108dp"
+        android:layout_height="160dp"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
@@ -23,11 +22,19 @@
         android:id="@+id/tv_item_simple_actor_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginTop="@dimen/size_6dp"
         android:gravity="center"
-        android:textColor="@color/gray_800"
-        android:textSize="16sp"
-        android:textStyle="italic"
+        android:textColor="@color/gray_600"
+        android:textSize="@dimen/size_14sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_item_simple_director_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_4dp"
+        android:gravity="center"
+        android:textColor="@color/gray_500"
+        android:textSize="@dimen/size_12sp"
         />
 </LinearLayout>

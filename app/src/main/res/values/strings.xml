@@ -27,15 +27,17 @@
     <string name="user_edit">用户设置…</string>
     <string name="ok">确定</string>
     <string name="select_header">请选择获得头像方式</string>
+    <!--
     <string name="openDrawer">open</string>
     <string name="closeDrawer">close</string>
+    -->
     <!--MainActivity-->
     <string name="collect_completed">收藏成功!  (＾－＾)V</string>
     <string name="collect_cancel">取消收藏!  ︿(￣︶￣)︿</string>
     <string name="exit">再按一次退出程序</string>
     <!--SubjectItem-->
     <string name="genres">类型:</string>
-    <string name="directors">导演:</string>
+    <string name="directors">导演</string>
     <string name="director">(导演)</string>
     <string name="actors">主演:</string>
     <string name="dir_and_actor">(导演兼主演)</string>
@@ -45,13 +47,13 @@
     <string name="box">票房:</string>
     <string name="ake">又名:</string>
     <string name="countries">制片国家或地区:</string>
-    <string name="summary">简介：</string>
+    <string name="summary">简介</string>
     <string name="no_rating">暂无评分</string>
     <string name="overflow">取消收藏</string>
     <string name="douban_rating">豆瓣评分：</string>
     <!--SubjectActivity-->
-    <string name="actor_list">演员列表：</string>
-    <string name="recommend_list">相关推荐：</string>
+    <string name="actor_list">影人</string>
+    <string name="recommend_list">相关推荐</string>
     <string name="recommend_load_fail">获取失败请重试…</string>
     <string name="recommend_loading">正在加载推荐…</string>
     <!--CelebrityActivity-->
@@ -80,4 +82,8 @@
     <!--SimpleSubjectAdapter_FootView_tips-->
     <string name="foot_loading">正在加载更多…</string>
     <string name="foot_fail">加载失败，请点击重试。</string>
+    <string name="more_info">更多</string>
+    <string name="put_away">收起</string>
+
+    <string name="no_detail_info">暂无资料</string>
 </resources>

@@ -1,0 +1,28 @@
+package com.demon.doubanmovies.bean;
+
+public class SimpleActorBean {
+    CelebrityEntity entity;
+    /**
+     * 1. 导演
+     * 2. 导演兼演员
+     * 3. 演员
+     */
+    int type;
+
+    public SimpleActorBean(CelebrityEntity entity, int type) {
+        this.entity = entity;
+        this.type = type;
+    }
+
+    public CelebrityEntity getEntity() {
+        return entity;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+}

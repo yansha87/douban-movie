@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/refresh_subj"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              xmlns:tools="http://schemas.android.com/tools"
+                                              android:id="@+id/refresh_subj"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="match_parent"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -57,6 +57,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -67,137 +68,127 @@
                 android:id="@+id/film_container_subj"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/gray_white_1000"
                 android:orientation="vertical"
+                android:padding="@dimen/size_8dp"
                 android:visibility="gone"
                 >
 
-                <FrameLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_subject_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/gray_white_1000"
-                    android:padding="8dp"
+                    android:layout_marginTop="@dimen/size_6dp"
+                    android:textColor="@color/gray_black_1000"
+                    android:textSize="18sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:id="@+id/iv_subject_images"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:layout_gravity="center_vertical"
-                        tools:ignore="ContentDescription"
+                    <RatingBar
+                        android:id="@+id/rb_subject_rating"
+                        style="@style/MovieRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
                         />
 
-                    <LinearLayout
-                        android:id="@+id/introduce_container_subj"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_subject_rating"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        >
+                        android:layout_marginStart="@dimen/size_6dp"
+                        android:textColor="@color/gray_500"
+                        />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="24dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            >
+                    <TextView
+                        android:id="@+id/tv_subject_collect_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/size_6dp"
+                        android:textColor="@color/gray_500"
+                        android:textSize="@dimen/size_12sp"
+                        />
+                </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/douban_rating"
-                                />
+                <TextView
+                    android:id="@+id/tv_subject_genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_6dp"
+                    android:textColor="@color/gray_black_1000"
+                    />
 
-                            <RatingBar
-                                android:id="@+id/rb_subject_rating"
-                                style="@style/MyRatingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:numStars="5"
-                                />
+                <TextView
+                    android:id="@+id/tv_subject_countries"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_6dp"
+                    android:textColor="@color/gray_black_1000"
+                    />
 
-                            <TextView
-                                android:id="@+id/tv_subject_rating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:textColor="@color/red_500"
-                                android:textStyle="italic|bold"
-                                />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tv_subject_collect_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/gray_500"
-                            android:textSize="12sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_subject_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:textColor="@color/gray_black_1000"
-                            android:textSize="18sp"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_subject_original_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/gray_black_1000"
-                            android:textSize="14sp"
-                            />
-
-
-                        <TextView
-                            android:id="@+id/tv_subject_genres"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/gray_500"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_subject_ake"
-                            android:layout_width="212dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:textColor="@color/blue_500"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_subject_countries"
-                            android:layout_width="212dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:gravity="center"
-                            android:textColor="@color/blue_500"
-                            />
-
-                    </LinearLayout>
-
-                </FrameLayout>
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_24dp"/>
 
                 <TextView
                     android:id="@+id/tv_subject_summary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="@dimen/size_6dp"
+                    android:layout_marginTop="@dimen/size_6dp"
                     android:background="@color/gray_white_1000"
-                    android:lines="3"
-                    android:padding="12dp"
+                    android:lineSpacingExtra="@dimen/size_6dp"
+                    android:lines="5"
                     android:textColor="@color/gray_black_1000"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/size_14sp"
                     />
 
-                <include layout="@layout/view_actor_layout" />
+                <TextView
+                    android:id="@+id/tv_summary_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/more_info"
+                    android:layout_marginBottom="@dimen/size_6dp"
+                    android:textColor="@color/green_500"
+                    android:textSize="@dimen/size_14sp"
+                    />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_24dp"/>
+
+                <TextView
+                    android:id="@+id/tv_subject_actor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:textColor="@color/gray_500"
+                    />
+
+                <!--
+                <include layout="@layout/view_actor_layout"/>
+                -->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/re_subject_actor"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:paddingLeft="-2dp"
+                    android:paddingRight="-2dp"
+                    android:visibility="gone"
+                    />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_24dp"/>
 
                 <TextView
                     android:id="@+id/tv_subject_recommend_tip"

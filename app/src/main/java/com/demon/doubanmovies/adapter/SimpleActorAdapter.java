@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.bean.SimpleCardBean;
+import com.demon.doubanmovies.activity.SubjectActivity;
+import com.demon.doubanmovies.bean.SimpleActorBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -20,36 +21,29 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> {
+public class SimpleActorAdapter extends RecyclerView.Adapter<SimpleActorAdapter.ViewHolder> {
 
+    private static final String TAG = "SimpleActorAdapter";
     private Context mContext;
-    private List<SimpleCardBean> mData = new ArrayList<>();
+    private List<SimpleActorBean> mData = new ArrayList<>();
     private OnItemClickListener callback;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
-    public SimpleMovieAdapter(Context context) {
-        this.mContext = context;
+
+    public SimpleActorAdapter(Context context) {
+        mContext = context;
     }
 
     public void setOnItemClickListener(OnItemClickListener callback) {
         this.callback = callback;
     }
 
-    public void update(List<SimpleCardBean> data) {
-        mData.clear();
-        notifyDataSetChanged();
-        for (int i = 0; i < data.size(); i++) {
-            mData.add(data.get(i));
-            notifyItemInserted(i);
-        }
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).
-                inflate(R.layout.item_simple_movie_layout, parent, false);
+                inflate(R.layout.item_simple_actor_layout, parent, false);
         return new ViewHolder(v);
     }
 
@@ -63,14 +57,29 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
         return mData.size();
     }
 
+    public void update(List<SimpleActorBean> mActorData) {
+        mData.clear();
+        notifyDataSetChanged();
+        for (int i = 0; i < mActorData.size(); i++) {
+            mData.add(mActorData.get(i));
+            notifyItemInserted(i);
+        }
+    }
+
+    public interface OnItemClickListener {
+        void itemClick(String id, String imageUrl);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_simple_film_image)
+        @Bind(R.id.iv_item_simple_actor_image)
         ImageView imageMovie;
-        @Bind(R.id.tv_item_simple_film_text)
+        @Bind(R.id.tv_item_simple_actor_text)
         TextView textTitle;
+        @Bind(R.id.tv_item_simple_director_text)
+        TextView textDirector;
 
-        SimpleCardBean cardBean;
+        SimpleActorBean cardBean;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -80,23 +89,22 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
         public void update() {
             cardBean = mData.get(getLayoutPosition());
-            imageLoader.displayImage(cardBean.getImage(), imageMovie, options);
-            textTitle.setText(cardBean.getName());
+            imageLoader.displayImage(cardBean.getEntity().getAvatars().getLarge(), imageMovie, options);
+            textTitle.setText(cardBean.getEntity().getName());
+            if (cardBean.getType() == 1) {
+                textDirector.setText(mContext.getString(R.string.directors));
+            } else {
+                textDirector.setText("");
+            }
         }
 
         @Override
         public void onClick(View view) {
             int pos = getLayoutPosition();
             if (callback != null) {
-                callback.itemClick(mData.get(pos).getId(),
-                        mData.get(pos).getImage(),
-                        mData.get(pos).getIsFilm());
+                callback.itemClick(mData.get(pos).getEntity().getId(),
+                        mData.get(pos).getEntity().getAvatars().getLarge());
             }
         }
     }
-
-    public interface OnItemClickListener {
-        void itemClick(String id, String imageUrl, boolean isFilm);
-    }
-
 }

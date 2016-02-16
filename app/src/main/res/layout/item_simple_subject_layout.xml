@@ -42,7 +42,7 @@
 
                 <RatingBar
                     android:id="@+id/rb_item_simple_subject_rating"
-                    style="@style/MyRatingBar"
+                    style="@style/MovieRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"

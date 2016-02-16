@@ -28,13 +28,13 @@ import butterknife.ButterKnife;
 
 public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
-    //FootView的显示类型
+    // FootView的显示类型
     public static final int FOOT_LOADING = 0;
     public static final int FOOT_COMPLETED = 1;
     public static final int FOOT_FAIL = 2;
-    //用于判断是否是加载失败时点击的FootView
+    // 用于判断是否是加载失败时点击的FootView
     public static final String FOOT_VIEW_ID = "-1";
-    //ItemView的类型，FootView应用于加载更多
+    // ItemView的类型，FootView应用于加载更多
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOT = 1;
     private FootViewHolder mFootView;

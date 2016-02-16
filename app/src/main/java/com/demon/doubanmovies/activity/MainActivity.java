@@ -209,12 +209,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem setting = menu.findItem(R.id.action_settings);
+        /* MenuItem setting = menu.findItem(R.id.action_settings);
         if (mTitle.equals(getString(R.string.nav_home))) {
             setting.setVisible(true);
         } else {
             setting.setVisible(false);
-        }
+        } */
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -225,9 +225,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_search:
                 prepareIntent(SearchActivity.class);
                 break;
-            case R.id.action_settings:
-                prepareIntent(PrefsActivity.class);
-                break;
+            // case R.id.action_settings:
+            //    prepareIntent(PrefsActivity.class);
+            //    break;
         }
         return super.onOptionsItemSelected(item);
     }
