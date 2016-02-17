@@ -16,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.squareup.leakcanary.LeakCanary;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.sql.SQLException;
 
@@ -28,6 +29,7 @@ public class MovieApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "900019796", false);
         LeakCanary.install(this);
         initImageLoader(getApplicationContext());
         mQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
