@@ -36,6 +36,6 @@
         android:layout_marginTop="@dimen/size_4dp"
         android:gravity="center"
         android:textColor="@color/gray_500"
-        android:textSize="@dimen/size_12sp"
+        android:textSize="@dimen/size_13sp"
         />
 </LinearLayout>

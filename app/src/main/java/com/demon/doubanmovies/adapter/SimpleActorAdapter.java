@@ -2,6 +2,7 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
+import com.demon.doubanmovies.bean.CelebrityEntity;
+import com.demon.doubanmovies.bean.ImagesEntity;
 import com.demon.doubanmovies.bean.SimpleActorBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -89,8 +92,23 @@ public class SimpleActorAdapter extends RecyclerView.Adapter<SimpleActorAdapter.
 
         public void update() {
             cardBean = mData.get(getLayoutPosition());
-            imageLoader.displayImage(cardBean.getEntity().getAvatars().getLarge(), imageMovie, options);
-            textTitle.setText(cardBean.getEntity().getName());
+            if (cardBean == null) return;
+
+            CelebrityEntity entity = cardBean.getEntity();
+            if (entity == null) return;
+
+            ImagesEntity imagesEntity = entity.getAvatars();
+            if (imagesEntity != null) {
+                String url = imagesEntity.getLarge();
+                if (url == null) url = imagesEntity.getMedium();
+                if (url == null) url = imagesEntity.getSmall();
+                if (url != null)
+                    imageLoader.displayImage(url, imageMovie, options);
+            } else {
+                Log.i(TAG, "update: imagesEntity is null");
+            }
+            textTitle.setText(entity.getName());
+
             if (cardBean.getType() == 1) {
                 textDirector.setText(mContext.getString(R.string.directors));
             } else {

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +18,6 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +52,7 @@ import com.demon.doubanmovies.bean.SimpleActorBean;
 import com.demon.doubanmovies.bean.SimpleCardBean;
 import com.demon.doubanmovies.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
@@ -214,7 +215,7 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     private void initView() {
-        //设置圆形刷新球的偏移量
+        // 设置圆形刷新球的偏移量
         mRefresh.setProgressViewOffset(false,
                 -DensityUtil.dp2px(getApplication(), 8f),
                 DensityUtil.dp2px(getApplication(), 32f));
@@ -243,11 +244,6 @@ public class SubjectActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //用于collapsingToolbar缩放时content中内容和图片的动作
-        //mImageWidth = mImage.getLayoutParams().width + DensityUtil.dp2px(getApplication(), 8f);
-        //mIntroduceContainerParams =
-        //        (FrameLayout.LayoutParams) mIntroduceContainer.getLayoutParams();
-
         mActor.setLayoutManager(new LinearLayoutManager(SubjectActivity.this,
                 LinearLayoutManager.HORIZONTAL, false));
         mActorAdapter = new SimpleActorAdapter(this);
@@ -271,17 +267,26 @@ public class SubjectActivity extends AppCompatActivity
                     public void onLoadingComplete(String imageUri, View view,
                                                   final Bitmap loadedImage) {
                         super.onLoadingComplete(imageUri, view, loadedImage);
+
+
+                        Bitmap blurBitmap = BitmapUtil.fastBlur(loadedImage, 25);
+                        BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
+                        drawable.setAlpha(192);
+                        /** toolbar模糊背景 */
+                        mToolbarContainer.setBackground(drawable);
+
+                        /*
                         Palette.from(loadedImage).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
-                                int defaultBgColor = Color.parseColor("#009688");
-                                int bgColor = palette.getDarkVibrantColor(defaultBgColor);
-                                mToolbarContainer.setBackgroundColor(bgColor);
+                                Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
+                                mToolbarContainer.setBackgroundColor(vibrant.getRgb());
                             }
-                        });
+                        }); */
                     }
                 });
     }
+
 
     private void initEvent() {
         mRefresh.setOnRefreshListener(this);
@@ -342,7 +347,7 @@ public class SubjectActivity extends AppCompatActivity
         mTitle.append(StringUtil.getSpannableString1(
                 String.format("  %s  ", mSubject.getYear()),
                 new ForegroundColorSpan(Color.WHITE),
-                new BackgroundColorSpan(R.color.green_500),
+                new BackgroundColorSpan(R.color.gray_black_1000),
                 new RelativeSizeSpan(0.87f)));
 
         mGenres.setText(StringUtil.getListString(mSubject.getGenres(), '/'));
@@ -386,12 +391,14 @@ public class SubjectActivity extends AppCompatActivity
         int directorCount = mSubject.getDirectors().size();
         for (int i = 0; i < directorCount; i++) {
             CelebrityEntity celebrity = mSubject.getDirectors().get(i);
-            mActorData.add(new SimpleActorBean(celebrity, 1));
+            if (celebrity.getId() != null)
+                mActorData.add(new SimpleActorBean(celebrity, 1));
         }
 
         for (int i = 0; i < mSubject.getCasts().size(); i++) {
             CelebrityEntity celebrity = mSubject.getCasts().get(i);
-            mActorData.add(new SimpleActorBean(celebrity, 3));
+            if (celebrity.getId() != null)
+                mActorData.add(new SimpleActorBean(celebrity, 3));
 
         }
 

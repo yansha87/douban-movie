@@ -22,12 +22,12 @@ import android.view.Window;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.fragment.HomeFragment;
-import com.demon.doubanmovies.transitions.Utils;
+import com.demon.doubanmovies.utils.StringUtil;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.demon.doubanmovies.transitions.Utils.RADIOHEAD_ALBUM_NAMES;
+import static com.demon.doubanmovies.utils.StringUtil.RADIOHEAD_ALBUM_NAMES;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             LOG("=== names: " + names.toString(), mIsReentering);
-            LOG("=== sharedElements: " + Utils.setToString(sharedElements.keySet()), mIsReentering);
+            LOG("=== sharedElements: " + StringUtil.setToString(sharedElements.keySet()), mIsReentering);
         }
 
         @Override

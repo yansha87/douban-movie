@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
-import static com.demon.doubanmovies.transitions.Utils.RADIOHEAD_ALBUM_NAMES;
+import static com.demon.doubanmovies.utils.StringUtil.RADIOHEAD_ALBUM_NAMES;
 
 public class DetailsFragment extends Fragment {
     private static final String TAG = "DetailsFragment";
@@ -40,7 +41,7 @@ public class DetailsFragment extends Fragment {
 
         int selectedPosition = getArguments().getInt(ARG_SELECTED_IMAGE_POSITION);
         headerImage.setTransitionName(RADIOHEAD_ALBUM_NAMES[selectedPosition]);
-        Picasso.with(getActivity()).load(Utils.RADIOHEAD_ALBUM_URLS[selectedPosition]).fit().into(headerImage);
+        Picasso.with(getActivity()).load(StringUtil.RADIOHEAD_ALBUM_URLS[selectedPosition]).fit().into(headerImage);
 
         titleText.setText(RADIOHEAD_ALBUM_NAMES[selectedPosition]);
 
@@ -53,7 +54,7 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        Picasso.with(getActivity()).load(Utils.RADIOHEAD_BACKGROUND_URLS[selectedPosition]).fit().centerCrop().into(backgroundImage);
+        Picasso.with(getActivity()).load(StringUtil.RADIOHEAD_BACKGROUND_URLS[selectedPosition]).fit().centerCrop().into(backgroundImage);
 
         return root;
     }
@@ -65,7 +66,7 @@ public class DetailsFragment extends Fragment {
     @Nullable
     public View getSharedElement() {
         View view = getView().findViewById(R.id.header_image);
-        if (Utils.isViewInBounds(getView().findViewById(R.id.scroll_view), view)) {
+        if (StringUtil.isViewInBounds(getView().findViewById(R.id.scroll_view), view)) {
             return view;
         }
         return null;

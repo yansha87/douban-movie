@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
-import static com.demon.doubanmovies.transitions.Utils.RADIOHEAD_ALBUM_URLS;
+import static com.demon.doubanmovies.utils.StringUtil.RADIOHEAD_ALBUM_URLS;
 
 public class DetailsFragmentPagerAdapter extends FragmentStatePagerAdapter {
     private DetailsFragment mCurrentFragment;

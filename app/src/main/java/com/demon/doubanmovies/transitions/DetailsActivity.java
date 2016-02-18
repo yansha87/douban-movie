@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.MainActivity;
+import com.demon.doubanmovies.utils.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class DetailsActivity extends Activity implements ViewPager.OnPageChangeL
             }
 
             LOG("=== names: " + names.toString(), mIsReturning);
-            LOG("=== sharedElements: " + Utils.setToString(sharedElements.keySet()), mIsReturning);
+            LOG("=== sharedElements: " + StringUtil.setToString(sharedElements.keySet()), mIsReturning);
         }
 
         @Override
