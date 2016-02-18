@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.bean.SimpleCardBean;
+import com.demon.doubanmovies.db.bean.SimpleCardBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

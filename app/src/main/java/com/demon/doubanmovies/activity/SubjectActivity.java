@@ -22,7 +22,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.transition.Explode;
@@ -47,15 +46,16 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.SimpleActorAdapter;
 import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
-import com.demon.doubanmovies.bean.CelebrityEntity;
-import com.demon.doubanmovies.bean.SimpleActorBean;
-import com.demon.doubanmovies.bean.SimpleCardBean;
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.db.bean.CelebrityEntity;
+import com.demon.doubanmovies.db.bean.SimpleActorBean;
+import com.demon.doubanmovies.db.bean.SimpleCardBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
+import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -217,8 +217,9 @@ public class SubjectActivity extends AppCompatActivity
     private void initView() {
         // 设置圆形刷新球的偏移量
         mRefresh.setProgressViewOffset(false,
-                -DensityUtil.dp2px(getApplication(), 8f),
-                DensityUtil.dp2px(getApplication(), 32f));
+                -DensityUtil.dp2px(getApplication(), 16f),
+                DensityUtil.dp2px(getApplication(), 48f));
+        mRefresh.setColorSchemeResources(R.color.green_500);
         mToolbar.setTitle("");
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -347,7 +348,7 @@ public class SubjectActivity extends AppCompatActivity
         mTitle.append(StringUtil.getSpannableString1(
                 String.format("  %s  ", mSubject.getYear()),
                 new ForegroundColorSpan(Color.WHITE),
-                new BackgroundColorSpan(R.color.gray_black_1000),
+                new RoundedBackgroundSpan(this),
                 new RelativeSizeSpan(0.87f)));
 
         mGenres.setText(StringUtil.getListString(mSubject.getGenres(), '/'));
@@ -603,4 +604,5 @@ public class SubjectActivity extends AppCompatActivity
             CelebrityActivity.toActivity(SubjectActivity.this, id);
         }
     }
+
 }

@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.activity.SubjectActivity;
-import com.demon.doubanmovies.bean.CelebrityEntity;
-import com.demon.doubanmovies.bean.ImagesEntity;
-import com.demon.doubanmovies.bean.SimpleActorBean;
+import com.demon.doubanmovies.db.bean.CelebrityEntity;
+import com.demon.doubanmovies.db.bean.ImagesEntity;
+import com.demon.doubanmovies.db.bean.SimpleActorBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

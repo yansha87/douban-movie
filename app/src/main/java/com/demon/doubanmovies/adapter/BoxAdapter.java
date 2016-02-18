@@ -13,8 +13,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.bean.BoxSubjectBean;
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.BoxSubjectBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;

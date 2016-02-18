@@ -1,9 +1,9 @@
 package com.demon.doubanmovies.utils;
 
-import com.demon.doubanmovies.bean.BoxSubjectBean;
-import com.demon.doubanmovies.bean.CelebrityBean;
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.db.bean.BoxSubjectBean;
+import com.demon.doubanmovies.db.bean.CelebrityBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

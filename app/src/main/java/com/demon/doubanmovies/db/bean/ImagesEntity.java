@@ -1,4 +1,4 @@
-package com.demon.doubanmovies.bean;
+package com.demon.doubanmovies.db.bean;
 
 public class ImagesEntity {
 

@@ -13,7 +13,7 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.CollectAdapter;
-import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.DensityUtil;
 
 import java.util.ArrayList;

@@ -20,7 +20,7 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SearchAdapter;
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.Constant;
 import com.google.gson.GsonBuilder;
 

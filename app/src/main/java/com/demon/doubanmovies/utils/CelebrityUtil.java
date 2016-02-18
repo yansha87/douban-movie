@@ -1,7 +1,7 @@
 package com.demon.doubanmovies.utils;
 
 
-import com.demon.doubanmovies.bean.CelebrityEntity;
+import com.demon.doubanmovies.db.bean.CelebrityEntity;
 
 import java.util.List;
 

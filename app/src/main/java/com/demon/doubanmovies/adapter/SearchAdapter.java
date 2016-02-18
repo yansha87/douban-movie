@@ -10,7 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.CelebrityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 

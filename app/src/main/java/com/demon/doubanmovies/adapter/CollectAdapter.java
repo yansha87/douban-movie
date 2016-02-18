@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.CelebrityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 

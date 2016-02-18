@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.demon.doubanmovies.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.bean.SubjectBean;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.Constant;
 import com.google.gson.Gson;
 
