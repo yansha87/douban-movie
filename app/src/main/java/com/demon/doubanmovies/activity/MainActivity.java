@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,8 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.fragment.BaseFragment;
+import com.demon.doubanmovies.fragment.FavoriteFragment;
 import com.demon.doubanmovies.fragment.HomeFragment;
 import com.demon.doubanmovies.utils.StringUtil;
 
@@ -239,24 +242,51 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
+        item.setChecked(true);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        // drawer.closeDrawer(GravityCompat.START);
+
+        drawer.closeDrawers();
+        switchFragment(item.getTitle().toString());
         return true;
+    }
+
+    /**
+     * 判断各种逻辑下的fragment显示问题
+     */
+    private void switchFragment(String title) {
+        mTitle = title;
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        Fragment fragment = mFragmentManager.findFragmentByTag(title);
+        if (fragment == null) {
+            transaction.hide(mCurFragment);
+            fragment = createFragmentByTitle(title);
+            transaction.add(R.id.rl_main_container, fragment, title);
+            mCurFragment = fragment;
+        } else if (fragment != mCurFragment) {
+            transaction.hide(mCurFragment).show(fragment);
+            mCurFragment = fragment;
+        }
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                commit();
+        supportInvalidateOptionsMenu();
+        if (mTitle != null) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) actionBar.setTitle(mTitle);
+        }
+    }
+
+    /**
+     * 根据menuItem的title返回对应的fragment
+     */
+    private Fragment createFragmentByTitle(String title) {
+        switch (title) {
+            case "首页":
+                return new HomeFragment();
+            case "收藏":
+                return new FavoriteFragment();
+            default:
+                return new BaseFragment();
+        }
     }
 }

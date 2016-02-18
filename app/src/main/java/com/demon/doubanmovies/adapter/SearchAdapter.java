@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.utils.CelebrityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 
 import java.util.List;
@@ -91,9 +90,15 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
             }
             textGenres.setText(StringUtil.getListString(mSubject.getGenres(), ','));
             textDirector.setText(mContext.getString(R.string.directors));
-            textDirector.append(CelebrityUtil.list2String(mSubject.getDirectors(), '/'));
+            // textDirector.append(CelebrityUtil.list2String(mSubject.getDirectors(), '/'));
+            for (int i = 0; i < mSubject.getDirectors().size(); i++) {
+                textCast.append('/' + mSubject.getDirectors().get(i).getName());
+            }
             textCast.setText(mContext.getString(R.string.actors));
-            textCast.append(CelebrityUtil.list2String(mSubject.getCasts(), '/'));
+            // textCast.append(CelebrityUtil.list2String(mSubject.getCasts(), '/'));
+            for (int i = 0; i < mSubject.getCasts().size(); i++) {
+                textCast.append('/' + mSubject.getCasts().get(i).getName());
+            }
             imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, options);
         }
 

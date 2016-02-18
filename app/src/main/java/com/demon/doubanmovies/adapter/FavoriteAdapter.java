@@ -2,17 +2,15 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.db.bean.SubjectBean;
-import com.demon.doubanmovies.utils.CelebrityUtil;
-import com.demon.doubanmovies.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
+public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
     private static final String URI_FOR_FILE = "file:/";
 
@@ -28,18 +26,12 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
     private LayoutInflater mInflater;
     private List<SubjectBean> mData;
 
-    private OnItemClickListener callback;
-    private SubjectBean undoSub;
-
-    public void setOnItemClickListener(OnItemClickListener callback) {
-        this.callback = callback;
-    }
-
-    public CollectAdapter(Context context) {
+    public FavoriteAdapter(Context context) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = new ArrayList<>();
     }
+
 
     public void add(List<SubjectBean> data) {
         for (int i = 0; i < data.size(); i++) {
@@ -52,27 +44,6 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
         this.mData.clear();
         notifyDataSetChanged();
         add(data);
-    }
-
-    /**
-     * 移除相应的item
-     */
-    private void remove(int pos) {
-        notifyItemRemoved(pos);
-        undoSub = mData.get(pos);
-        mData.remove(pos);
-        callback.itemRemove(pos, undoSub.getId());
-    }
-
-    /**
-     * 用于撤销“取消收藏”操作
-     */
-    public void cancelRemove(int pos) {
-        if (undoSub != null) {
-            notifyItemInserted(pos);
-            mData.add(pos, undoSub);
-            undoSub = null;
-        }
     }
 
     @Override
@@ -91,7 +62,7 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
         return mData.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_collect_image)
         ImageView imageMovie;
@@ -99,24 +70,15 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
         TextView textRating;
         @Bind(R.id.tv_item_collect_title)
         TextView textTitle;
-        @Bind(R.id.tv_item_collect_year)
-        TextView textYear;
-        @Bind(R.id.tv_item_collect_genres)
-        TextView textGenres;
         @Bind(R.id.tv_item_collect_cel)
         TextView textCast;
-        @Bind(R.id.tv_item_collect_delete)
-        TextView btnDelete;
-        @Bind(R.id.tv_item_collect_enter)
-        TextView btnEnter;
 
         SubjectBean subjectBean;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
-            btnDelete.setOnClickListener(this);
-            btnEnter.setOnClickListener(this);
         }
 
         public void update() {
@@ -127,13 +89,15 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
             }
             String title = subjectBean.getTitle();
             textTitle.setText(title);
-            textYear.setText(String.format("  %s  ", subjectBean.getYear()));
-            textGenres.setText(StringUtil.getListString(subjectBean.getGenres(), ','));
-            textCast.setText(mContext.getString(R.string.directors));
-            textCast.append(String.format("%s//",
-                    CelebrityUtil.list2String(subjectBean.getDirectors(), ',')));
-            textCast.append(mContext.getString(R.string.actors));
-            textCast.append(CelebrityUtil.list2String(subjectBean.getCasts(), ','));
+            textCast.setText("");
+            if (subjectBean.getDirectors().size() > 0) {
+                textCast.setText(String.format("%s%s",
+                        subjectBean.getDirectors().get(0).getName(), mContext.getString(R.string.director)));
+            }
+
+            for (int i = 0; i < subjectBean.getCasts().size(); i++) {
+                textCast.append('/' + subjectBean.getCasts().get(i).getName());
+            }
             if (subjectBean.getLocalImageFile() != null) {
                 imageLoader.displayImage(
                         String.format("%s%s", URI_FOR_FILE, subjectBean.getLocalImageFile()),
@@ -143,18 +107,11 @@ public class CollectAdapter extends BaseAdapter<CollectAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            if (view == btnDelete) {
-                remove(getLayoutPosition());
-            } else {
-                callback.itemClick(mData.get(getLayoutPosition()).getId(),
-                        mData.get(getLayoutPosition()).getImages().getLarge());
+            if (mCallback != null) {
+                int position = getLayoutPosition();
+                mCallback.onItemClick(mData.get(position).getId(),
+                        mData.get(position).getImages().getLarge());
             }
         }
-    }
-
-    public interface OnItemClickListener {
-        void itemClick(String id, String imageUrl);
-
-        void itemRemove(int pos, String id);
     }
 }

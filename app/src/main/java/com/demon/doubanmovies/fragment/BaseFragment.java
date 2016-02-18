@@ -22,7 +22,7 @@ public class BaseFragment extends Fragment {
     protected int layoutId = R.layout.fragment_base;
 
     @Bind(R.id.rv_fragment)
-    protected RecyclerView mRecView;
+    protected RecyclerView recyclerView;
     @Bind(R.id.fresh_fragment)
     protected SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.btn_fragment)
@@ -33,7 +33,7 @@ public class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(layoutId, container, false);
         ButterKnife.bind(this, view);
-        mRecView.setLayoutManager(
+        recyclerView.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setProgressViewOffset(false, 0, DensityUtil.dp2px(getContext(), 32f));
