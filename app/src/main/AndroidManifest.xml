@@ -36,7 +36,6 @@
         <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.SubjectActivity"/>
         <activity android:name=".activity.WebActivity"/>
-        <activity android:name=".activity.PrefsActivity"/>
     </application>
 
 </manifest>

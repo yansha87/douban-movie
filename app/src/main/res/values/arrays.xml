@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_entries_image">
+        <item>小图</item>
+        <item>中图</item>
+        <item>大图</item>
+    </string-array>
+
+    <string-array name="settings_entry_values_image">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="settings_entries_language">
+        <item>中文</item>
+        <item>英文</item>
+    </string-array>
+
+    <string-array name="settings_entry_values_language">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

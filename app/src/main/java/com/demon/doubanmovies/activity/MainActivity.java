@@ -25,6 +25,7 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.fragment.BaseFragment;
 import com.demon.doubanmovies.fragment.FavoriteFragment;
 import com.demon.doubanmovies.fragment.HomeFragment;
+import com.demon.doubanmovies.fragment.SettingFragment;
 import com.demon.doubanmovies.utils.StringUtil;
 
 import java.util.List;
@@ -285,6 +286,8 @@ public class MainActivity extends AppCompatActivity
                 return new HomeFragment();
             case "收藏":
                 return new FavoriteFragment();
+            case "设置":
+                return new SettingFragment();
             default:
                 return new BaseFragment();
         }

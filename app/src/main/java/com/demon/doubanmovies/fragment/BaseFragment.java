@@ -26,7 +26,7 @@ public class BaseFragment extends Fragment {
     @Bind(R.id.fresh_fragment)
     protected SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.btn_fragment)
-    protected FloatingActionButton mFloatBtn;
+    protected FloatingActionButton mFloatingBtn;
 
     @Nullable
     @Override
