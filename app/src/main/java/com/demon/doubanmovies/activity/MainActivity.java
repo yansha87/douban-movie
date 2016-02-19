@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private Bundle mTmpState;
     private boolean mIsReentering;
+
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
         mFragmentManager = getSupportFragmentManager();
         mCurFragment = mFragmentManager.findFragmentByTag(mTitle);

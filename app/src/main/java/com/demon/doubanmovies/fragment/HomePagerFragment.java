@@ -48,7 +48,13 @@ import butterknife.ButterKnife;
 
 import static android.support.v7.widget.RecyclerView.OnClickListener;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.demon.doubanmovies.utils.Constant.*;
+import static com.demon.doubanmovies.utils.Constant.API;
+import static com.demon.doubanmovies.utils.Constant.COMING;
+import static com.demon.doubanmovies.utils.Constant.IN_THEATERS;
+import static com.demon.doubanmovies.utils.Constant.TOP250;
+import static com.demon.doubanmovies.utils.Constant.US_BOX;
+import static com.demon.doubanmovies.utils.Constant.simpleBoxTypeList;
+import static com.demon.doubanmovies.utils.Constant.simpleSubTypeList;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
@@ -188,6 +194,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
         Resources res = getResources();
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), res.getInteger(R.integer.num_columns)));
+        mRecyclerView.setBackgroundResource(R.color.gray_100);
 
         //请求网络数据前先加载上次的电影数据
         mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), mSimpleData, isComing);

@@ -55,7 +55,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_item_search_collect_count"
+                    android:id="@+id/tv_item_search_favorite_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_800"

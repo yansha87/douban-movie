@@ -65,9 +65,9 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_simple_film_image)
+        @Bind(R.id.iv_item_simple_movie_image)
         ImageView imageMovie;
-        @Bind(R.id.tv_item_simple_film_text)
+        @Bind(R.id.tv_item_simple_movie_text)
         TextView textTitle;
 
         SimpleCardBean cardBean;

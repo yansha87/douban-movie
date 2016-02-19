@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.IzzySearchView;
+import com.demon.doubanmovies.widget.SearchMovieView;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.BaseAdapter;
@@ -48,7 +48,7 @@ public class SearchActivity extends AppCompatActivity
     private SearchAdapter mAdapter;
     private List<SimpleSubjectBean> mData;
     //SearchView on the Toolbar;
-    private IzzySearchView mSearchView;
+    private SearchMovieView mSearchView;
     private ProgressDialog mDialog;
 
     @Override
@@ -60,9 +60,9 @@ public class SearchActivity extends AppCompatActivity
     }
 
     private void initView() {
-        mSearchView = new IzzySearchView(SearchActivity.this);
+        mSearchView = new SearchMovieView(SearchActivity.this);
         mSearchView.setQueryHint(getString(R.string.query_hint));
-        mSearchView.setOnQueryTextListener(new IzzySearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchMovieView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 final String url;

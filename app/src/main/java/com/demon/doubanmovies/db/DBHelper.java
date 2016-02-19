@@ -6,20 +6,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_NAME_COLL = "film_collect";
-    public static final String TABLE_NAME_TOP = "film_top_250";
+    public static final String TABLE_NAME_COLL = "movie_collect";
+    public static final String TABLE_NAME_TOP = "movie_top_250";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_FILM = "film_id";
+    public static final String COLUMN_FILM = "movie_id";
     public static final String COLUMN_TOP = "top";
     public static final String COLUMN_CONTENT = "content";
 
-    public static final String DATABASE_NAME = "film.db";
+    public static final String DATABASE_NAME = "movie.db";
     public static final int DATABASE_VERSION = 1;
 
     private static DBHelper dbHelper;
 
     /**
-     * 建立collect的表
+     * 建立favorite的表
      */
     private static final String DATABASE_CREATE_COL
             = "CREATE TABLE " + TABLE_NAME_COLL + "(" +

@@ -54,7 +54,7 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
         RatingBar ratingBar;
         @Bind(R.id.tv_item_search_rating)
         TextView textRating;
-        @Bind(R.id.tv_item_search_collect_count)
+        @Bind(R.id.tv_item_search_favorite_count)
         TextView textCollectCount;
         @Bind(R.id.tv_item_search_title)
         TextView textTitle;
@@ -79,7 +79,7 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
             mSubject = mData.get(getLayoutPosition());
             ratingBar.setRating(((float) mSubject.getRating().getAverage()) / 2);
             textRating.setText(String.format("%s", mSubject.getRating().getAverage()));
-            textCollectCount.setText(mContext.getString(R.string.collect));
+            textCollectCount.setText(mContext.getString(R.string.favorite));
             textCollectCount.append(String.format("%d", mSubject.getCollect_count()));
             textCollectCount.append(mContext.getString(R.string.count));
             textTitle.setText(mSubject.getTitle());

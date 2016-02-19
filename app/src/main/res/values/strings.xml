@@ -16,10 +16,10 @@
     <!--menu-->
     <string name="ic_search">搜索</string>
     <string name="ic_setting">设置</string>
-    <string name="ic_sub_collect">收藏</string>
+    <string name="ic_sub_favorite">收藏</string>
     <!--MainActivity_NavigationView-->
     <string name="nav_home">首页</string>
-    <string name="nav_collect">收藏</string>
+    <string name="nav_favorite">收藏</string>
     <string name="nav_top250">豆瓣top250</string>
     <!--MainActivity_NavigationView_header-->
     <string name="user_name">用户昵称</string>
@@ -32,8 +32,8 @@
     <string name="closeDrawer">close</string>
     -->
     <!--MainActivity-->
-    <string name="collect_completed">收藏成功!</string>
-    <string name="collect_cancel">取消收藏!</string>
+    <string name="favorite_completed">收藏成功!</string>
+    <string name="favorite_cancel">取消收藏!</string>
     <string name="exit">再按一次退出程序</string>
     <!--SubjectItem-->
     <string name="genres">类型:</string>
@@ -42,7 +42,7 @@
     <string name="actors">主演:</string>
     <string name="dir_and_actor">(导演兼主演)</string>
     <string name="actor">(主演)</string>
-    <string name="collect">(</string>
+    <string name="favorite">(</string>
     <string name="count">人评价)</string>
     <string name="box">票房:</string>
     <string name="ake">又名:</string>
@@ -86,4 +86,5 @@
     <string name="put_away">收起</string>
 
     <string name="no_detail_info">暂无资料</string>
+    <string name="personal">个性化</string>
 </resources>

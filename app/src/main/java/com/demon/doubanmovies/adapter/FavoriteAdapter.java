@@ -48,7 +48,7 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_collect_layout, parent, false);
+        View view = mInflater.inflate(R.layout.item_favorite_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -64,13 +64,13 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_collect_image)
+        @Bind(R.id.iv_item_favorite_image)
         ImageView imageMovie;
-        @Bind(R.id.tv_item_collect_rating)
+        @Bind(R.id.tv_item_favorite_rating)
         TextView textRating;
-        @Bind(R.id.tv_item_collect_title)
+        @Bind(R.id.tv_item_favorite_title)
         TextView textTitle;
-        @Bind(R.id.tv_item_collect_cel)
+        @Bind(R.id.tv_item_favorite_cel)
         TextView textCast;
 
         SubjectBean subjectBean;

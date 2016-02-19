@@ -3,7 +3,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="个性化">
+        android:title="@string/personal">
 
         <ListPreference
             android:defaultValue="3"

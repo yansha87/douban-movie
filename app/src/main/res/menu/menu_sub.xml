@@ -10,9 +10,9 @@
     -->
 
     <item
-        android:id="@+id/action_sub_collect"
+        android:id="@+id/action_sub_favorite"
         android:icon="@drawable/ic_action_uncollected"
-        android:title="@string/ic_sub_collect"
+        android:title="@string/ic_sub_favorite"
         app:showAsAction="always" />
 
 </menu>

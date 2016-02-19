@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="@color/gray_white_1000"
-    android:padding="6dp"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/size_4dp"
+                                    android:background="@color/gray_white_1000"
+                                    android:padding="@dimen/size_4dp"
+                                    app:cardElevation="@dimen/size_1dp"
+
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="4dp"
+        android:padding="@dimen/size_4dp"
         >
 
         <ImageView
@@ -21,7 +24,6 @@
             android:layout_height="142dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
             tools:ignore="ContentDescription"
             />
 
@@ -52,9 +54,9 @@
                     android:id="@+id/tv_item_simple_subject_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="@dimen/size_4dp"
                     android:textColor="@color/gray_500"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/size_12sp"
                     />
             </LinearLayout>
 
@@ -62,10 +64,10 @@
                 android:id="@+id/tv_item_simple_subject_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/size_4dp"
                 android:singleLine="true"
                 android:textColor="@color/gray_black_1000"
-                android:textSize="15sp"
+                android:textSize="@dimen/size_15sp"
                 />
 
         </LinearLayout>

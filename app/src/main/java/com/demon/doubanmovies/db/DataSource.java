@@ -48,7 +48,7 @@ public final class DataSource {
     //------------------------操作收藏电影-------------------------------
 
     /**
-     * 插入filmId对应的film
+     * 插入movieId对应的film
      */
     private void insertFilm(String id, String content) {
         ContentValues values = new ContentValues();
@@ -58,7 +58,7 @@ public final class DataSource {
     }
 
     /**
-     * 更新filmId对应的film
+     * 更新movieId对应的film
      */
     private void upDataFilm(String id, String content) {
         ContentValues values = new ContentValues();
@@ -68,9 +68,9 @@ public final class DataSource {
     }
 
     /**
-     * 通过filmId的到对应的film
+     * 通过movieId的到对应的film
      */
-    public SubjectBean filmOfId(String id) {
+    public SubjectBean movieOfId(String id) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_NAME_COLL, allColumnsForCol,
                 DBHelper.COLUMN_FILM + " = " + id, null, null, null, null);
         cursor.moveToFirst();
@@ -80,7 +80,7 @@ public final class DataSource {
     }
 
     /**
-     * 从数据库查询得到的游标中得到film
+     * 从数据库查询得到的游标中得到movie
      */
     public SubjectBean cursorToSubject(Cursor cursor) {
         if (cursor != null && cursor.getCount() > 0) {
@@ -91,11 +91,11 @@ public final class DataSource {
     }
 
     /**
-     * 如果filmId对应的film存在，更新数据；
+     * 如果movieId对应的film存在，更新数据；
      * 否则，插入数据
      */
     public void insertOrUpDataFilm(String id, String content) {
-        if (filmOfId(id) == null) {
+        if (movieOfId(id) == null) {
             insertFilm(id, content);
         } else {
             upDataFilm(id, content);
@@ -103,7 +103,7 @@ public final class DataSource {
     }
 
     /**
-     * 得到所有的collectTable中的电影
+     * 得到所有的favoriteTable中的电影
      */
     public List<SubjectBean> getFilmForCollected() {
         Cursor cursor = mDatabase.query(
@@ -121,7 +121,7 @@ public final class DataSource {
     }
 
     /**
-     * 删除filmId对应的film数据
+     * 删除movieId对应的film数据
      */
     public void deleteFilm(String id) {
         mDatabase.delete(DBHelper.TABLE_NAME_COLL, DBHelper.COLUMN_FILM + " = " + id, null);

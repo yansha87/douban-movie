@@ -93,17 +93,15 @@ public class SubjectActivity extends AppCompatActivity
     private static final String URI_FOR_IMAGE = ".png";
 
 
-    private static final String TAG = "SubjectActivity";
-
     @Bind(R.id.cl_container)
     CoordinatorLayout mContainer;
-    @Bind(R.id.refresh_subj)
+    @Bind(R.id.refresh_subject)
     SwipeRefreshLayout mRefresh;
     @Bind(R.id.btn_subject_skip)
     FloatingActionButton mFloatingButton;
     @Bind(R.id.nested_scroll_view)
     NestedScrollView scrollView;
-    //film header
+    //movie header
     @Bind(R.id.header_container_subj)
     AppBarLayout mHeaderContainer;
     @Bind(R.id.toolbar_container_subj)
@@ -116,7 +114,7 @@ public class SubjectActivity extends AppCompatActivity
     RatingBar mRatingBar;
     @Bind(R.id.tv_subject_rating)
     TextView mRating;
-    @Bind(R.id.tv_subject_collect_count)
+    @Bind(R.id.tv_subject_favorite_count)
     TextView mCollect;
     @Bind(R.id.tv_subject_title)
     TextView mTitle;
@@ -124,7 +122,7 @@ public class SubjectActivity extends AppCompatActivity
     TextView mGenres;
     @Bind(R.id.tv_subject_countries)
     TextView mCountries;
-    @Bind(R.id.film_container_subj)
+    @Bind(R.id.movie_container_subj)
     LinearLayout mFilmContainer;
     // movie summary
     @Bind(R.id.tv_summary_hint)
@@ -205,13 +203,15 @@ public class SubjectActivity extends AppCompatActivity
         mId = getIntent().getStringExtra(KEY_SUBJECT_ID);
         initView();
         initEvent();
-        mSubject = MovieApplication.getDataSource().filmOfId(mId);
+        mSubject = MovieApplication.getDataSource().movieOfId(mId);
+
+
         if (mSubject != null) {
             isCollect = true;
-            initAfterGetData();
-        } else {
-            volleyGetSubject();
+            // initAfterGetData();
         }
+
+        volleyGetSubject();
     }
 
     private void initView() {
@@ -275,15 +275,6 @@ public class SubjectActivity extends AppCompatActivity
                         drawable.setAlpha(192);
                         /** toolbar模糊背景 */
                         mToolbarContainer.setBackground(drawable);
-
-                        /*
-                        Palette.from(loadedImage).generate(new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(Palette palette) {
-                                Palette.Swatch vibrant = palette.getDarkVibrantSwatch();
-                                mToolbarContainer.setBackgroundColor(vibrant.getRgb());
-                            }
-                        }); */
                     }
                 });
     }
@@ -310,7 +301,7 @@ public class SubjectActivity extends AppCompatActivity
                     @Override
                     public void onResponse(String response) {
                         mContent = response;
-                        //如果film已经收藏,更新数据
+                        //如果movie已经收藏,更新数据
                         if (isCollect) saveMovie();
                         mSubject = new Gson().fromJson(mContent, Constant.subType);
                         initAfterGetData();
@@ -341,7 +332,7 @@ public class SubjectActivity extends AppCompatActivity
             mRating.setText(String.format("%s", rate * 2));
         }
 
-        mCollect.setText(getString(R.string.collect));
+        mCollect.setText(getString(R.string.favorite));
         mCollect.append(String.format("%s", mSubject.getCollect_count()));
         mCollect.append(getString(R.string.count));
         mTitle.setText(String.format("%s   ", mSubject.getTitle()));
@@ -468,11 +459,11 @@ public class SubjectActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sub, menu);
-        MenuItem collect = menu.findItem(R.id.action_sub_collect);
+        MenuItem favorite = menu.findItem(R.id.action_sub_favorite);
         if (isCollect) {
-            collect.setIcon(R.drawable.ic_action_collected);
+            favorite.setIcon(R.drawable.ic_action_collect);
         } else {
-            collect.setIcon(R.drawable.ic_action_uncollected);
+            favorite.setIcon(R.drawable.ic_action_uncollected);
         }
         return true;
     }
@@ -487,8 +478,8 @@ public class SubjectActivity extends AppCompatActivity
                     this.finish();
                 }
                 break;
-            case R.id.action_sub_collect:
-                collectFilmAndSaveImage();
+            case R.id.action_sub_favorite:
+                favoriteAndSaveMovie();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -497,12 +488,16 @@ public class SubjectActivity extends AppCompatActivity
     /**
      * 点击收藏后将subject存入数据库中,并将图片存入文件
      */
-    private void collectFilmAndSaveImage() {
+    private void favoriteAndSaveMovie() {
         if (mSubject == null) return;
         if (isCollect) {
+            Snackbar.make(mContainer, getString(R.string.favorite_cancel), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             unsaveMovie();
             isCollect = false;
         } else {
+            Snackbar.make(mContainer, getString(R.string.favorite_completed), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
             saveMovie();
             isCollect = true;
         }
@@ -535,8 +530,6 @@ public class SubjectActivity extends AppCompatActivity
         mSubject.setLocalImageFile(mFile.getPath());
         String content = new Gson().toJson(mSubject, Constant.subType);
         MovieApplication.getDataSource().insertOrUpDataFilm(mId, content);
-        Snackbar.make(mContainer, getString(R.string.collect_completed), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     private void unsaveMovie() {
@@ -544,8 +537,6 @@ public class SubjectActivity extends AppCompatActivity
         MovieApplication.getDataSource().deleteFilm(mId);
         // 将保存的海报图片删除
         if (mFile.exists()) mFile.delete();
-        Snackbar.make(mContainer, getString(R.string.collect_cancel), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     /**

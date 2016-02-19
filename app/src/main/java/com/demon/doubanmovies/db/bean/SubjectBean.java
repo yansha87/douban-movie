@@ -7,7 +7,7 @@ public class SubjectBean {
     private RatingEntity rating;//评分
     private int reviews_count;//影评数量
     private int wish_count;//想看人数
-    private int collect_count;//看过人数
+    private int favorite_count;//看过人数
     private String douban_site;//豆瓣小站
     private String year;//年代
     private ImagesEntity images;//电影海报图，分别提供288px x 465px(大)，96px x 155px(中) 64px x 103px(小)尺寸
@@ -53,8 +53,8 @@ public class SubjectBean {
         this.wish_count = wish_count;
     }
 
-    public void setCollect_count(int collect_count) {
-        this.collect_count = collect_count;
+    public void setCollect_count(int favorite_count) {
+        this.favorite_count = favorite_count;
     }
 
     public void setDouban_site(String douban_site) {
@@ -158,7 +158,7 @@ public class SubjectBean {
     }
 
     public int getCollect_count() {
-        return collect_count;
+        return favorite_count;
     }
 
     public String getDouban_site() {

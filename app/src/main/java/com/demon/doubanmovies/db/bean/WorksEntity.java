@@ -27,7 +27,7 @@ public class WorksEntity {
     public static class SubjectEntity {
 
         private RatingEntity rating;
-        private int collect_count;
+        private int favorite_count;
         private String title;
         private String original_title;
         private String subtype;
@@ -43,8 +43,8 @@ public class WorksEntity {
             this.rating = rating;
         }
 
-        public void setCollect_count(int collect_count) {
-            this.collect_count = collect_count;
+        public void setCollect_count(int favorite_count) {
+            this.favorite_count = favorite_count;
         }
 
         public void setTitle(String title) {
@@ -92,7 +92,7 @@ public class WorksEntity {
         }
 
         public int getCollect_count() {
-            return collect_count;
+            return favorite_count;
         }
 
         public String getTitle() {

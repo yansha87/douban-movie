@@ -43,13 +43,14 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
     @Override
     public void onResume() {
         super.onResume();
-        new MyAsyncTask().execute();
+        new FavoriteAsyncTask().execute();
     }
 
     @Override
     protected void initEvent() {
         // mRefreshLayout.setOnRefreshListener(this);
-        mRefreshLayout.setRefreshing(false);
+        // disable refresh here
+        mRefreshLayout.setEnabled(false);
         mAdapter.setOnItemClickListener(this);
     }
 
@@ -58,7 +59,7 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
         SubjectActivity.toActivity(getActivity(), id, imageUrl);
     }
 
-    private class MyAsyncTask extends AsyncTask<Void, Void, List<SubjectBean>> {
+    private class FavoriteAsyncTask extends AsyncTask<Void, Void, List<SubjectBean>> {
 
         @Override
         protected void onPreExecute() {

@@ -6,7 +6,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="@dimen/size_3dp"
                                     app:cardCornerRadius="@dimen/size_4dp"
-                                    app:cardElevation="@dimen/size_2dp"
+                                    app:cardElevation="@dimen/size_1dp"
     >
 
     <LinearLayout
@@ -16,9 +16,9 @@
         >
 
         <ImageView
-            android:id="@+id/iv_item_collect_image"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
+            android:id="@+id/iv_item_favorite_image"
+            android:layout_width="92dp"
+            android:layout_height="128dp"
             tools:ignore="ContentDescription"
             />
 
@@ -30,13 +30,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_8dp"
                 android:orientation="vertical"
                 android:padding="@dimen/size_16dp"
                 >
 
                 <TextView
-                    android:id="@+id/tv_item_collect_title"
+                    android:id="@+id/tv_item_favorite_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_black_1000"
@@ -44,7 +44,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_item_collect_cel"
+                    android:id="@+id/tv_item_favorite_cel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_4dp"
@@ -64,7 +64,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_item_collect_rating"
+                android:id="@+id/tv_item_favorite_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -73,7 +73,6 @@
                 android:textColor="@color/gray_white_1000"
                 android:textSize="@dimen/size_14sp"
                 />
-
         </FrameLayout>
 
     </LinearLayout>

@@ -1,4 +1,4 @@
-package com.demon.doubanmovies;
+package com.demon.doubanmovies.widget;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -20,10 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.demon.doubanmovies.R;
+
 import java.lang.reflect.Method;
 
 
-public class IzzySearchView extends LinearLayout {
+public class SearchMovieView extends LinearLayout {
     static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
 
     private boolean mClearingFocus;
@@ -38,7 +40,7 @@ public class IzzySearchView extends LinearLayout {
                     getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
             if (imm != null) {
-                HIDDEN_METHOD_INVOKER.showSoftInputUnchecked(imm, IzzySearchView.this, 0);
+                HIDDEN_METHOD_INVOKER.showSoftInputUnchecked(imm, SearchMovieView.this, 0);
             }
         }
     };
@@ -49,11 +51,11 @@ public class IzzySearchView extends LinearLayout {
         }
     };
 
-    public IzzySearchView(Context context) {
+    public SearchMovieView(Context context) {
         this(context, null);
     }
 
-    public IzzySearchView(Context context, AttributeSet attrs) {
+    public SearchMovieView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         LayoutInflater inflater = (LayoutInflater) context
@@ -248,14 +250,14 @@ public class IzzySearchView extends LinearLayout {
 
     public static class SearchAutoComplete extends AutoCompleteTextView {
         private int mThreshold;
-        private IzzySearchView mSearchView;
+        private SearchMovieView mSearchView;
 
         public SearchAutoComplete(Context context, AttributeSet attrs) {
             super(context, attrs);
             mThreshold = getThreshold();
         }
 
-        void setSearchView(IzzySearchView searchView) {
+        void setSearchView(SearchMovieView searchView) {
             mSearchView = searchView;
         }
 

@@ -26,6 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
 public class BoxAdapter extends BaseAdapter<BoxAdapter.ViewHolder> {
 
     private static final int FIRST = 1;
