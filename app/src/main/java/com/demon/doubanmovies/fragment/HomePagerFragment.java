@@ -5,7 +5,6 @@ import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -29,7 +28,6 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.BaseAdapter;
-import com.demon.doubanmovies.adapter.BoxAdapter;
 import com.demon.doubanmovies.adapter.SimpleSubjectAdapter;
 import com.demon.doubanmovies.db.bean.BoxSubjectBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
@@ -84,7 +82,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     private String mDataString;
     private SimpleSubjectAdapter mSubjectAdapter;
-    private BoxAdapter mBoxAdapter;
+    private SimpleSubjectAdapter mBoxAdapter;
     private List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
     private List<BoxSubjectBean> mBoxData = new ArrayList<>();
     private OnScrollListener mScrollListener;
@@ -132,7 +130,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (isFirstRefresh || sharedPreferences.getBoolean(AUTO_REFRESH, false)) {
-            updateFilmData();
+            updateMovieData();
             isFirstRefresh = false;
         }
     }
@@ -172,7 +170,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
             @Override
             public void onRefresh() {
                 mStart = 0;
-                updateFilmData();
+                updateMovieData();
             }
         });
         mFloatingButton.setOnClickListener(new OnClickListener() {
@@ -192,8 +190,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         int padding = DensityUtil.dp2px(getContext(), 2f);
         setPaddingForRecyclerView(-padding);
 
-        Resources res = getResources();
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), res.getInteger(R.integer.num_columns)));
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
+                getResources().getInteger(R.integer.num_columns));
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setBackgroundResource(R.color.gray_100);
 
         //请求网络数据前先加载上次的电影数据
@@ -213,13 +212,20 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         int padding = DensityUtil.dp2px(getContext(), 2f);
         setPaddingForRecyclerView(padding);
 
-        GridLayoutManager boxManager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager boxManager = new GridLayoutManager(getActivity(),
+                getResources().getInteger(R.integer.num_columns));
         mRecyclerView.setLayoutManager(boxManager);
         //请求网络数据前先加载上次的电影数据
         if (getRecord() != null) {
             mBoxData = new Gson().fromJson(getRecord(), simpleBoxTypeList);
         }
-        mBoxAdapter = new BoxAdapter(getActivity(), mBoxData);
+
+        List<SimpleSubjectBean> data = new ArrayList<>();
+        for (int i = 0; i < mBoxData.size(); i++) {
+            data.add(mBoxData.get(i).getSubject());
+        }
+
+        mBoxAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
         mBoxAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mBoxAdapter);
     }
@@ -232,7 +238,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     //更新电影数据
-    private void updateFilmData() {
+    private void updateMovieData() {
         switch (mTitlePos) {
             case POS_IN_THEATERS:
                 mRequestUrl = API + IN_THEATERS;
@@ -313,9 +319,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    LinearLayoutManager lm = (LinearLayoutManager) HomePagerFragment.this.mRecyclerView.getLayoutManager();
-                    lastVisibleItem = lm.findLastVisibleItemPosition();
-                    if (lm.findFirstVisibleItemPosition() == 0) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+                    lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                    if (layoutManager.findFirstVisibleItemPosition() == 0) {
                         if (isShow) {
                             animatorForGone();
                             isShow = false;
@@ -376,7 +382,13 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                             mDataString = response.getString(JSON_SUBJECTS);
                             mBoxData = gson.fromJson(mDataString,
                                     simpleBoxTypeList);
-                            mBoxAdapter.updateList(mBoxData);
+
+                            List<SimpleSubjectBean> data = new ArrayList<>();
+                            for (int i = 0; i < mBoxData.size(); i++) {
+                                data.add(mBoxData.get(i).getSubject());
+                            }
+
+                            mBoxAdapter.updateList(data, data.size());
                             saveRecord();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -396,7 +408,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     @Override
-    public void onItemClick(String id, String imageUrl) {
+    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         if (id.equals(SimpleSubjectAdapter.FOOT_VIEW_ID)) {
             loadMore();
         } else {

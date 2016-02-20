@@ -44,6 +44,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SimpleActorAdapter;
 import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityEntity;
@@ -76,8 +77,7 @@ import butterknife.ButterKnife;
 import static android.app.ActivityOptions.makeSceneTransitionAnimation;
 
 public class SubjectActivity extends AppCompatActivity
-        implements SimpleMovieAdapter.OnItemClickListener,
-        SimpleActorAdapter.OnItemClickListener,
+        implements BaseAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener,
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
@@ -93,60 +93,38 @@ public class SubjectActivity extends AppCompatActivity
     private static final String URI_FOR_IMAGE = ".png";
 
 
-    @Bind(R.id.cl_container)
-    CoordinatorLayout mContainer;
-    @Bind(R.id.refresh_subject)
-    SwipeRefreshLayout mRefresh;
-    @Bind(R.id.btn_subject_skip)
-    FloatingActionButton mFloatingButton;
-    @Bind(R.id.nested_scroll_view)
-    NestedScrollView scrollView;
+    @Bind(R.id.cl_container) CoordinatorLayout mContainer;
+    @Bind(R.id.refresh_subject) SwipeRefreshLayout mRefresh;
+    @Bind(R.id.btn_subject_skip) FloatingActionButton mFloatingButton;
+    @Bind(R.id.nested_scroll_view) NestedScrollView scrollView;
     //movie header
-    @Bind(R.id.header_container_subj)
-    AppBarLayout mHeaderContainer;
-    @Bind(R.id.toolbar_container_subj)
-    CollapsingToolbarLayout mToolbarContainer;
-    @Bind(R.id.iv_header_subj)
-    ImageView mToolbarImage;
-    @Bind(R.id.toolbar_subj)
-    Toolbar mToolbar;
-    @Bind(R.id.rb_subject_rating)
-    RatingBar mRatingBar;
-    @Bind(R.id.tv_subject_rating)
-    TextView mRating;
-    @Bind(R.id.tv_subject_favorite_count)
-    TextView mCollect;
-    @Bind(R.id.tv_subject_title)
-    TextView mTitle;
-    @Bind(R.id.tv_subject_genres)
-    TextView mGenres;
-    @Bind(R.id.tv_subject_countries)
-    TextView mCountries;
-    @Bind(R.id.movie_container_subj)
-    LinearLayout mFilmContainer;
+    @Bind(R.id.header_container_subject) AppBarLayout mHeaderContainer;
+    @Bind(R.id.toolbar_container_subject) CollapsingToolbarLayout mToolbarContainer;
+    @Bind(R.id.iv_header_subject) ImageView mToolbarImage;
+    @Bind(R.id.toolbar_subject) Toolbar mToolbar;
+    @Bind(R.id.rb_subject_rating) RatingBar mRatingBar;
+    @Bind(R.id.tv_subject_rating) TextView mRating;
+    @Bind(R.id.tv_subject_favorite_count) TextView mCollect;
+    @Bind(R.id.tv_subject_title) TextView mTitle;
+    @Bind(R.id.tv_subject_genres) TextView mGenres;
+    @Bind(R.id.tv_subject_countries) TextView mCountries;
+    @Bind(R.id.movie_container_subject) LinearLayout mFilmContainer;
     // movie summary
-    @Bind(R.id.tv_summary_hint)
-    TextView mSummaryTip;
-    @Bind(R.id.tv_subject_summary)
-    TextView mSummaryText;
+    @Bind(R.id.tv_summary_hint) TextView mSummaryTip;
+    @Bind(R.id.tv_subject_summary) TextView mSummaryText;
 
     // movie actor
-    @Bind(R.id.tv_subject_actor)
-    TextView mActorTip;
-    @Bind(R.id.re_subject_actor)
-    RecyclerView mActor;
+    @Bind(R.id.tv_subject_actor) TextView mActorTip;
+    @Bind(R.id.re_subject_actor) RecyclerView mActor;
 
     // movie recommend
-    @Bind(R.id.tv_subject_recommend_tip)
-    TextView mRecommendTip;
-    @Bind(R.id.re_subject_recommend)
-    RecyclerView mRecommend;
+    @Bind(R.id.tv_subject_recommend_tip) TextView mRecommendTip;
+    @Bind(R.id.re_subject_recommend) RecyclerView mRecommend;
 
     // movie subject
     private String mId;
     private String mContent;
     private SubjectBean mSubject;
-
 
     private String mActorTags;
     private List<SimpleActorBean> mActorData = new ArrayList<>();
@@ -272,6 +250,7 @@ public class SubjectActivity extends AppCompatActivity
 
                         Bitmap blurBitmap = BitmapUtil.fastBlur(loadedImage, 25);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
+                        // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
                         /** toolbar模糊背景 */
                         mToolbarContainer.setBackground(drawable);
@@ -318,7 +297,6 @@ public class SubjectActivity extends AppCompatActivity
                 });
         MovieApplication.addRequest(stringRequest, mId);
     }
-
 
     /**
      * 得到网络返回数据初始化界面
@@ -448,7 +426,12 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     @Override
-    public void itemClick(String id, String imageUrl, boolean isFilm) {
+    public void onItemClick(String id, String imageUrl, Boolean isFilm) {
+        if (id == null) {
+            Snackbar.make(mContainer, getString(R.string.no_detail_info), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+
         if (isFilm) {
             SubjectActivity.toActivity(this, id, imageUrl);
         } else {
@@ -461,7 +444,7 @@ public class SubjectActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu_sub, menu);
         MenuItem favorite = menu.findItem(R.id.action_sub_favorite);
         if (isCollect) {
-            favorite.setIcon(R.drawable.ic_action_collect);
+            favorite.setIcon(R.drawable.ic_action_collected);
         } else {
             favorite.setIcon(R.drawable.ic_action_uncollected);
         }
@@ -586,8 +569,9 @@ public class SubjectActivity extends AppCompatActivity
         }
     }
 
+    /*
     @Override
-    public void itemClick(String id, String imageUrl) {
+    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         if (id == null) {
             Snackbar.make(mContainer, getString(R.string.no_detail_info), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
@@ -595,5 +579,6 @@ public class SubjectActivity extends AppCompatActivity
             CelebrityActivity.toActivity(SubjectActivity.this, id);
         }
     }
+    */
 
 }

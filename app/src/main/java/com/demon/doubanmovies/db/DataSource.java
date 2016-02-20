@@ -45,12 +45,11 @@ public final class DataSource {
         mDatabase = mHelper.getWritableDatabase();
     }
 
-    //------------------------操作收藏电影-------------------------------
 
     /**
-     * 插入movieId对应的film
+     * 插入movieId对应的movie
      */
-    private void insertFilm(String id, String content) {
+    private void insertMovie(String id, String content) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_FILM, id);
         values.put(DBHelper.COLUMN_CONTENT, content);
@@ -58,9 +57,9 @@ public final class DataSource {
     }
 
     /**
-     * 更新movieId对应的film
+     * 更新movieId对应的movie
      */
-    private void upDataFilm(String id, String content) {
+    private void updateMovie(String id, String content) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_FILM, id);
         values.put(DBHelper.COLUMN_CONTENT, content);
@@ -68,7 +67,7 @@ public final class DataSource {
     }
 
     /**
-     * 通过movieId的到对应的film
+     * 通过movieId的到对应的movie
      */
     public SubjectBean movieOfId(String id) {
         Cursor cursor = mDatabase.query(DBHelper.TABLE_NAME_COLL, allColumnsForCol,
@@ -91,21 +90,21 @@ public final class DataSource {
     }
 
     /**
-     * 如果movieId对应的film存在，更新数据；
+     * 如果movieId对应的movie存在，更新数据；
      * 否则，插入数据
      */
     public void insertOrUpDataFilm(String id, String content) {
         if (movieOfId(id) == null) {
-            insertFilm(id, content);
+            insertMovie(id, content);
         } else {
-            upDataFilm(id, content);
+            updateMovie(id, content);
         }
     }
 
     /**
      * 得到所有的favoriteTable中的电影
      */
-    public List<SubjectBean> getFilmForCollected() {
+    public List<SubjectBean> getMovieForCollected() {
         Cursor cursor = mDatabase.query(
                 DBHelper.TABLE_NAME_COLL, allColumnsForCol, null, null, null, null, null);
         cursor.moveToFirst();
@@ -121,15 +120,11 @@ public final class DataSource {
     }
 
     /**
-     * 删除movieId对应的film数据
+     * 删除movieId对应的movie数据
      */
     public void deleteFilm(String id) {
         mDatabase.delete(DBHelper.TABLE_NAME_COLL, DBHelper.COLUMN_FILM + " = " + id, null);
     }
-
-    //------------------------操作收藏电影-------------------------------
-
-    //------------------------操作top250数据-----------------------------
 
     /**
      * 插入top排名对应的数据内容
@@ -150,7 +145,7 @@ public final class DataSource {
     /**
      * 更新top排名对应的数据内容
      */
-    public List<SimpleSubjectBean> upDateTop(String top, String content) {
+    public List<SimpleSubjectBean> updateTop(String top, String content) {
         ContentValues values = new ContentValues();
         values.put(
                 DBHelper.COLUMN_TOP,
@@ -190,7 +185,7 @@ public final class DataSource {
         if (getTop(top) == null) {
             return insertTop(top, content);
         } else {
-            return upDateTop(top, content);
+            return updateTop(top, content);
         }
     }
 
@@ -201,6 +196,4 @@ public final class DataSource {
         }
         return null;
     }
-
-    //------------------------操作top250数据-----------------------------
 }

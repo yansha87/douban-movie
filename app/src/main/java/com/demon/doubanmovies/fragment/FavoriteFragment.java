@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
     }
 
     @Override
-    public void onItemClick(String id, String imageUrl) {
+    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         SubjectActivity.toActivity(getActivity(), id, imageUrl);
     }
 
@@ -68,7 +67,7 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
 
         @Override
         protected List<SubjectBean> doInBackground(Void... voids) {
-            return MovieApplication.getDataSource().getFilmForCollected();
+            return MovieApplication.getDataSource().getMovieForCollected();
         }
 
         @Override

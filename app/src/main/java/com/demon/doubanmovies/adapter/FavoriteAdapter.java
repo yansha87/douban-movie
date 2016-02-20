@@ -64,14 +64,10 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_favorite_image)
-        ImageView imageMovie;
-        @Bind(R.id.tv_item_favorite_rating)
-        TextView textRating;
-        @Bind(R.id.tv_item_favorite_title)
-        TextView textTitle;
-        @Bind(R.id.tv_item_favorite_cel)
-        TextView textCast;
+        @Bind(R.id.iv_item_favorite_image) ImageView imageMovie;
+        @Bind(R.id.tv_item_favorite_rating) TextView textRating;
+        @Bind(R.id.tv_item_favorite_title) TextView textTitle;
+        @Bind(R.id.tv_item_favorite_cel) TextView textCast;
 
         SubjectBean subjectBean;
 
@@ -110,7 +106,7 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
             if (mCallback != null) {
                 int position = getLayoutPosition();
                 mCallback.onItemClick(mData.get(position).getId(),
-                        mData.get(position).getImages().getLarge());
+                        mData.get(position).getImages().getLarge(), true);
             }
         }
     }

@@ -65,6 +65,6 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String id, String imageUrl);
+        void onItemClick(String id, String imageUrl, Boolean isFilm);
     }
 }

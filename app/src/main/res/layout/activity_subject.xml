@@ -14,7 +14,7 @@
         >
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/header_container_subj"
+            android:id="@+id/header_container_subject"
             android:layout_width="match_parent"
             android:layout_height="292dp"
             android:fitsSystemWindows="true"
@@ -22,7 +22,7 @@
             >
 
             <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_container_subj"
+                android:id="@+id/toolbar_container_subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
@@ -31,7 +31,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/iv_header_subj"
+                    android:id="@+id/iv_header_subject"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
@@ -44,7 +44,7 @@
                     />
 
                 <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar_subj"
+                    android:id="@+id/toolbar_subject"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
@@ -65,7 +65,7 @@
             >
 
             <LinearLayout
-                android:id="@+id/movie_container_subj"
+                android:id="@+id/movie_container_subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_white_1000"
@@ -216,7 +216,7 @@
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:src="@drawable/ic_skip"
-            app:layout_anchor="@id/header_container_subj"
+            app:layout_anchor="@id/header_container_subject"
             app:layout_anchorGravity="bottom|right|end"
             />
 

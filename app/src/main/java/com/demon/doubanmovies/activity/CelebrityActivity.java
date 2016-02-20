@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityBean;
 import com.demon.doubanmovies.db.bean.SimpleCardBean;
@@ -36,7 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class CelebrityActivity extends BaseActivity
-        implements SimpleMovieAdapter.OnItemClickListener {
+        implements BaseAdapter.OnItemClickListener {
 
     private static final String VOLLEY_TAG = "CelActivity";
     private static final String KEY_CEL_ID = "cel_id";
@@ -202,7 +203,7 @@ public class CelebrityActivity extends BaseActivity
     }
 
     @Override
-    public void itemClick(String id, String imageUrl, boolean isCom) {
+    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         SubjectActivity.toActivity(this, id, imageUrl);
     }
 

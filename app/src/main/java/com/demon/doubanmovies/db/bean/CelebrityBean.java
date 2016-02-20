@@ -4,17 +4,17 @@ import java.util.List;
 
 public class CelebrityBean {
 
-    private String mobile_url;//条目移动版url
-    private String name;//中文名
-    private String name_en;//英文名
-    private String gender;//性别
-    private ImagesEntity avatars;//影人头像
-    private String alt;//条目页url
-    private String born_place;//出生地
-    private String id;//条目id
-    private List<String> aka_en;//更多英文名
-    private List<String> aka;//更多中文名
-    private List<WorksEntity> works;//影人作品,最多五部
+    private String mobile_url;         // 条目移动版url
+    private String name;               // 中文名
+    private String name_en;            // 英文名
+    private String gender;             // 性别
+    private ImagesEntity avatars;      // 影人头像
+    private String alt;                // 条目页url
+    private String born_place;         // 出生地
+    private String id;                 // 条目id
+    private List<String> aka_en;       // 更多英文名
+    private List<String> aka;          // 更多中文名
+    private List<WorksEntity> works;   // 影人作品,最多五部
 
     public void setMobile_url(String mobile_url) {
         this.mobile_url = mobile_url;

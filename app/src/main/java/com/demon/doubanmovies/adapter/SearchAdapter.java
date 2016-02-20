@@ -48,24 +48,15 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_search_images)
-        ImageView imageMovie;
-        @Bind(R.id.rb_item_search_rating)
-        RatingBar ratingBar;
-        @Bind(R.id.tv_item_search_rating)
-        TextView textRating;
-        @Bind(R.id.tv_item_search_favorite_count)
-        TextView textCollectCount;
-        @Bind(R.id.tv_item_search_title)
-        TextView textTitle;
-        @Bind(R.id.tv_item_search_original_title)
-        TextView textOriginalTitle;
-        @Bind(R.id.tv_item_search_genres)
-        TextView textGenres;
-        @Bind(R.id.tv_item_search_director)
-        TextView textDirector;
-        @Bind(R.id.tv_item_search_cast)
-        TextView textCast;
+        @Bind(R.id.iv_item_search_images) ImageView imageMovie;
+        @Bind(R.id.rb_item_search_rating) RatingBar ratingBar;
+        @Bind(R.id.tv_item_search_rating) TextView textRating;
+        @Bind(R.id.tv_item_search_favorite_count) TextView textCollectCount;
+        @Bind(R.id.tv_item_search_title) TextView textTitle;
+        @Bind(R.id.tv_item_search_original_title) TextView textOriginalTitle;
+        @Bind(R.id.tv_item_search_genres) TextView textGenres;
+        @Bind(R.id.tv_item_search_director) TextView textDirector;
+        @Bind(R.id.tv_item_search_actor) TextView textActor;
 
         SimpleSubjectBean mSubject;
 
@@ -90,14 +81,12 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
             }
             textGenres.setText(StringUtil.getListString(mSubject.getGenres(), ','));
             textDirector.setText(mContext.getString(R.string.directors));
-            // textDirector.append(CelebrityUtil.list2String(mSubject.getDirectors(), '/'));
             for (int i = 0; i < mSubject.getDirectors().size(); i++) {
-                textCast.append('/' + mSubject.getDirectors().get(i).getName());
+                textActor.append('/' + mSubject.getDirectors().get(i).getName());
             }
-            textCast.setText(mContext.getString(R.string.actors));
-            // textCast.append(CelebrityUtil.list2String(mSubject.getCasts(), '/'));
+            textActor.setText(mContext.getString(R.string.actors));
             for (int i = 0; i < mSubject.getCasts().size(); i++) {
-                textCast.append('/' + mSubject.getCasts().get(i).getName());
+                textActor.append('/' + mSubject.getCasts().get(i).getName());
             }
             imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, options);
         }
@@ -107,7 +96,7 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
             if (mCallback != null) {
                 int position = getLayoutPosition();
                 mCallback.onItemClick(mData.get(position).getId(),
-                        mData.get(position).getImages().getLarge());
+                        mData.get(position).getImages().getLarge(), false);
             }
         }
     }

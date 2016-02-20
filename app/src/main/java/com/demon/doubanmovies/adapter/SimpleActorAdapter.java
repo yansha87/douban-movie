@@ -23,23 +23,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SimpleActorAdapter extends RecyclerView.Adapter<SimpleActorAdapter.ViewHolder> {
+public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolder> {
 
     private static final String TAG = "SimpleActorAdapter";
     private Context mContext;
     private List<SimpleActorBean> mData = new ArrayList<>();
-    private OnItemClickListener callback;
-
-    private ImageLoader imageLoader = ImageLoader.getInstance();
-    private DisplayImageOptions options = MovieApplication.getLoaderOptions();
-
 
     public SimpleActorAdapter(Context context) {
         mContext = context;
     }
 
     public void setOnItemClickListener(OnItemClickListener callback) {
-        this.callback = callback;
+        mCallback = callback;
     }
 
     @Override
@@ -66,10 +61,6 @@ public class SimpleActorAdapter extends RecyclerView.Adapter<SimpleActorAdapter.
             mData.add(mActorData.get(i));
             notifyItemInserted(i);
         }
-    }
-
-    public interface OnItemClickListener {
-        void itemClick(String id, String imageUrl);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -118,9 +109,9 @@ public class SimpleActorAdapter extends RecyclerView.Adapter<SimpleActorAdapter.
         @Override
         public void onClick(View view) {
             int pos = getLayoutPosition();
-            if (callback != null) {
-                callback.itemClick(mData.get(pos).getEntity().getId(),
-                        mData.get(pos).getEntity().getAvatars().getLarge());
+            if (mCallback != null) {
+                mCallback.onItemClick(mData.get(pos).getEntity().getId(),
+                        mData.get(pos).getEntity().getAvatars().getLarge(), false);
             }
         }
     }

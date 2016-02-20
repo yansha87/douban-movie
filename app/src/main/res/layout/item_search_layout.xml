@@ -103,7 +103,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_item_search_cast"
+                android:id="@+id/tv_item_search_actor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

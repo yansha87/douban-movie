@@ -160,7 +160,7 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemClick(String id, String imageUrl) {
+    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         SubjectActivity.toActivity(this, id, imageUrl);
     }
 }

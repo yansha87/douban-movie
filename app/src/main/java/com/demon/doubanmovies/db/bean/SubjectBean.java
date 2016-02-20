@@ -4,32 +4,32 @@ import java.util.List;
 
 public class SubjectBean {
 
-    private RatingEntity rating;//评分
-    private int reviews_count;//影评数量
-    private int wish_count;//想看人数
-    private int favorite_count;//看过人数
-    private String douban_site;//豆瓣小站
-    private String year;//年代
-    private ImagesEntity images;//电影海报图，分别提供288px x 465px(大)，96px x 155px(中) 64px x 103px(小)尺寸
-    private String alt;//条目页URL
-    private String id;//条目id
-    private String mobile_url;//移动版条目页URL
-    private String title;//中文名
-    private Object do_count;//在看人数，如果是电视剧，默认值为0，如果是电影值为null
-    private Object seasons_count;//总季数(tv only)
-    private String schedule_url;//影讯页URL(movie only)
-    private Object episodes_count;//当前季的集数(tv only)
-    private Object current_season;//当前季数(tv only)
-    private String original_title;//原名
-    private String summary;//简介
-    private String subtype;//条目分类, movie或者tv
-    private int comments_count;//短评数量
-    private int ratings_count;//评分人数
-    private List<String> genres;//影片类型，最多提供3个
-    private List<String> countries;//制片国家/地区
-    private List<CelebrityEntity> casts;//主演，最多可获得4个，数据结构为影人的简化描述
-    private List<CelebrityEntity> directors;//导演，数据结构为影人的简化描述
-    private List<String> aka;//又名
+    private RatingEntity rating;        // 评分
+    private int reviews_count;          // 影评数量
+    private int wish_count;             // 想看人数
+    private int collect_count;          // 看过人数
+    private String douban_site;         // 豆瓣小站
+    private String year;                // 年代
+    private ImagesEntity images;        // 电影海报图，分别提供288px x 465px(大)，96px x 155px(中) 64px x 103px(小)尺寸
+    private String alt;                 // 条目页URL
+    private String id;                  // 条目id
+    private String mobile_url;          // 移动版条目页URL
+    private String title;               // 中文名
+    private Object do_count;            // 在看人数，如果是电视剧，默认值为0，如果是电影值为null
+    private Object seasons_count;       // 总季数(tv only)
+    private String schedule_url;        // 影讯页URL(movie only)
+    private Object episodes_count;      // 当前季的集数(tv only)
+    private Object current_season;      // 当前季数(tv only)
+    private String original_title;      // 原名
+    private String summary;             // 简介
+    private String subtype;             // 条目分类, movie或者tv
+    private int comments_count;         // 短评数量
+    private int ratings_count;          // 评分人数
+    private List<String> genres;        // 影片类型，最多提供3个
+    private List<String> countries;     // 制片国家/地区
+    private List<CelebrityEntity> casts;// 主演，最多可获得4个，数据结构为影人的简化描述
+    private List<CelebrityEntity> directors;// 导演，数据结构为影人的简化描述
+    private List<String> aka;               // 又名
 
     public String getLocalImageFile() {
         return localImageFile;
@@ -53,8 +53,8 @@ public class SubjectBean {
         this.wish_count = wish_count;
     }
 
-    public void setCollect_count(int favorite_count) {
-        this.favorite_count = favorite_count;
+    public void setCollect_count(int collect_count) {
+        this.collect_count = collect_count;
     }
 
     public void setDouban_site(String douban_site) {
@@ -158,7 +158,7 @@ public class SubjectBean {
     }
 
     public int getCollect_count() {
-        return favorite_count;
+        return collect_count;
     }
 
     public String getDouban_site() {
