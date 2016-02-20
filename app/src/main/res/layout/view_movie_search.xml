@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/search_bar"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              android:orientation="horizontal"
+    >
+
+    <view
+        android:id="@+id/view_search_src_text"
+        class="com.demon.doubanmovies.widget.SearchMovieView$SearchAutoComplete"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="@dimen/size_36dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:background="@null"
+        android:ellipsize="end"
+        android:imeOptions="actionSearch"
+        android:inputType="textAutoComplete|textNoSuggestions"
+        android:paddingLeft="@dimen/size_8dp"
+        android:paddingRight="@dimen/size_8dp"
+        android:singleLine="true"
+        android:textColor="@color/gray_white_1000"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/size_15sp"
+        />
+
+    <ImageView
+        android:id="@+id/view_search_close_btn"
+        android:layout_width="@dimen/size_36dp"
+        android:layout_height="@dimen/size_36dp"
+        android:layout_gravity="center_vertical"
+        android:focusable="true"
+        android:paddingLeft="@dimen/size_4dp"
+        android:paddingRight="@dimen/size_8dp"
+        android:src="@drawable/ic_clear"
+        tools:ignore="ContentDescription"
+        />
+
+</LinearLayout>

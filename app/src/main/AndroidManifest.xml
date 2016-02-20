@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,10 +33,18 @@
             android:name=".transitions.DetailsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.CelebrityActivity"/>
-        <activity android:name=".activity.SearchActivity"/>
-        <activity android:name=".activity.SubjectActivity"/>
-        <activity android:name=".activity.WebActivity"/>
+        <activity
+            android:name=".activity.CelebrityActivity"
+            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".activity.SubjectActivity"
+            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".activity.WebActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>

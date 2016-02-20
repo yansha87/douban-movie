@@ -230,6 +230,7 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.action_search:
                 prepareIntent(SearchActivity.class);
+                //prepareIntent(Main2Activity.class);
                 break;
             // case R.id.action_settings:
             //    prepareIntent(PrefsActivity.class);

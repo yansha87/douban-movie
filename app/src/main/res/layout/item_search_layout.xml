@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="4dp"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/size_2dp"
+                                    app:cardCornerRadius="@dimen/size_2dp"
+                                    app:cardElevation="@dimen/size_1dp"
     >
 
     <LinearLayout
@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/iv_item_search_images"
-            android:layout_width="120dp"
-            android:layout_height="170dp"
+            android:layout_width="80dp"
+            android:layout_height="112dp"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription"
@@ -28,8 +28,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:padding="@dimen/size_8dp"
             >
+
+            <TextView
+                android:id="@+id/tv_item_search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:singleLine="true"
+                android:textColor="@color/gray_black_1000"
+                android:textSize="16sp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,65 +60,29 @@
                     android:id="@+id/tv_item_search_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:textColor="@color/red_500"
+                    android:layout_marginStart="@dimen/size_4dp"
+                    android:textColor="@color/gray_500"
+                    android:textSize="@dimen/size_12sp"
                     />
 
                 <TextView
                     android:id="@+id/tv_item_search_favorite_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray_800"
-                    android:textSize="12sp"
+                    android:textColor="@color/gray_500"
+                    android:textSize="@dimen/size_12sp"
                     />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_item_search_title"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_item_search_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:singleLine="true"
-                android:textColor="@color/gray_black_1000"
-                android:textSize="16sp"
-                />
-
-            <TextView
-                android:id="@+id/tv_item_search_original_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:singleLine="true"
-                android:textColor="@color/gray_black_1000"
-                android:textSize="12sp"
-                />
-
-            <TextView
-                android:id="@+id/tv_item_search_genres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/size_4dp"
+                android:maxLines="2"
                 android:textColor="@color/gray_500"
-                />
-
-
-            <TextView
-                android:id="@+id/tv_item_search_director"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:singleLine="true"
-                android:textColor="@color/blue_500"
-                />
-
-            <TextView
-                android:id="@+id/tv_item_search_actor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:singleLine="true"
-                android:textColor="@color/blue_500"
+                android:textSize="@dimen/size_12sp"
                 />
 
         </LinearLayout>

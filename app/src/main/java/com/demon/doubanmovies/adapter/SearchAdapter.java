@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.utils.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -48,15 +48,18 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_search_images) ImageView imageMovie;
-        @Bind(R.id.rb_item_search_rating) RatingBar ratingBar;
-        @Bind(R.id.tv_item_search_rating) TextView textRating;
-        @Bind(R.id.tv_item_search_favorite_count) TextView textCollectCount;
-        @Bind(R.id.tv_item_search_title) TextView textTitle;
-        @Bind(R.id.tv_item_search_original_title) TextView textOriginalTitle;
-        @Bind(R.id.tv_item_search_genres) TextView textGenres;
-        @Bind(R.id.tv_item_search_director) TextView textDirector;
-        @Bind(R.id.tv_item_search_actor) TextView textActor;
+        @Bind(R.id.iv_item_search_images)
+        ImageView imageMovie;
+        @Bind(R.id.rb_item_search_rating)
+        RatingBar ratingBar;
+        @Bind(R.id.tv_item_search_rating)
+        TextView textRating;
+        @Bind(R.id.tv_item_search_favorite_count)
+        TextView textCollectCount;
+        @Bind(R.id.tv_item_search_title)
+        TextView textTitle;
+        @Bind(R.id.tv_item_search_content)
+        TextView textContent;
 
         SimpleSubjectBean mSubject;
 
@@ -69,26 +72,45 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
         public void update() {
             mSubject = mData.get(getLayoutPosition());
             ratingBar.setRating(((float) mSubject.getRating().getAverage()) / 2);
-            textRating.setText(String.format("%s", mSubject.getRating().getAverage()));
-            textCollectCount.setText(mContext.getString(R.string.favorite));
+            textRating.setText(String.format("%s ", mSubject.getRating().getAverage()));
+            textCollectCount.setText(mContext.getString(R.string.left_brackets));
             textCollectCount.append(String.format("%d", mSubject.getCollect_count()));
             textCollectCount.append(mContext.getString(R.string.count));
             textTitle.setText(mSubject.getTitle());
-            if (mSubject.getOriginal_title().equals(mSubject.getTitle())) {
-                textOriginalTitle.setVisibility(View.GONE);
-            } else {
-                textOriginalTitle.setText(mSubject.getOriginal_title());
-            }
-            textGenres.setText(StringUtil.getListString(mSubject.getGenres(), ','));
-            textDirector.setText(mContext.getString(R.string.directors));
-            for (int i = 0; i < mSubject.getDirectors().size(); i++) {
-                textActor.append('/' + mSubject.getDirectors().get(i).getName());
-            }
-            textActor.setText(mContext.getString(R.string.actors));
-            for (int i = 0; i < mSubject.getCasts().size(); i++) {
-                textActor.append('/' + mSubject.getCasts().get(i).getName());
-            }
+
+            // 设置搜索结果
+            setSearchResult();
+
             imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, options);
+        }
+
+        private void setSearchResult() {
+            List<String> entries = new ArrayList<>();
+            if (mSubject.getDirectors().size() > 0) {
+                entries.add(mSubject.getDirectors().get(0).getName() + mContext.getString(R.string.director));
+            }
+
+            for (int i = 0; i < mSubject.getCasts().size(); i++) {
+                textContent.append(mSubject.getCasts().get(i).getName() + "/");
+                entries.add(mSubject.getCasts().get(i).getName());
+            }
+            for (int i = 0; i < mSubject.getGenres().size(); i++) {
+                entries.add(mSubject.getGenres().get(i));
+            }
+
+            if (mSubject.getYear().length() > 0) {
+                entries.add(mSubject.getYear());
+            }
+
+            StringBuffer stringBuffer = new StringBuffer();
+            if (entries.size() > 0) {
+                String sep = "/";
+                for (String entry : entries) {
+                    stringBuffer.append(entry).append(sep);
+                }
+
+                textContent.setText(stringBuffer.substring(0, stringBuffer.length() - 1));
+            }
         }
 
         @Override

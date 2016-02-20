@@ -15,13 +15,13 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.widget.SearchMovieView;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SearchAdapter;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.Constant;
+import com.demon.doubanmovies.widget.SearchMovieView;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
@@ -40,10 +40,8 @@ public class SearchActivity extends AppCompatActivity
     private static final String VOLLEY_TAG = "SearchActivity";
     private static final String JSON_SUBJECTS = "subjects";
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.rv_search)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.rv_search) RecyclerView mRecyclerView;
 
     private SearchAdapter mAdapter;
     private List<SimpleSubjectBean> mData;
@@ -89,18 +87,18 @@ public class SearchActivity extends AppCompatActivity
             }
         });
 
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        relativeLayout.addView(mSearchView);
+        // RelativeLayout relativeLayout = new RelativeLayout(this);
+        // relativeLayout.addView(mSearchView);
 
-        mToolbar.addView(relativeLayout);
+        mToolbar.addView(mSearchView);
         setSupportActionBar(mToolbar);
+
         //给左上角图标的左边加上一个返回的图标.对应ActionBar.DISPLAY_HOME_AS_UP
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_search);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(manager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     private void getDataFromUrl(String url) {
@@ -118,7 +116,7 @@ public class SearchActivity extends AppCompatActivity
                                 mDialog.dismiss();
                                 mDialog = null;
                             }
-                            if (mData.size() < 1) {
+                            if (mData.size() == 0) {
                                 Toast.makeText(SearchActivity.this, no_result,
                                         Toast.LENGTH_SHORT).show();
                             } else {

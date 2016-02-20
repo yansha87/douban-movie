@@ -68,7 +68,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:lineSpacingMultiplier="1.2"
-                android:text="@string/lorem"
+                android:text="xxxxxxxxxxxxxx"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:textSize="20sp"
                 />

@@ -24,14 +24,18 @@ import com.demon.doubanmovies.R;
 
 import java.lang.reflect.Method;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class SearchMovieView extends LinearLayout {
     static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
+    @Bind(R.id.view_search_src_text)
+    SearchAutoComplete mQueryTextView;
+    @Bind(R.id.view_search_close_btn)
+    ImageView mClearTextButton;
 
     private boolean mClearingFocus;
-
-    private SearchAutoComplete mQueryTextView;
-    private ImageView mClearTextButton;
     private OnQueryTextListener mOnQueryChangeListener;
     private CharSequence mQueryHint;
     private Runnable mShowImeRunnable = new Runnable() {
@@ -60,13 +64,10 @@ public class SearchMovieView extends LinearLayout {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.view_izzy_search, this, true);
+        inflater.inflate(R.layout.view_movie_search, this, true);
+        ButterKnife.bind(this);
 
-        mQueryTextView = (SearchAutoComplete) findViewById(R.id.view_search_src_text);
         mQueryTextView.setSearchView(this);
-
-        mClearTextButton = (ImageView) findViewById(R.id.view_search_close_btn);
-
         mClearTextButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
@@ -100,7 +101,7 @@ public class SearchMovieView extends LinearLayout {
         });
 
         setFocusable(true);
-        updateViewsVisibility();
+        updateCloseButton();
     }
 
     static boolean isLandscapeMode(Context context) {
@@ -115,7 +116,7 @@ public class SearchMovieView extends LinearLayout {
 
         boolean result = mQueryTextView.requestFocus(direction, previouslyFocusedRect);
         if (result) {
-            updateViewsVisibility();
+            updateCloseButton();
         }
 
         return result;
@@ -175,15 +176,11 @@ public class SearchMovieView extends LinearLayout {
     }
 
     void onTextFocusChanged() {
-        updateViewsVisibility();
+        updateCloseButton();
         postUpdateFocusedState();
         if (mQueryTextView.hasFocus()) {
             forceSuggestionQuery();
         }
-    }
-
-    private void updateViewsVisibility() {
-        updateCloseButton();
     }
 
     private void updateCloseButton() {
@@ -197,7 +194,7 @@ public class SearchMovieView extends LinearLayout {
     }
 
     private void updateFocusedState() {
-        boolean focused = mQueryTextView.hasFocus();
+        mQueryTextView.hasFocus();
         invalidate();
     }
 
@@ -221,10 +218,10 @@ public class SearchMovieView extends LinearLayout {
     }
 
     private CharSequence getDecoratedHint(CharSequence hintText) {
-        Spannable ssb = new SpannableString(hintText);
-        ssb.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_200)),
+        Spannable spannable = new SpannableString(hintText);
+        spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_200)),
                 0, hintText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return ssb;
+        return spannable;
     }
 
     private void updateQueryHint() {

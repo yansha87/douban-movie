@@ -6,10 +6,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eget interdum ante, at adipiscing ipsum. Phasellus pellentesque commodo libero, id volutpat ipsum pretium at. Duis sit amet egestas nisi. Donec id dui eu lectus volutpat posuere. Nunc et viverra ante, vel malesuada tortor. Pellentesque ut interdum tellus, sit amet hendrerit dui. Sed accumsan, nisl eu tincidunt tempus, neque lorem sodales odio, non tristique orci lorem quis augue. In sodales rutrum faucibus. Morbi egestas massa sit amet ante pellentesque, eu laoreet ante congue. Sed aliquet, dolor ac placerat pellentesque, risus leo fermentum quam, eget eleifend tellus nulla euismod tellus. Donec adipiscing cursus leo et faucibus. Aliquam erat volutpat.</string>
-    <string name="small">small</string>
-    <string name="medium">medium</string>
-    <string name="list">list</string>
     <string name="search_failed">search failed!</string>
     <string name="searching_for">searching ...</string>
 
@@ -27,10 +23,6 @@
     <string name="user_edit">用户设置…</string>
     <string name="ok">确定</string>
     <string name="select_header">请选择获得头像方式</string>
-    <!--
-    <string name="openDrawer">open</string>
-    <string name="closeDrawer">close</string>
-    -->
     <!--MainActivity-->
     <string name="favorite_completed">收藏成功!</string>
     <string name="favorite_cancel">取消收藏!</string>
@@ -42,7 +34,7 @@
     <string name="actors">主演:</string>
     <string name="dir_and_actor">(导演兼主演)</string>
     <string name="actor">(主演)</string>
-    <string name="favorite">(</string>
+    <string name="left_brackets">(</string>
     <string name="count">人评价)</string>
     <string name="box">票房:</string>
     <string name="ake">又名:</string>

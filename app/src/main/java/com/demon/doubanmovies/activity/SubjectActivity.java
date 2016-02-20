@@ -93,40 +93,60 @@ public class SubjectActivity extends AppCompatActivity
     private static final String URI_FOR_IMAGE = ".png";
 
 
-    @Bind(R.id.cl_container) CoordinatorLayout mContainer;
-    @Bind(R.id.refresh_subject) SwipeRefreshLayout mRefresh;
-    @Bind(R.id.btn_subject_skip) FloatingActionButton mFloatingButton;
-    @Bind(R.id.nested_scroll_view) NestedScrollView scrollView;
+    @Bind(R.id.cl_container)
+    CoordinatorLayout mContainer;
+    @Bind(R.id.refresh_subject)
+    SwipeRefreshLayout mRefresh;
+    @Bind(R.id.btn_subject_skip)
+    FloatingActionButton mFloatingButton;
+    @Bind(R.id.nested_scroll_view)
+    NestedScrollView scrollView;
     //movie header
-    @Bind(R.id.header_container_subject) AppBarLayout mHeaderContainer;
-    @Bind(R.id.toolbar_container_subject) CollapsingToolbarLayout mToolbarContainer;
-    @Bind(R.id.iv_header_subject) ImageView mToolbarImage;
-    @Bind(R.id.toolbar_subject) Toolbar mToolbar;
-    @Bind(R.id.rb_subject_rating) RatingBar mRatingBar;
-    @Bind(R.id.tv_subject_rating) TextView mRating;
-    @Bind(R.id.tv_subject_favorite_count) TextView mCollect;
-    @Bind(R.id.tv_subject_title) TextView mTitle;
-    @Bind(R.id.tv_subject_genres) TextView mGenres;
-    @Bind(R.id.tv_subject_countries) TextView mCountries;
-    @Bind(R.id.movie_container_subject) LinearLayout mFilmContainer;
+    @Bind(R.id.header_container_subject)
+    AppBarLayout mHeaderContainer;
+    @Bind(R.id.toolbar_container_subject)
+    CollapsingToolbarLayout mToolbarContainer;
+    @Bind(R.id.iv_header_subject)
+    ImageView mToolbarImage;
+    @Bind(R.id.toolbar_subject)
+    Toolbar mToolbar;
+    @Bind(R.id.rb_subject_rating)
+    RatingBar mRatingBar;
+    @Bind(R.id.tv_subject_rating)
+    TextView mRating;
+    @Bind(R.id.tv_subject_favorite_count)
+    TextView mCollect;
+    @Bind(R.id.tv_subject_title)
+    TextView mTitle;
+    @Bind(R.id.tv_subject_genres)
+    TextView mGenres;
+    @Bind(R.id.tv_subject_countries)
+    TextView mCountries;
+    @Bind(R.id.movie_container_subject)
+    LinearLayout mMovieContainer;
     // movie summary
-    @Bind(R.id.tv_summary_hint) TextView mSummaryTip;
-    @Bind(R.id.tv_subject_summary) TextView mSummaryText;
+    @Bind(R.id.tv_summary_tip)
+    TextView mSummaryTip;
+    @Bind(R.id.tv_subject_summary)
+    TextView mSummaryText;
 
     // movie actor
-    @Bind(R.id.tv_subject_actor) TextView mActorTip;
-    @Bind(R.id.re_subject_actor) RecyclerView mActor;
+    @Bind(R.id.tv_subject_actor_tip)
+    TextView mActorTip;
+    @Bind(R.id.re_subject_actor)
+    RecyclerView mActor;
 
     // movie recommend
-    @Bind(R.id.tv_subject_recommend_tip) TextView mRecommendTip;
-    @Bind(R.id.re_subject_recommend) RecyclerView mRecommend;
+    @Bind(R.id.tv_subject_recommend_tip)
+    TextView mRecommendTip;
+    @Bind(R.id.re_subject_recommend)
+    RecyclerView mRecommend;
 
     // movie subject
     private String mId;
     private String mContent;
     private SubjectBean mSubject;
 
-    private String mActorTags;
     private List<SimpleActorBean> mActorData = new ArrayList<>();
     private SimpleActorAdapter mActorAdapter;
 
@@ -236,6 +256,7 @@ public class SubjectActivity extends AppCompatActivity
         mRecommendMovieAdapter.update(mRecommendData);
 
         mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mId + URI_FOR_IMAGE);
+        // 判断从缓存加载图片还是从网络加载图片
         String imageUri = (mFile.exists() ?
                 String.format("%s%s", URI_FOR_FILE, mFile.getPath()) :
                 getIntent().getStringExtra(KEY_IMAGE_URL));
@@ -310,7 +331,7 @@ public class SubjectActivity extends AppCompatActivity
             mRating.setText(String.format("%s", rate * 2));
         }
 
-        mCollect.setText(getString(R.string.favorite));
+        mCollect.setText(getString(R.string.left_brackets));
         mCollect.append(String.format("%s", mSubject.getCollect_count()));
         mCollect.append(getString(R.string.count));
         mTitle.setText(String.format("%s   ", mSubject.getTitle()));
@@ -337,9 +358,9 @@ public class SubjectActivity extends AppCompatActivity
         getActorData();
 
         //显示View并配上动画
-        mFilmContainer.setAlpha(0f);
-        mFilmContainer.setVisibility(View.VISIBLE);
-        mFilmContainer.animate().alpha(1f).setDuration(800);
+        mMovieContainer.setAlpha(0f);
+        mMovieContainer.setVisibility(View.VISIBLE);
+        mMovieContainer.animate().alpha(1f).setDuration(800);
 
         //加载推荐
         mRecommendTip.setText(getString(R.string.recommend_loading));
@@ -545,7 +566,7 @@ public class SubjectActivity extends AppCompatActivity
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_subject_summary:
-            case R.id.tv_summary_hint:
+            case R.id.tv_summary_tip:
                 if (isSummaryShow) {
                     isSummaryShow = false;
                     mSummaryText.setEllipsize(TextUtils.TruncateAt.END);

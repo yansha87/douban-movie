@@ -151,7 +151,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_summary_hint"
+                    android:id="@+id/tv_summary_tip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/size_6dp"
@@ -168,7 +168,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_subject_actor"
+                    android:id="@+id/tv_subject_actor_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/size_4dp"
