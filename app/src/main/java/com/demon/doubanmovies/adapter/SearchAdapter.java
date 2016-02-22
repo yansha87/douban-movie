@@ -81,7 +81,7 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
             // 设置搜索结果
             setSearchResult();
 
-            imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, options);
+            imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, roundOptions);
         }
 
         private void setSearchResult() {

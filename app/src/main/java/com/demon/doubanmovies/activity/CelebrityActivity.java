@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +43,8 @@ public class CelebrityActivity extends BaseActivity
     private static final String VOLLEY_TAG = "CelActivity";
     private static final String KEY_CEL_ID = "cel_id";
 
+    private static final String TAG = "CelebrityActivity";
+
     @Bind(R.id.tv_cel_name)
     TextView mName;
     @Bind(R.id.tv_cel_name_en)
@@ -56,7 +59,7 @@ public class CelebrityActivity extends BaseActivity
     TextView mAkeEn;
     @Bind(R.id.iv_cel_image)
     ImageView mImage;
-    @Bind(R.id.tv_cel_works)
+    @Bind(R.id.tv_celebrity_works)
     TextView mWorks;
     @Bind(R.id.rv_cel_works)
     RecyclerView mWorksView;
@@ -83,6 +86,7 @@ public class CelebrityActivity extends BaseActivity
         ButterKnife.bind(this);
         initView();
         initData();
+        setActionBarTitle("");
     }
 
     private void initView() {

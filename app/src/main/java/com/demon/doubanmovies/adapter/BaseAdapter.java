@@ -21,6 +21,7 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
+    protected DisplayImageOptions roundOptions = MovieApplication.getLoaderRoundedOptions();
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mCallback = listener;

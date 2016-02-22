@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -35,13 +34,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity
-        implements BaseAdapter.OnItemClickListener {
+        implements BaseAdapter.OnItemClickListener, SearchMovieView.OnClearButtonListener {
 
     private static final String VOLLEY_TAG = "SearchActivity";
     private static final String JSON_SUBJECTS = "subjects";
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.rv_search) RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.rv_search)
+    RecyclerView mRecyclerView;
 
     private SearchAdapter mAdapter;
     private List<SimpleSubjectBean> mData;
@@ -87,9 +88,7 @@ public class SearchActivity extends AppCompatActivity
             }
         });
 
-        // RelativeLayout relativeLayout = new RelativeLayout(this);
-        // relativeLayout.addView(mSearchView);
-
+        mSearchView.setOnQueryTextListener(this);
         mToolbar.addView(mSearchView);
         setSupportActionBar(mToolbar);
 
@@ -160,5 +159,13 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         SubjectActivity.toActivity(this, id, imageUrl);
+    }
+
+    @Override
+    public boolean onClearButtonClick() {
+        // 清除 RecyclerView 中的内容
+        mData.clear();
+        mAdapter.notifyDataSetChanged();
+        return true;
     }
 }

@@ -33,7 +33,7 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
     }
 
 
-    public void add(List<SubjectBean> data) {
+    public void addData(List<SubjectBean> data) {
         for (int i = 0; i < data.size(); i++) {
             mData.add(data.get(i));
             notifyItemInserted(i);
@@ -43,7 +43,7 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
     public void update(List<SubjectBean> data) {
         this.mData.clear();
         notifyDataSetChanged();
-        add(data);
+        addData(data);
     }
 
     @Override
@@ -64,10 +64,14 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_favorite_image) ImageView imageMovie;
-        @Bind(R.id.tv_item_favorite_rating) TextView textRating;
-        @Bind(R.id.tv_item_favorite_title) TextView textTitle;
-        @Bind(R.id.tv_item_favorite_cel) TextView textCast;
+        @Bind(R.id.iv_item_favorite_image)
+        ImageView imageMovie;
+        @Bind(R.id.tv_item_favorite_rating)
+        TextView textRating;
+        @Bind(R.id.tv_item_favorite_title)
+        TextView textTitle;
+        @Bind(R.id.tv_item_favorite_cel)
+        TextView textCast;
 
         SubjectBean subjectBean;
 
@@ -94,10 +98,11 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
             for (int i = 0; i < subjectBean.getCasts().size(); i++) {
                 textCast.append('/' + subjectBean.getCasts().get(i).getName());
             }
+
             if (subjectBean.getLocalImageFile() != null) {
                 imageLoader.displayImage(
                         String.format("%s%s", URI_FOR_FILE, subjectBean.getLocalImageFile()),
-                        imageMovie, options);
+                        imageMovie, roundOptions);
             }
         }
 

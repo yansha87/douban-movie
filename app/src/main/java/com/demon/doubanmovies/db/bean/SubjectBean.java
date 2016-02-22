@@ -30,6 +30,8 @@ public class SubjectBean {
     private List<CelebrityEntity> casts;// 主演，最多可获得4个，数据结构为影人的简化描述
     private List<CelebrityEntity> directors;// 导演，数据结构为影人的简化描述
     private List<String> aka;               // 又名
+    private String localImageFile;
+
 
     public String getLocalImageFile() {
         return localImageFile;
@@ -38,8 +40,6 @@ public class SubjectBean {
     public void setLocalImageFile(String localImageFile) {
         this.localImageFile = localImageFile;
     }
-
-    private String localImageFile;
 
     public void setRating(RatingEntity rating) {
         this.rating = rating;

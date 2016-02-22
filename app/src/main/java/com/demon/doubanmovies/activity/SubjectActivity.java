@@ -134,7 +134,7 @@ public class SubjectActivity extends AppCompatActivity
     @Bind(R.id.tv_subject_actor_tip)
     TextView mActorTip;
     @Bind(R.id.re_subject_actor)
-    RecyclerView mActor;
+    RecyclerView mActorView;
 
     // movie recommend
     @Bind(R.id.tv_subject_recommend_tip)
@@ -243,10 +243,10 @@ public class SubjectActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mActor.setLayoutManager(new LinearLayoutManager(SubjectActivity.this,
+        mActorView.setLayoutManager(new LinearLayoutManager(SubjectActivity.this,
                 LinearLayoutManager.HORIZONTAL, false));
         mActorAdapter = new SimpleActorAdapter(this);
-        mActor.setAdapter(mActorAdapter);
+        mActorView.setAdapter(mActorAdapter);
         mActorAdapter.update(mActorData);
 
         mRecommend.setLayoutManager(new LinearLayoutManager(
@@ -273,7 +273,7 @@ public class SubjectActivity extends AppCompatActivity
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
                         // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
-                        /** toolbar模糊背景 */
+                        // toolbar模糊背景
                         mToolbarContainer.setBackground(drawable);
                     }
                 });
@@ -301,7 +301,7 @@ public class SubjectActivity extends AppCompatActivity
                     @Override
                     public void onResponse(String response) {
                         mContent = response;
-                        //如果movie已经收藏,更新数据
+                        // 如果movie已经收藏,更新数据
                         if (isCollect) saveMovie();
                         mSubject = new Gson().fromJson(mContent, Constant.subType);
                         initAfterGetData();
@@ -354,10 +354,10 @@ public class SubjectActivity extends AppCompatActivity
         mSummaryText.setOnClickListener(this);
         mSummaryTip.setOnClickListener(this);
 
-        //获得导演演员数据列表
+        // 获得导演和演员数据列表
         getActorData();
 
-        //显示View并配上动画
+        // 显示View并配上动画
         mMovieContainer.setAlpha(0f);
         mMovieContainer.setVisibility(View.VISIBLE);
         mMovieContainer.animate().alpha(1f).setDuration(800);
@@ -394,7 +394,7 @@ public class SubjectActivity extends AppCompatActivity
         }
 
         mActorAdapter.update(mActorData);
-        mActor.setVisibility(View.VISIBLE);
+        mActorView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -589,17 +589,5 @@ public class SubjectActivity extends AppCompatActivity
                 break;
         }
     }
-
-    /*
-    @Override
-    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
-        if (id == null) {
-            Snackbar.make(mContainer, getString(R.string.no_detail_info), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        } else {
-            CelebrityActivity.toActivity(SubjectActivity.this, id);
-        }
-    }
-    */
 
 }

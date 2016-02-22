@@ -3,7 +3,9 @@ package com.demon.doubanmovies.activity;
 import android.app.SharedElementCallback;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +33,9 @@ import com.demon.doubanmovies.utils.StringUtil;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static com.demon.doubanmovies.utils.StringUtil.RADIOHEAD_ALBUM_NAMES;
 
 public class MainActivity extends AppCompatActivity
@@ -43,6 +48,13 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private Bundle mTmpState;
     private boolean mIsReentering;
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawLayout;
+    @Bind(R.id.nav_view)
+    NavigationView mNavigationView;
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -138,34 +150,25 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
         setExitSharedElementCallback(mCallback);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // 开发时激活 StrictMode
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
+        }
+
         mTitle = getString(R.string.nav_home);
-        toolbar.setTitle(mTitle);
-        setSupportActionBar(toolbar);
+        mToolbar.setTitle(mTitle);
+        setSupportActionBar(mToolbar);
 
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this, FlickrSearchActivity.class);
-                startActivity(intent);
-            }
-        });
-        */
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, mDrawLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.getMenu().getItem(0).setChecked(true);
 
         mFragmentManager = getSupportFragmentManager();
         mCurFragment = mFragmentManager.findFragmentByTag(mTitle);
@@ -194,7 +197,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onPreDraw() {
                 mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
-                // TODO: hack! not sure why, but requesting a layout pass is necessary in order to fix re-mapping + scrolling glitches!
                 mRecyclerView.requestLayout();
                 startPostponedEnterTransition();
                 return true;
@@ -204,9 +206,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -247,10 +248,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         item.setChecked(true);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         // drawer.closeDrawer(GravityCompat.START);
-
-        drawer.closeDrawers();
+        mDrawLayout.closeDrawers();
         switchFragment(item.getTitle().toString());
         return true;
     }

@@ -83,38 +83,7 @@
                     android:textSize="18sp"
                     />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    >
-
-                    <RatingBar
-                        android:id="@+id/rb_subject_rating"
-                        style="@style/MovieRatingBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_subject_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/size_6dp"
-                        android:textColor="@color/gray_500"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_subject_favorite_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/size_6dp"
-                        android:textColor="@color/gray_500"
-                        android:textSize="@dimen/size_12sp"
-                        />
-                </LinearLayout>
+                <include layout="@layout/ll_rating"/>
 
                 <TextView
                     android:id="@+id/tv_subject_genres"

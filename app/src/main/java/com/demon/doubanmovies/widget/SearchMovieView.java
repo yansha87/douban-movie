@@ -37,6 +37,7 @@ public class SearchMovieView extends LinearLayout {
 
     private boolean mClearingFocus;
     private OnQueryTextListener mOnQueryChangeListener;
+    private OnClearButtonListener mOnClearButtonListener;
     private CharSequence mQueryHint;
     private Runnable mShowImeRunnable = new Runnable() {
         public void run() {
@@ -74,6 +75,8 @@ public class SearchMovieView extends LinearLayout {
                 if (!TextUtils.isEmpty(mQueryTextView.getText())) {
                     mQueryTextView.setText("");
                     mQueryTextView.requestFocus();
+                    if (mOnClearButtonListener != null)
+                        mOnClearButtonListener.onClearButtonClick();
                     setImeVisibility(true);
                 }
             }
@@ -170,6 +173,10 @@ public class SearchMovieView extends LinearLayout {
         mOnQueryChangeListener = listener;
     }
 
+    public void setOnQueryTextListener(OnClearButtonListener listener) {
+        mOnClearButtonListener = listener;
+    }
+
     private void forceSuggestionQuery() {
         HIDDEN_METHOD_INVOKER.doBeforeTextChanged(mQueryTextView);
         HIDDEN_METHOD_INVOKER.doAfterTextChanged(mQueryTextView);
@@ -243,6 +250,10 @@ public class SearchMovieView extends LinearLayout {
 
     public interface OnQueryTextListener {
         boolean onQueryTextSubmit(String query);
+    }
+
+    public interface OnClearButtonListener {
+        boolean onClearButtonClick();
     }
 
     public static class SearchAutoComplete extends AutoCompleteTextView {

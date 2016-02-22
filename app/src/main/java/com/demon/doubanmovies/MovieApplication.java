@@ -9,12 +9,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.demon.doubanmovies.db.DataSource;
 import com.demon.doubanmovies.network.OkHttpStack;
+import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.StringUtil;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -23,8 +26,37 @@ import java.sql.SQLException;
 public class MovieApplication extends Application {
 
     private static DisplayImageOptions mLoaderOptions;
+    private static DisplayImageOptions mLoaderRoundedOptions;
     private static RequestQueue mQueue;
     private static DataSource mSource;
+
+    public static DataSource getDataSource() {
+        return mSource;
+    }
+
+    public static RequestQueue getHttpQueue() {
+        return mQueue;
+    }
+
+    public static DisplayImageOptions getLoaderOptions() {
+        return mLoaderOptions;
+    }
+
+    public static DisplayImageOptions getLoaderRoundedOptions() {
+        return mLoaderRoundedOptions;
+    }
+
+    public static void addRequest(Request request, Object tag) {
+        request.setTag(tag);
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
+    public static void removeRequest(Object tag) {
+        mQueue.cancelAll(tag);
+    }
 
     @Override
     public void onCreate() {
@@ -41,7 +73,7 @@ public class MovieApplication extends Application {
         }
     }
 
-    public static void initImageLoader(Context context) {
+    public void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.
                 Builder(context).
                 denyCacheImageMultipleSizesInMemory().
@@ -59,30 +91,17 @@ public class MovieApplication extends Application {
                 cacheOnDisk(true).
                 considerExifParams(true).
                 build();
-    }
 
-    public static DataSource getDataSource() {
-        return mSource;
-    }
-
-    public static RequestQueue getHttpQueue() {
-        return mQueue;
-    }
-
-    public static DisplayImageOptions getLoaderOptions() {
-        return mLoaderOptions;
-    }
-
-    public static void addRequest(Request request, Object tag) {
-        request.setTag(tag);
-        request.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        mQueue.add(request);
-    }
-
-    public static void removeRequest(Object tag) {
-        mQueue.cancelAll(tag);
+        mLoaderRoundedOptions = new DisplayImageOptions.Builder().
+                showImageOnLoading(R.drawable.no_image).
+                showImageOnFail(R.drawable.no_image).
+                showImageForEmptyUri(R.drawable.no_image).
+                imageScaleType(ImageScaleType.EXACTLY_STRETCHED).
+                cacheInMemory(true).
+                cacheOnDisk(true).
+                considerExifParams(true).
+                displayer(new RoundedBitmapDisplayer(DensityUtil.dp2px(getApplicationContext(), 2f))).
+                build();
     }
 
 }
