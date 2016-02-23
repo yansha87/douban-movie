@@ -127,8 +127,8 @@ public class CelebrityActivity extends BaseActivity
                     return true;
                 }
                 WebActivity.toWebActivity(this,
-                        mCelebrity.getMobile_url(),
-                        mCelebrity.getName());
+                        mCelebrity.mobile_url,
+                        mCelebrity.name);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -160,39 +160,39 @@ public class CelebrityActivity extends BaseActivity
      */
     private void setViewAfterGetData() {
         if (mCelebrity == null) return;
-        setActionBarTitle(mCelebrity.getName());
-        imageLoader.displayImage(mCelebrity.getAvatars().getMedium(), mImage, options);
-        mName.setText(mCelebrity.getName());
-        mNameEn.setText(mCelebrity.getName_en());
+        setActionBarTitle(mCelebrity.name);
+        imageLoader.displayImage(mCelebrity.avatars.medium, mImage, options);
+        mName.setText(mCelebrity.name);
+        mNameEn.setText(mCelebrity.name_en);
         String gender = getResources().getString(R.string.gender);
-        mGender.setText(String.format("%s%s", gender, mCelebrity.getGender()));
+        mGender.setText(String.format("%s%s", gender, mCelebrity.gender));
         String bronPlace = getResources().getString(R.string.bron_place);
-        mBronPlace.setText(String.format("%s%s", bronPlace, mCelebrity.getBorn_place()));
+        mBronPlace.setText(String.format("%s%s", bronPlace, mCelebrity.born_place));
 
-        if (mCelebrity.getAka().size() > 0) {
+        if (mCelebrity.aka.size() > 0) {
             mAke.setText(StringUtil.getSpannableString(
                     getString(R.string.cel_ake), Color.BLACK));
-            mAke.append(StringUtil.getListString(mCelebrity.getAka(), '/'));
+            mAke.append(StringUtil.getListString(mCelebrity.aka, '/'));
         } else {
             mAke.setVisibility(View.GONE);
         }
 
-        if (mCelebrity.getAka_en().size() > 0) {
+        if (mCelebrity.aka_en.size() > 0) {
             mAkeEn.setText(StringUtil.getSpannableString(
                     getString(R.string.cel_ake_en), Color.BLACK));
-            mAkeEn.append(StringUtil.getListString(mCelebrity.getAka_en(), '/'));
+            mAkeEn.append(StringUtil.getListString(mCelebrity.aka_en, '/'));
         } else {
             mAkeEn.setVisibility(View.GONE);
         }
 
         mWorks.setText(String.format("%s的影视作品",
-                mCelebrity.getName()));
+                mCelebrity.name));
 
-        for (WorksEntity work : mCelebrity.getWorks()) {
+        for (WorksEntity work : mCelebrity.works) {
             SimpleCardBean data = new SimpleCardBean(
-                    work.getSubject().getId(),
-                    work.getSubject().getTitle(),
-                    work.getSubject().getImages().getLarge(),
+                    work.getSubject().id,
+                    work.getSubject().title,
+                    work.getSubject().images.large,
                     true);
             mWorksData.add(data);
         }

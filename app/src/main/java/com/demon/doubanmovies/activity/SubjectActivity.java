@@ -229,8 +229,8 @@ public class SubjectActivity extends AppCompatActivity
                 }
 
                 if (scrollY >= titleDy) {
-                    if (mSubject.getTitle() != null) {
-                        mToolbarContainer.setTitle(mSubject.getTitle());
+                    if (mSubject.title != null) {
+                        mToolbarContainer.setTitle(mSubject.title);
                     }
                 } else {
                     mToolbarContainer.setTitle("");
@@ -325,31 +325,31 @@ public class SubjectActivity extends AppCompatActivity
     private void initAfterGetData() {
         if (mSubject == null) return;
 
-        if (mSubject.getRating() != null) {
-            float rate = (float) (mSubject.getRating().getAverage() / 2);
+        if (mSubject.rating != null) {
+            float rate = (float) (mSubject.rating.average / 2);
             mRatingBar.setRating(rate);
             mRating.setText(String.format("%s", rate * 2));
         }
 
         mCollect.setText(getString(R.string.left_brackets));
-        mCollect.append(String.format("%s", mSubject.getCollect_count()));
+        mCollect.append(String.format("%s", mSubject.collect_count));
         mCollect.append(getString(R.string.count));
-        mTitle.setText(String.format("%s   ", mSubject.getTitle()));
+        mTitle.setText(String.format("%s   ", mSubject.title));
         mTitle.append(StringUtil.getSpannableString1(
-                String.format("  %s  ", mSubject.getYear()),
+                String.format("  %s  ", mSubject.year),
                 new ForegroundColorSpan(Color.WHITE),
                 new RoundedBackgroundSpan(this),
                 new RelativeSizeSpan(0.87f)));
 
-        mGenres.setText(StringUtil.getListString(mSubject.getGenres(), '/'));
+        mGenres.setText(StringUtil.getListString(mSubject.genres, '/'));
         mCountries.setText(StringUtil.getSpannableString(
                 getString(R.string.countries), getResources().getColor(R.color.gray_black_1000)));
-        mCountries.append(StringUtil.getListString(mSubject.getCountries(), '/'));
+        mCountries.append(StringUtil.getListString(mSubject.countries, '/'));
 
         mSummaryText.setText(StringUtil.getSpannableString(
                 getString(R.string.summary), getResources().getColor(R.color.gray_500)));
         mSummaryText.append(System.getProperty("line.separator"));
-        mSummaryText.append(mSubject.getSummary());
+        mSummaryText.append(mSubject.summary);
         mSummaryText.setEllipsize(TextUtils.TruncateAt.END);
         mSummaryText.setOnClickListener(this);
         mSummaryTip.setOnClickListener(this);
@@ -365,8 +365,8 @@ public class SubjectActivity extends AppCompatActivity
         //加载推荐
         mRecommendTip.setText(getString(R.string.recommend_loading));
         StringBuilder tag = new StringBuilder();
-        for (int i = 0; i < mSubject.getGenres().size(); i++) {
-            tag.append(mSubject.getGenres().get(i));
+        for (int i = 0; i < mSubject.genres.size(); i++) {
+            tag.append(mSubject.genres.get(i));
             if (i == 1) break;
         }
         mRecommendTags = tag.toString();
@@ -379,16 +379,16 @@ public class SubjectActivity extends AppCompatActivity
     private void getActorData() {
         mActorTip.setText(getString(R.string.actor_list));
 
-        int directorCount = mSubject.getDirectors().size();
+        int directorCount = mSubject.directors.size();
         for (int i = 0; i < directorCount; i++) {
-            CelebrityEntity celebrity = mSubject.getDirectors().get(i);
-            if (celebrity.getId() != null)
+            CelebrityEntity celebrity = mSubject.directors.get(i);
+            if (celebrity.id != null)
                 mActorData.add(new SimpleActorBean(celebrity, 1));
         }
 
-        for (int i = 0; i < mSubject.getCasts().size(); i++) {
-            CelebrityEntity celebrity = mSubject.getCasts().get(i);
-            if (celebrity.getId() != null)
+        for (int i = 0; i < mSubject.casts.size(); i++) {
+            CelebrityEntity celebrity = mSubject.casts.get(i);
+            if (celebrity.id != null)
                 mActorData.add(new SimpleActorBean(celebrity, 3));
 
         }
@@ -418,9 +418,9 @@ public class SubjectActivity extends AppCompatActivity
                             mRecommendData = new ArrayList<>();
                             for (SimpleSubjectBean simpleSub : data) {
                                 mRecommendData.add(new SimpleCardBean(
-                                        simpleSub.getId(),
-                                        simpleSub.getTitle(),
-                                        simpleSub.getImages().getLarge(),
+                                        simpleSub.id,
+                                        simpleSub.title,
+                                        simpleSub.images.large,
                                         true));
                             }
                             mRecommendMovieAdapter.update(mRecommendData);
@@ -516,7 +516,7 @@ public class SubjectActivity extends AppCompatActivity
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(mFile);
-            Bitmap bitmap = imageLoader.loadImageSync(mSubject.getImages().getLarge());
+            Bitmap bitmap = imageLoader.loadImageSync(mSubject.images.large);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
         } catch (Exception e) {
             e.printStackTrace();
@@ -531,7 +531,7 @@ public class SubjectActivity extends AppCompatActivity
             }
         }
         // 将电影信息存入到数据库中
-        mSubject.setLocalImageFile(mFile.getPath());
+        mSubject.localImageFile = mFile.getPath();
         String content = new Gson().toJson(mSubject, Constant.subType);
         MovieApplication.getDataSource().insertOrUpDataFilm(mId, content);
     }
@@ -582,7 +582,7 @@ public class SubjectActivity extends AppCompatActivity
             case R.id.btn_subject_skip://跳往豆瓣电影的移动版网页
                 if (mSubject == null) break;
                 WebActivity.toWebActivity(this,
-                        mSubject.getMobile_url(), mSubject.getTitle());
+                        mSubject.mobile_url, mSubject.title);
                 break;
             case R.id.tv_subject_recommend_tip:
                 volleyGetRecommend();

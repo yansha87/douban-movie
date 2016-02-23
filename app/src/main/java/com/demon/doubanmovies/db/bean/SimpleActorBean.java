@@ -1,13 +1,13 @@
 package com.demon.doubanmovies.db.bean;
 
 public class SimpleActorBean {
-    CelebrityEntity entity;
+    public CelebrityEntity entity;
     /**
      * 1. 导演
      * 2. 导演兼演员
      * 3. 演员
      */
-    int type;
+    public int type;
 
     public SimpleActorBean(CelebrityEntity entity, int type) {
         this.entity = entity;

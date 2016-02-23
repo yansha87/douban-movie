@@ -87,17 +87,17 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
             CelebrityEntity entity = cardBean.getEntity();
             if (entity == null) return;
 
-            ImagesEntity imagesEntity = entity.getAvatars();
+            ImagesEntity imagesEntity = entity.avatars;
             if (imagesEntity != null) {
-                String url = imagesEntity.getLarge();
-                if (url == null) url = imagesEntity.getMedium();
-                if (url == null) url = imagesEntity.getSmall();
+                String url = imagesEntity.large;
+                if (url == null) url = imagesEntity.medium;
+                if (url == null) url = imagesEntity.small;
                 if (url != null)
                     imageLoader.displayImage(url, imageMovie, options);
             } else {
                 Log.i(TAG, "update: imagesEntity is null");
             }
-            textTitle.setText(entity.getName());
+            textTitle.setText(entity.name);
 
             if (cardBean.getType() == 1) {
                 textDirector.setText(mContext.getString(R.string.directors));
@@ -110,8 +110,8 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
         public void onClick(View view) {
             int pos = getLayoutPosition();
             if (mCallback != null) {
-                mCallback.onItemClick(mData.get(pos).getEntity().getId(),
-                        mData.get(pos).getEntity().getAvatars().getLarge(), false);
+                mCallback.onItemClick(mData.get(pos).getEntity().id,
+                        mData.get(pos).getEntity().avatars.large, false);
             }
         }
     }

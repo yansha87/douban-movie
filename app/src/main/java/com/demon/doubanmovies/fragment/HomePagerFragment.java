@@ -222,7 +222,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
         List<SimpleSubjectBean> data = new ArrayList<>();
         for (int i = 0; i < mBoxData.size(); i++) {
-            data.add(mBoxData.get(i).getSubject());
+            data.add(mBoxData.get(i).subject);
         }
 
         mBoxAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
@@ -385,7 +385,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
                             List<SimpleSubjectBean> data = new ArrayList<>();
                             for (int i = 0; i < mBoxData.size(); i++) {
-                                data.add(mBoxData.get(i).getSubject());
+                                data.add(mBoxData.get(i).subject);
                             }
 
                             mBoxAdapter.updateList(data, data.size());

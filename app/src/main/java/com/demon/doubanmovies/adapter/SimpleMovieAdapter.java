@@ -74,17 +74,17 @@ public class SimpleMovieAdapter extends BaseAdapter<SimpleMovieAdapter.ViewHolde
 
         public void update() {
             cardBean = mData.get(getLayoutPosition());
-            imageLoader.displayImage(cardBean.getImage(), imageMovie, options);
-            textTitle.setText(cardBean.getName());
+            imageLoader.displayImage(cardBean.image, imageMovie, options);
+            textTitle.setText(cardBean.name);
         }
 
         @Override
         public void onClick(View view) {
             int pos = getLayoutPosition();
             if (mCallback != null) {
-                mCallback.onItemClick(mData.get(pos).getId(),
-                        mData.get(pos).getImage(),
-                        mData.get(pos).getIsFilm());
+                mCallback.onItemClick(mData.get(pos).id,
+                        mData.get(pos).image,
+                        mData.get(pos).isFilm);
             }
         }
     }

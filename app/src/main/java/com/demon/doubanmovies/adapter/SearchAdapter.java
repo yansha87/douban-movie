@@ -71,35 +71,35 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
 
         public void update() {
             mSubject = mData.get(getLayoutPosition());
-            ratingBar.setRating(((float) mSubject.getRating().getAverage()) / 2);
-            textRating.setText(String.format("%s ", mSubject.getRating().getAverage()));
+            ratingBar.setRating(((float) mSubject.rating.average) / 2);
+            textRating.setText(String.format("%s ", mSubject.rating.average));
             textCollectCount.setText(mContext.getString(R.string.left_brackets));
-            textCollectCount.append(String.format("%d", mSubject.getCollect_count()));
+            textCollectCount.append(String.format("%d", mSubject.collect_count));
             textCollectCount.append(mContext.getString(R.string.count));
-            textTitle.setText(mSubject.getTitle());
+            textTitle.setText(mSubject.title);
 
             // 设置搜索结果
             setSearchResult();
 
-            imageLoader.displayImage(mSubject.getImages().getLarge(), imageMovie, roundOptions);
+            imageLoader.displayImage(mSubject.images.large, imageMovie, roundOptions);
         }
 
         private void setSearchResult() {
             List<String> entries = new ArrayList<>();
-            if (mSubject.getDirectors().size() > 0) {
-                entries.add(mSubject.getDirectors().get(0).getName() + mContext.getString(R.string.director));
+            if (mSubject.directors.size() > 0) {
+                entries.add(mSubject.directors.get(0).name + mContext.getString(R.string.director));
             }
 
-            for (int i = 0; i < mSubject.getCasts().size(); i++) {
-                textContent.append(mSubject.getCasts().get(i).getName() + "/");
-                entries.add(mSubject.getCasts().get(i).getName());
+            for (int i = 0; i < mSubject.casts.size(); i++) {
+                textContent.append(mSubject.casts.get(i).name + "/");
+                entries.add(mSubject.casts.get(i).name);
             }
-            for (int i = 0; i < mSubject.getGenres().size(); i++) {
-                entries.add(mSubject.getGenres().get(i));
+            for (int i = 0; i < mSubject.genres.size(); i++) {
+                entries.add(mSubject.genres.get(i));
             }
 
-            if (mSubject.getYear().length() > 0) {
-                entries.add(mSubject.getYear());
+            if (mSubject.year.length() > 0) {
+                entries.add(mSubject.year);
             }
 
             StringBuffer stringBuffer = new StringBuffer();
@@ -117,8 +117,8 @@ public class SearchAdapter extends BaseAdapter<SearchAdapter.ViewHolder> {
         public void onClick(View view) {
             if (mCallback != null) {
                 int position = getLayoutPosition();
-                mCallback.onItemClick(mData.get(position).getId(),
-                        mData.get(position).getImages().getLarge(), false);
+                mCallback.onItemClick(mData.get(position).id,
+                        mData.get(position).images.large, false);
             }
         }
     }

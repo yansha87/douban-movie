@@ -83,25 +83,25 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
 
         public void update() {
             subjectBean = mData.get(getLayoutPosition());
-            if (subjectBean.getRating() != null) {
-                float rate = (float) subjectBean.getRating().getAverage();
+            if (subjectBean.rating != null) {
+                float rate = (float) subjectBean.rating.average;
                 textRating.setText(String.format("%s", rate));
             }
-            String title = subjectBean.getTitle();
+            String title = subjectBean.title;
             textTitle.setText(title);
             textCast.setText("");
-            if (subjectBean.getDirectors().size() > 0) {
+            if (subjectBean.directors.size() > 0) {
                 textCast.setText(String.format("%s%s",
-                        subjectBean.getDirectors().get(0).getName(), mContext.getString(R.string.director)));
+                        subjectBean.directors.get(0).name, mContext.getString(R.string.director)));
             }
 
-            for (int i = 0; i < subjectBean.getCasts().size(); i++) {
-                textCast.append('/' + subjectBean.getCasts().get(i).getName());
+            for (int i = 0; i < subjectBean.casts.size(); i++) {
+                textCast.append('/' + subjectBean.casts.get(i).name);
             }
 
-            if (subjectBean.getLocalImageFile() != null) {
+            if (subjectBean.localImageFile != null) {
                 imageLoader.displayImage(
-                        String.format("%s%s", URI_FOR_FILE, subjectBean.getLocalImageFile()),
+                        String.format("%s%s", URI_FOR_FILE, subjectBean.localImageFile),
                         imageMovie, roundOptions);
             }
         }
@@ -110,8 +110,8 @@ public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
         public void onClick(View view) {
             if (mCallback != null) {
                 int position = getLayoutPosition();
-                mCallback.onItemClick(mData.get(position).getId(),
-                        mData.get(position).getImages().getLarge(), true);
+                mCallback.onItemClick(mData.get(position).id,
+                        mData.get(position).images.large, true);
             }
         }
     }

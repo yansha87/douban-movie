@@ -38,12 +38,10 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     // ItemView的类型，FootView应用于加载更多
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOT = 1;
+    private static final String TAG = "SimpleSubjectAdapter";
     private FootViewHolder mFootView;
     private Context mContext;
     private List<SimpleSubjectBean> mData;
-
-    private static final String TAG = "SimpleSubjectAdapter";
-
     /**
      * 用于加载更多数据
      */
@@ -177,11 +175,16 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @Bind(R.id.iv_item_simple_subject_image) ImageView imageMovie;
-        @Bind(R.id.ll_item_simple_subject_rating) LinearLayout layoutRating;
-        @Bind(R.id.rb_item_simple_subject_rating) RatingBar ratingBar;
-        @Bind(R.id.tv_item_simple_subject_rating) TextView textRating;
-        @Bind(R.id.tv_item_simple_subject_title) TextView textTitle;
+        @Bind(R.id.iv_item_simple_subject_image)
+        ImageView imageMovie;
+        @Bind(R.id.ll_item_simple_subject_rating)
+        LinearLayout layoutRating;
+        @Bind(R.id.rb_item_simple_subject_rating)
+        RatingBar ratingBar;
+        @Bind(R.id.tv_item_simple_subject_rating)
+        TextView textRating;
+        @Bind(R.id.tv_item_simple_subject_title)
+        TextView textTitle;
 
         SimpleSubjectBean subjectBean;
 
@@ -196,14 +199,14 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
             if (!isComingFilm) {
                 layoutRating.setVisibility(View.VISIBLE);
-                float rate = (float) subjectBean.getRating().getAverage();
+                float rate = (float) subjectBean.rating.average;
                 ratingBar.setRating(rate / 2);
                 textRating.setText(String.format("%s", rate));
             }
-            String title = subjectBean.getTitle();
+            String title = subjectBean.title;
             textTitle.setText(title);
 
-            imageLoader.displayImage(subjectBean.getImages().getLarge(),
+            imageLoader.displayImage(subjectBean.images.large,
                     imageMovie, options, imageLoadingListener);
         }
 
@@ -211,8 +214,8 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         public void onClick(View view) {
             if (mCallback != null) {
                 int position = getLayoutPosition();
-                mCallback.onItemClick(mData.get(position).getId(),
-                        mData.get(position).getImages().getLarge(), true);
+                mCallback.onItemClick(mData.get(position).id,
+                        mData.get(position).images.large, true);
             }
         }
     }
