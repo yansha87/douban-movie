@@ -90,7 +90,6 @@ public class MainActivity extends BaseDrawerLayoutActivity {
         if (Constant.menuId2TitleDict.containsKey(now.getItemId())) {
             mActionBarHelper.setTitle(Constant.menuId2TitleDict.get(now.getItemId()));
             this.switchFragment(Constant.menuId2TitleDict.get(now.getItemId()));
-
         }
     }
 
@@ -119,11 +118,11 @@ public class MainActivity extends BaseDrawerLayoutActivity {
      */
     private Fragment createFragmentByTitle(String title) {
         switch (title) {
-            case "首页":
+            case Constant.homepage:
                 return new HomeFragment();
-            case "收藏":
+            case Constant.favorite:
                 return new FavoriteFragment();
-            case "设置":
+            case Constant.setting:
                 return new SettingFragment();
             default:
                 return new BaseFragment();
