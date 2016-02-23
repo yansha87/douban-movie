@@ -11,7 +11,7 @@
             android:entryValues="@array/settings_entry_values_image"
             android:key="image_size"
             android:layout="@layout/preference_item"
-            android:title="图片大小"/>
+            android:title="@string/image_size"/>
 
         <ListPreference
             android:defaultValue="1"
@@ -19,24 +19,24 @@
             android:entryValues="@array/settings_entry_values_language"
             android:key="language"
             android:layout="@layout/preference_item"
-            android:title="切换语言"/>
+            android:title="@string/switch_language"/>
 
         <PreferenceScreen
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:key="description"
             android:layout="@layout/preference_item"
-            android:title="修改资料">
+            android:title="@string/profile">
         </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="关于">
+        android:title="@string/about">
         <Preference
             android:key="source_code"
             android:layout="@layout/preference_item"
-            android:summary="源代码仓库地址"
-            android:title="源代码">
+            android:summary="@string/code_repo"
+            android:title="@string/source_code">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/demonyan/douban-movie"/>
@@ -45,6 +45,6 @@
         <Preference
             android:key="other"
             android:layout="@layout/preference_item"
-            android:title="开源许可"/>
+            android:title="@string/licence"/>
     </PreferenceCategory>
 </PreferenceScreen>

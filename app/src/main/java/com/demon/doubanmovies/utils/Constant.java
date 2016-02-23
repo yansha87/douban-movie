@@ -1,5 +1,8 @@
 package com.demon.doubanmovies.utils;
 
+import android.util.SparseArray;
+
+import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.db.bean.BoxSubjectBean;
 import com.demon.doubanmovies.db.bean.CelebrityBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
@@ -7,12 +10,19 @@ import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * 记录项目常量
  */
 public class Constant {
+
+    public static final HashMap<Integer, String> menuId2TitleDict = new HashMap<Integer, String>();
+    public static final String homepage = "首页";
+    public static final String favorite = "收藏";
+    public static final String setting = "设置";
+
 
     public static final String API = "http://api.douban.com";
     public static final String IN_THEATERS = "/v2/movie/in_theaters";
@@ -35,4 +45,17 @@ public class Constant {
 
     public static final Type simpleBoxTypeList = new TypeToken<List<BoxSubjectBean>>() {
     }.getType();
+
+
+    public static int[] menuIds = new int[]{
+            R.id.nav_homepage,
+            R.id.nav_favorite,
+            R.id.nav_setting,
+    };
+
+    static {
+        menuId2TitleDict.put(R.id.nav_homepage, Constant.homepage);
+        menuId2TitleDict.put(R.id.nav_favorite, Constant.favorite);
+        menuId2TitleDict.put(R.id.nav_setting, Constant.setting);
+    }
 }

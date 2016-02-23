@@ -10,16 +10,17 @@
         -->
         <item
             android:id="@+id/nav_homepage"
+            android:checked="true"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="首页"/>
+            android:title="@string/nav_home"/>
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="收藏"/>
+            android:title="@string/nav_favorite"/>
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="设置"/>
+            android:title="@string/ic_setting"/>
     </group>
 
 
