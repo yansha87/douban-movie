@@ -164,11 +164,11 @@ public class SearchMovieView extends LinearLayout {
         return (int) (320 * getContext().getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public void setOnQueryTextListener(OnQueryTextListener listener) {
+    public void setOnQueryChangeListener(OnQueryTextListener listener) {
         mOnQueryChangeListener = listener;
     }
 
-    public void setOnQueryTextListener(OnClearButtonListener listener) {
+    public void setOnQueryClearListener(OnClearButtonListener listener) {
         mOnClearButtonListener = listener;
     }
 

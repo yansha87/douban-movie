@@ -53,6 +53,7 @@
     <string name="bron_place">出生地：</string>
     <string name="cel_ake">中文名：</string>
     <string name="cel_ake_en">英文名：</string>
+    <string name="video_works">的影视作品</string>
     <!--adapter-->
     <string name="load_completed">加载完毕！</string>
     <string name="loading">正在加载更多…</string>

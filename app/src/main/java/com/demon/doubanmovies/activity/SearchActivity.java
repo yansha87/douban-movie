@@ -39,14 +39,13 @@ import java.util.Set;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchActivity extends AppCompatActivity
-        implements BaseAdapter.OnItemClickListener, SearchMovieView.OnClearButtonListener {
+public class SearchActivity extends BaseToolbarActivity
+        implements BaseAdapter.OnItemClickListener {
 
     private static final String VOLLEY_TAG = "SearchActivity";
     private static final String JSON_SUBJECTS = "subjects";
     private static final String TAG = "SearchActivity";
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
+
     @Bind(R.id.rv_search)
     RecyclerView mRecyclerView;
     @Bind(R.id.tag_layout)
@@ -54,24 +53,47 @@ public class SearchActivity extends AppCompatActivity
 
     private SearchAdapter mAdapter;
     private List<SimpleSubjectBean> mData;
-    //SearchView on the Toolbar;
+    // SearchView on the Toolbar;
     private SearchMovieView mSearchView;
     private ProgressDialog mDialog;
 
     private String[] mVals = new String[]{"美人鱼", "西游记", "功夫熊猫", "澳门风云"};
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        ButterKnife.bind(this);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.activity_search;
     }
 
-    private void initView() {
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
         mSearchView = new SearchMovieView(SearchActivity.this);
         mSearchView.setQueryHint(getString(R.string.query_hint));
-        mSearchView.setOnQueryTextListener((String query) -> {
+        
+        // 将SearchMovieView添加到Toolbar
+        mToolbar.addView(mSearchView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // 设置允许选择有且一个tag
+        mTagFlowLayout.setMaxSelectCount(1);
+    }
+
+    @Override
+    protected void initListeners() {
+        mSearchView.setOnQueryClearListener(() -> {
+            // 清除 RecyclerView 中的内容
+            if (mData != null)
+                mData.clear();
+
+            if (mAdapter != null)
+                mAdapter.notifyDataSetChanged();
+            mTagFlowLayout.setVisibility(View.VISIBLE);
+            return true;
+        });
+
+        mSearchView.setOnQueryChangeListener((String query) -> {
             final String url;
             try {
                 url = Constant.API + Constant.SEARCH_Q + URLEncoder.encode(query, "UTF-8");
@@ -92,20 +114,14 @@ public class SearchActivity extends AppCompatActivity
             return true;
         });
 
-        mSearchView.setOnQueryTextListener(this);
+        mTagFlowLayout.setOnTagClickListener((View view, int position, FlowLayout parent) -> {
+            mSearchView.setQueryText(mVals[position]);
+            return true;
+        });
+    }
 
-        // 将SearchMovieView添加到Toolbar
-        mToolbar.addView(mSearchView);
-        setSupportActionBar(mToolbar);
-
-        // 给左上角图标的左边加上一个返回的图标, 对应ActionBar.DISPLAY_HOME_AS_UP
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-
-        mTagFlowLayout.setMaxSelectCount(1);
+    @Override
+    protected void initData() {
         mTagFlowLayout.setAdapter(new TagAdapter<String>(mVals) {
 
             @Override
@@ -115,11 +131,6 @@ public class SearchActivity extends AppCompatActivity
                 tv.setText(text);
                 return tv;
             }
-        });
-
-        mTagFlowLayout.setOnTagClickListener((View view, int position, FlowLayout parent) -> {
-            mSearchView.setQueryText(mVals[position]);
-            return true;
         });
     }
 
@@ -178,15 +189,5 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         SubjectActivity.toActivity(this, id, imageUrl);
-    }
-
-    @Override
-    public boolean onClearButtonClick() {
-        // 清除 RecyclerView 中的内容
-        if (mData != null)
-            mData.clear();
-        mAdapter.notifyDataSetChanged();
-        mTagFlowLayout.setVisibility(View.VISIBLE);
-        return true;
     }
 }

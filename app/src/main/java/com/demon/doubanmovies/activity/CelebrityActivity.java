@@ -36,13 +36,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class CelebrityActivity extends BaseActivity
+public class CelebrityActivity extends BaseToolbarActivity
         implements BaseAdapter.OnItemClickListener {
 
     private static final String VOLLEY_TAG = "CelActivity";
     private static final String KEY_CEL_ID = "cel_id";
-
-    private static final String TAG = "CelebrityActivity";
 
     @Bind(R.id.tv_cel_name)
     TextView mName;
@@ -65,7 +63,6 @@ public class CelebrityActivity extends BaseActivity
     @Bind(R.id.ll_cel_layout)
     LinearLayout mCelLayout;
 
-
     private CelebrityBean mCelebrity;
     private List<SimpleCardBean> mWorksData = new ArrayList<>();
 
@@ -79,21 +76,24 @@ public class CelebrityActivity extends BaseActivity
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        layoutID = R.layout.activity_celebrity;
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        initView();
-        initData();
-        setActionBarTitle("");
+    protected int getLayoutId() {
+        return R.layout.activity_celebrity;
     }
 
-    private void initView() {
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
+        mActionBarHelper.setTitle("");
         mWorksView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
-    private void initData() {
+    @Override
+    protected void initListeners() {
+
+    }
+
+    @Override
+    protected void initData() {
         String mId = getIntent().getStringExtra(KEY_CEL_ID);
         String url = Constant.API + Constant.CELEBRITY + mId;
         volleyGetCelebrity(url);
@@ -158,7 +158,7 @@ public class CelebrityActivity extends BaseActivity
      */
     private void setViewAfterGetData() {
         if (mCelebrity == null) return;
-        setActionBarTitle(mCelebrity.name);
+        mActionBarHelper.setTitle(mCelebrity.name);
         imageLoader.displayImage(mCelebrity.avatars.medium, mImage, options);
         mName.setText(mCelebrity.name);
         mNameEn.setText(mCelebrity.name_en);
@@ -183,8 +183,7 @@ public class CelebrityActivity extends BaseActivity
             mAkeEn.setVisibility(View.GONE);
         }
 
-        mWorks.setText(String.format("%s的影视作品",
-                mCelebrity.name));
+        mWorks.setText(String.format("%s%s", mCelebrity.name, getString(R.string.video_works)));
 
         for (WorksEntity work : mCelebrity.works) {
             SimpleCardBean data = new SimpleCardBean(
