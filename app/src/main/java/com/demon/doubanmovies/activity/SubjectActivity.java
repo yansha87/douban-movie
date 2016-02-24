@@ -56,6 +56,7 @@ import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
+import com.demon.doubanmovies.widget.ColoredSnackbar;
 import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -220,23 +221,19 @@ public class SubjectActivity extends AppCompatActivity
         mRefresh.setColorSchemeResources(R.color.green_500);
         mToolbar.setTitle("");
 
-        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (titleDy == Float.MAX_VALUE) {
-                    /** 计算显示标题需要滑动的距离 */
-                    titleDy = mTitle.getY() + mTitle.getHeight();
-                }
-
-                if (scrollY >= titleDy) {
-                    if (mSubject.title != null) {
-                        mToolbarContainer.setTitle(mSubject.title);
-                    }
-                } else {
-                    mToolbarContainer.setTitle("");
-                }
+        scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) -> {
+            if (titleDy == Float.MAX_VALUE) {
+                /** 计算显示标题需要滑动的距离 */
+                titleDy = mTitle.getY() + mTitle.getHeight();
             }
 
+            if (scrollY >= titleDy) {
+                if (mSubject.title != null) {
+                    mToolbarContainer.setTitle(mSubject.title);
+                }
+            } else {
+                mToolbarContainer.setTitle("");
+            }
         });
 
         setSupportActionBar(mToolbar);
@@ -296,25 +293,19 @@ public class SubjectActivity extends AppCompatActivity
         String url = Constant.API + Constant.SUBJECT + mId;
         mRefresh.setRefreshing(true);
         StringRequest stringRequest = new StringRequest(url,
-                new Response.Listener<String>() {
+                (String response) -> {
+                    mContent = response;
+                    // 如果movie已经收藏,更新数据
+                    if (isCollect) saveMovie();
+                    mSubject = new Gson().fromJson(mContent, Constant.subType);
+                    initAfterGetData();
+                    mRefresh.setRefreshing(false);
 
-                    @Override
-                    public void onResponse(String response) {
-                        mContent = response;
-                        // 如果movie已经收藏,更新数据
-                        if (isCollect) saveMovie();
-                        mSubject = new Gson().fromJson(mContent, Constant.subType);
-                        initAfterGetData();
-                        mRefresh.setRefreshing(false);
-                    }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SubjectActivity.this, error.toString(),
-                                Toast.LENGTH_SHORT).show();
-                        mRefresh.setRefreshing(false);
-                    }
+                (VolleyError error) -> {
+                    Toast.makeText(SubjectActivity.this, error.toString(),
+                            Toast.LENGTH_SHORT).show();
+                    mRefresh.setRefreshing(false);
                 });
         MovieApplication.addRequest(stringRequest, mId);
     }
@@ -405,37 +396,33 @@ public class SubjectActivity extends AppCompatActivity
         if (TextUtils.isEmpty(mRecommendTags)) return;
         String url = Constant.API + Constant.SEARCH_TAG + mRecommendTags;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Gson gson = new GsonBuilder().create();
-                        try {
-                            mRecommendTip.setText(getString(R.string.recommend_list));
-                            mRecommendTip.setClickable(false);
-                            String json = response.getString(JSON_SUBJECTS);
-                            List<SimpleSubjectBean> data = gson.fromJson(json,
-                                    Constant.simpleSubTypeList);
-                            mRecommendData = new ArrayList<>();
-                            for (SimpleSubjectBean simpleSub : data) {
-                                mRecommendData.add(new SimpleCardBean(
-                                        simpleSub.id,
-                                        simpleSub.title,
-                                        simpleSub.images.large,
-                                        true));
-                            }
-                            mRecommendMovieAdapter.update(mRecommendData);
-                            mRecommend.setVisibility(View.VISIBLE);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                (JSONObject response) -> {
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        mRecommendTip.setText(getString(R.string.recommend_list));
+                        mRecommendTip.setClickable(false);
+                        String json = response.getString(JSON_SUBJECTS);
+                        List<SimpleSubjectBean> data = gson.fromJson(json,
+                                Constant.simpleSubTypeList);
+                        mRecommendData = new ArrayList<>();
+                        for (SimpleSubjectBean simpleSub : data) {
+                            mRecommendData.add(new SimpleCardBean(
+                                    simpleSub.id,
+                                    simpleSub.title,
+                                    simpleSub.images.large,
+                                    true));
                         }
+                        mRecommendMovieAdapter.update(mRecommendData);
+                        mRecommend.setVisibility(View.VISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        mRecommendTip.setText(getString(R.string.recommend_load_fail));
-                        mRecommendTip.setClickable(true);
-                    }
+                (VolleyError error) -> {
+                    mRecommendTip.setText(getString(R.string.recommend_load_fail));
+                    mRecommendTip.setClickable(true);
+
                 });
         MovieApplication.addRequest(request, mId);
     }
@@ -449,8 +436,10 @@ public class SubjectActivity extends AppCompatActivity
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isFilm) {
         if (id == null) {
-            Snackbar.make(mContainer, getString(R.string.no_detail_info), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null);
+            // 改变snackbar默认颜色
+            ColoredSnackbar.alert(snackbar).show();
         }
 
         if (isFilm) {
@@ -495,13 +484,17 @@ public class SubjectActivity extends AppCompatActivity
     private void favoriteAndSaveMovie() {
         if (mSubject == null) return;
         if (isCollect) {
-            Snackbar.make(mContainer, getString(R.string.favorite_cancel), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Snackbar snackbar = Snackbar.make(mContainer, getString(R.string.favorite_cancel), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            ColoredSnackbar.info(snackbar).show();
+
             unsaveMovie();
             isCollect = false;
         } else {
-            Snackbar.make(mContainer, getString(R.string.favorite_completed), Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Snackbar snackbar = Snackbar.make(mContainer, getString(R.string.favorite_completed), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            ColoredSnackbar.info(snackbar).show();
+
             saveMovie();
             isCollect = true;
         }

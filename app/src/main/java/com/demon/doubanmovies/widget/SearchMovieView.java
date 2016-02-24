@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,30 +31,25 @@ import butterknife.ButterKnife;
 
 public class SearchMovieView extends LinearLayout {
     static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
+    private static final String TAG = "SearchMovieView";
     @Bind(R.id.view_search_src_text)
     SearchAutoComplete mQueryTextView;
     @Bind(R.id.view_search_close_btn)
     ImageView mClearTextButton;
-
     private boolean mClearingFocus;
     private OnQueryTextListener mOnQueryChangeListener;
     private OnClearButtonListener mOnClearButtonListener;
-    private CharSequence mQueryHint;
-    private Runnable mShowImeRunnable = new Runnable() {
-        public void run() {
-            InputMethodManager imm = (InputMethodManager)
-                    getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    private Runnable mShowImeRunnable = () -> {
+        InputMethodManager imm = (InputMethodManager)
+                getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-            if (imm != null) {
-                HIDDEN_METHOD_INVOKER.showSoftInputUnchecked(imm, SearchMovieView.this, 0);
-            }
+        if (imm != null) {
+            HIDDEN_METHOD_INVOKER.showSoftInputUnchecked(imm, SearchMovieView.this, 0);
         }
     };
 
-    private Runnable mUpdateDrawableStateRunnable = new Runnable() {
-        public void run() {
-            updateFocusedState();
-        }
+    private Runnable mUpdateDrawableStateRunnable = () -> {
+        updateFocusedState();
     };
 
     public SearchMovieView(Context context) {
@@ -69,39 +65,38 @@ public class SearchMovieView extends LinearLayout {
         ButterKnife.bind(this);
 
         mQueryTextView.setSearchView(this);
-        mClearTextButton.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(mQueryTextView.getText())) {
-                    mQueryTextView.setText("");
-                    mQueryTextView.requestFocus();
-                    if (mOnClearButtonListener != null)
-                        mOnClearButtonListener.onClearButtonClick();
-                    setImeVisibility(true);
-                }
+        mClearTextButton.setOnClickListener((View v) -> {
+            if (!TextUtils.isEmpty(mQueryTextView.getText())) {
+                mQueryTextView.setText("");
+                mQueryTextView.requestFocus();
+                if (mOnClearButtonListener != null)
+                    mOnClearButtonListener.onClearButtonClick();
+                setImeVisibility(true);
             }
         });
 
         mQueryTextView.addTextChangedListener(new TextWatcher() {
 
             public void beforeTextChanged(CharSequence s, int start, int before, int after) {
+                Log.i(TAG, "beforeTextChanged: ");
             }
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int after) {
+                Log.i(TAG, "onTextChanged: ");
             }
 
             public void afterTextChanged(Editable s) {
+                Log.i(TAG, "afterTextChanged: ");
                 updateCloseButton();
             }
         });
 
-        mQueryTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                onSubmitQuery();
-                return true;
-            }
+        mQueryTextView.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
+            onSubmitQuery();
+            return true;
         });
+
 
         setFocusable(true);
         updateCloseButton();
@@ -220,8 +215,19 @@ public class SearchMovieView extends LinearLayout {
     }
 
     public void setQueryHint(CharSequence hint) {
-        mQueryHint = hint;
-        updateQueryHint();
+        if (hint != null) {
+            mQueryTextView.setHint(getDecoratedHint(hint));
+        } else {
+            mQueryTextView.setHint(getDecoratedHint(""));
+        }
+    }
+
+    public void setQueryText(String text) {
+        if (text != null) {
+            mQueryTextView.setText(text);
+            // 点击tag,直接开始搜索
+            onSubmitQuery();
+        }
     }
 
     private CharSequence getDecoratedHint(CharSequence hintText) {
@@ -229,14 +235,6 @@ public class SearchMovieView extends LinearLayout {
         spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_200)),
                 0, hintText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
-    }
-
-    private void updateQueryHint() {
-        if (mQueryHint != null) {
-            mQueryTextView.setHint(getDecoratedHint(mQueryHint));
-        } else {
-            mQueryTextView.setHint(getDecoratedHint(""));
-        }
     }
 
     private void onSubmitQuery() {

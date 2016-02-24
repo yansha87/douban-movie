@@ -13,16 +13,4 @@ public class SimpleActorBean {
         this.entity = entity;
         this.type = type;
     }
-
-    public CelebrityEntity getEntity() {
-        return entity;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
-    }
 }

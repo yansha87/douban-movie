@@ -83,7 +83,7 @@
                     android:textSize="18sp"
                     />
 
-                <include layout="@layout/ll_rating"/>
+                <include layout="@layout/include_ll_rating"/>
 
                 <TextView
                     android:id="@+id/tv_subject_genres"

@@ -16,10 +16,10 @@ public class SubjectBean {
     public String mobile_url;          // 移动版条目页URL
     public String title;               // 中文名
     public Object do_count;            // 在看人数，如果是电视剧，默认值为0，如果是电影值为null
-    public Object seasons_count;       // 总季数(tv only)
+    public Object seasons_count;       // 总季数(view_tag only)
     public String schedule_url;        // 影讯页URL(movie only)
-    public Object episodes_count;      // 当前季的集数(tv only)
-    public Object current_season;      // 当前季数(tv only)
+    public Object episodes_count;      // 当前季的集数(view_tag only)
+    public Object current_season;      // 当前季数(view_tag only)
     public String original_title;      // 原名
     public String summary;             // 简介
     public String subtype;             // 条目分类, movie或者tv

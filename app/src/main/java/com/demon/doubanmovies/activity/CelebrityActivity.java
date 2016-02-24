@@ -138,20 +138,18 @@ public class CelebrityActivity extends BaseActivity
      * 通过volley得到mCelebrity
      */
     private void volleyGetCelebrity(String url) {
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mCelebrity = new GsonBuilder().create().fromJson(response,
-                        Constant.cleType);
-                setViewAfterGetData();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(CelebrityActivity.this, error.toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        StringRequest request = new StringRequest(url,
+                (String response) -> {
+                    mCelebrity = new GsonBuilder().create().fromJson(response,
+                            Constant.cleType);
+                    setViewAfterGetData();
+
+                },
+                (VolleyError error) -> {
+                    Toast.makeText(CelebrityActivity.this, error.toString(),
+                            Toast.LENGTH_SHORT).show();
+
+                });
         MovieApplication.addRequest(request, VOLLEY_TAG);
     }
 

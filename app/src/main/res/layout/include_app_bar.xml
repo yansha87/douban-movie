@@ -27,7 +27,7 @@
             />
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/include_content_main"/>
 
     <!--
         <android.support.design.widget.FloatingActionButton

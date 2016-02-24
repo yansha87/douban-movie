@@ -24,5 +24,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/tag_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+    </com.zhy.view.flowlayout.TagFlowLayout>
 
 </android.support.design.widget.CoordinatorLayout>

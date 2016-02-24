@@ -10,7 +10,7 @@
     >
 
 
-    <include layout="@layout/app_bar_main" />
+    <include layout="@layout/include_app_bar" />
 
 
     <android.support.design.widget.NavigationView

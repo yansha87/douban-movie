@@ -84,7 +84,7 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
             cardBean = mData.get(getLayoutPosition());
             if (cardBean == null) return;
 
-            CelebrityEntity entity = cardBean.getEntity();
+            CelebrityEntity entity = cardBean.entity;
             if (entity == null) return;
 
             ImagesEntity imagesEntity = entity.avatars;
@@ -99,7 +99,7 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
             }
             textTitle.setText(entity.name);
 
-            if (cardBean.getType() == 1) {
+            if (cardBean.type == 1) {
                 textDirector.setText(mContext.getString(R.string.directors));
             } else {
                 textDirector.setText("");
@@ -110,8 +110,8 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
         public void onClick(View view) {
             int pos = getLayoutPosition();
             if (mCallback != null) {
-                mCallback.onItemClick(mData.get(pos).getEntity().id,
-                        mData.get(pos).getEntity().avatars.large, false);
+                mCallback.onItemClick(mData.get(pos).entity.id,
+                        mData.get(pos).entity.avatars.large, false);
             }
         }
     }
