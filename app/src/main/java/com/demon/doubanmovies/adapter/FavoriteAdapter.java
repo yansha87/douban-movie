@@ -10,109 +10,75 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
+import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
+import com.demon.doubanmovies.db.bean.CelebrityEntity;
+import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.db.bean.SubjectBean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FavoriteAdapter extends BaseAdapter<FavoriteAdapter.ViewHolder> {
+public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
 
     private static final String URI_FOR_FILE = "file:/";
-
+    protected OnItemClickListener mCallback;
     private Context mContext;
-    private LayoutInflater mInflater;
-    private List<SubjectBean> mData;
 
-    public FavoriteAdapter(Context context) {
-        this.mContext = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = new ArrayList<>();
+    public FavoriteAdapter(RecyclerView view, Collection<SubjectBean> datas) {
+        super(view, datas, R.layout.item_favorite_layout);
+        mContext = view.getContext();
+        setOnItemClickListener((View v, Object data, int position) -> {
+            if (mCallback != null) {
+                SubjectBean bean = (SubjectBean) data;
+                mCallback.onItemClick(bean.id,
+                        bean.images.large, true);
+            }
+        });
     }
 
-
-    public void addData(List<SubjectBean> data) {
-        for (int i = 0; i < data.size(); i++) {
-            mData.add(data.get(i));
-            notifyItemInserted(i);
-        }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mCallback = listener;
     }
 
     public void update(List<SubjectBean> data) {
-        this.mData.clear();
-        notifyDataSetChanged();
-        addData(data);
+        super.update(data);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_favorite_layout, parent, false);
-        return new ViewHolder(view);
+    public void convert(BaseRecyclerHolder holder, SubjectBean item, int position, boolean isScrolling) {
+        holder.setText(R.id.tv_item_favorite_title, item.title);
+
+        float rate = (float) item.rating.average;
+        holder.setText(R.id.tv_item_favorite_rating, String.format("%s", rate));
+        holder.setText(R.id.tv_item_favorite_cel, getBaseInformation(item));
+
+        String url = String.format("%s%s", URI_FOR_FILE, item.localImageFile);
+        holder.setImageFromUrl(R.id.iv_item_favorite_image, url);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.update();
+    private String getBaseInformation(SubjectBean item) {
+        StringBuffer infor = new StringBuffer();
+
+        // 导演
+        if (item.directors.size() > 0) {
+            infor.append(item.directors.get(0).name);
+            infor.append(mContext.getString(R.string.director));
+        }
+
+        // 演员
+        for (CelebrityEntity cast : item.casts) {
+            infor.append("/").append(cast.name);
+        }
+
+        return infor.toString();
     }
 
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @Bind(R.id.iv_item_favorite_image)
-        ImageView imageMovie;
-        @Bind(R.id.tv_item_favorite_rating)
-        TextView textRating;
-        @Bind(R.id.tv_item_favorite_title)
-        TextView textTitle;
-        @Bind(R.id.tv_item_favorite_cel)
-        TextView textCast;
-
-        SubjectBean subjectBean;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void update() {
-            subjectBean = mData.get(getLayoutPosition());
-            if (subjectBean.rating != null) {
-                float rate = (float) subjectBean.rating.average;
-                textRating.setText(String.format("%s", rate));
-            }
-            String title = subjectBean.title;
-            textTitle.setText(title);
-            textCast.setText("");
-            if (subjectBean.directors.size() > 0) {
-                textCast.setText(String.format("%s%s",
-                        subjectBean.directors.get(0).name, mContext.getString(R.string.director)));
-            }
-
-            for (int i = 0; i < subjectBean.casts.size(); i++) {
-                textCast.append('/' + subjectBean.casts.get(i).name);
-            }
-
-            if (subjectBean.localImageFile != null) {
-                imageLoader.displayImage(
-                        String.format("%s%s", URI_FOR_FILE, subjectBean.localImageFile),
-                        imageMovie, roundOptions);
-            }
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mCallback != null) {
-                int position = getLayoutPosition();
-                mCallback.onItemClick(mData.get(position).id,
-                        mData.get(position).images.large, true);
-            }
-        }
+    public interface OnItemClickListener {
+        void onItemClick(String id, String imageUrl, Boolean isFilm);
     }
 }

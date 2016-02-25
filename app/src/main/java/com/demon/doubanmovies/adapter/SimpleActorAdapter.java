@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 
 public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolder> {
 
-    private static final String TAG = "SimpleActorAdapter";
     private Context mContext;
     private List<SimpleActorBean> mData = new ArrayList<>();
 
@@ -89,14 +88,16 @@ public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolde
 
             ImagesEntity imagesEntity = entity.avatars;
             if (imagesEntity != null) {
+                // 如果有大图，使用大图
                 String url = imagesEntity.large;
+                // 如果没有大图，使用中图
                 if (url == null) url = imagesEntity.medium;
+                // 如果没有中图，使用小图
                 if (url == null) url = imagesEntity.small;
                 if (url != null)
                     imageLoader.displayImage(url, imageMovie, options);
-            } else {
-                Log.i(TAG, "update: imagesEntity is null");
             }
+
             textTitle.setText(entity.name);
 
             if (cardBean.type == 1) {

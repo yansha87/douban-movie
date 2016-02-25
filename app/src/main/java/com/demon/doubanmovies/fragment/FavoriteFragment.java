@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.activity.SubjectActivity;
-import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.FavoriteAdapter;
 import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.DensityUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 收藏
-public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItemClickListener {
+public class FavoriteFragment extends BaseFragment {
 
     private FavoriteAdapter mAdapter;
+    private List<SubjectBean> mData;
     private View mView;
 
     @Nullable
@@ -35,7 +36,7 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
 
     @Override
     protected void initData() {
-        mAdapter = new FavoriteAdapter(getContext());
+        mAdapter = new FavoriteAdapter(recyclerView, null);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -50,13 +51,11 @@ public class FavoriteFragment extends BaseFragment implements BaseAdapter.OnItem
         // mRefreshLayout.setOnRefreshListener(this);
         // disable refresh here
         mRefreshLayout.setEnabled(false);
-        mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isMovie) -> {
+            SubjectActivity.toActivity(getActivity(), id, imageUrl);
+        });
     }
 
-    @Override
-    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
-        SubjectActivity.toActivity(getActivity(), id, imageUrl);
-    }
 
     private class FavoriteAsyncTask extends AsyncTask<Void, Void, List<SubjectBean>> {
 

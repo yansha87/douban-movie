@@ -3,12 +3,8 @@ package com.demon.doubanmovies.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.adapter.BaseAdapter;
+import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.SearchAdapter;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.Constant;
@@ -34,13 +30,10 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class SearchActivity extends BaseToolbarActivity
-        implements BaseAdapter.OnItemClickListener {
+public class SearchActivity extends BaseToolbarActivity {
 
     private static final String VOLLEY_TAG = "SearchActivity";
     private static final String JSON_SUBJECTS = "subjects";
@@ -68,7 +61,7 @@ public class SearchActivity extends BaseToolbarActivity
     protected void initViews(Bundle savedInstanceState) {
         mSearchView = new SearchMovieView(SearchActivity.this);
         mSearchView.setQueryHint(getString(R.string.query_hint));
-        
+
         // 将SearchMovieView添加到Toolbar
         mToolbar.addView(mSearchView);
 
@@ -151,8 +144,10 @@ public class SearchActivity extends BaseToolbarActivity
                             Toast.makeText(SearchActivity.this, no_result,
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            mAdapter = new SearchAdapter(SearchActivity.this, mData);
-                            mAdapter.setOnItemClickListener(SearchActivity.this);
+                            mAdapter = new SearchAdapter(mRecyclerView, mData);
+                            mAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
+                                SubjectActivity.toActivity(SearchActivity.this, id, imageUrl);
+                            });
                             mTagFlowLayout.setVisibility(View.GONE);
                             mRecyclerView.setAdapter(mAdapter);
                         }
@@ -186,8 +181,4 @@ public class SearchActivity extends BaseToolbarActivity
         return true;
     }
 
-    @Override
-    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
-        SubjectActivity.toActivity(this, id, imageUrl);
-    }
 }

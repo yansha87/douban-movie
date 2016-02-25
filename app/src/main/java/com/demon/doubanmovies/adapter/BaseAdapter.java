@@ -15,13 +15,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BaseAdapter<T extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<T> {
-    private int mLastPosition = -1;
-
     protected OnItemClickListener mCallback;
-
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
     protected DisplayImageOptions roundOptions = MovieApplication.getLoaderRoundedOptions();
+    private int mLastPosition = -1;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mCallback = listener;
@@ -46,20 +44,17 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
         final Context mContext = view.getContext();
         if (pos > mLastPosition) {
             view.setAlpha(0.0f);
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    Animator animator = AnimatorInflater.loadAnimator(
-                            mContext, R.animator.slide_from_right);
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animator) {
-                            view.setAlpha(1.0f);
-                        }
-                    });
-                    animator.setTarget(view);
-                    animator.start();
-                }
+            view.post(() -> {
+                Animator animator = AnimatorInflater.loadAnimator(
+                        mContext, R.animator.slide_from_right);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        view.setAlpha(1.0f);
+                    }
+                });
+                animator.setTarget(view);
+                animator.start();
             });
             mLastPosition = pos;
         }

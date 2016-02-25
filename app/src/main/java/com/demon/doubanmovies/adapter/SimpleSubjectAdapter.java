@@ -38,7 +38,7 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     // ItemView的类型，FootView应用于加载更多
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOT = 1;
-    private static final String TAG = "SimpleSubjectAdapter";
+
     private FootViewHolder mFootView;
     private Context mContext;
     private List<SimpleSubjectBean> mData;
@@ -49,7 +49,7 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     /**
      * 判断是否属于“即将上映”
      */
-    private boolean isComingFilm;
+    private boolean isComingMovie;
 
     /**
      * imageLoader的异步加载监听接口实例
@@ -62,10 +62,10 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     public SimpleSubjectAdapter(Context context, List<SimpleSubjectBean> data,
-                                boolean isComingFilm) {
+                                boolean isComingMovie) {
         this.mContext = context;
         this.mData = data;
-        this.isComingFilm = isComingFilm;
+        this.isComingMovie = isComingMovie;
     }
 
     /**
@@ -150,6 +150,7 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
+        // 最后一个位置为foot
         if (position == mData.size()) {
             return TYPE_FOOT;
         } else {
@@ -197,7 +198,7 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         public void update() {
             subjectBean = mData.get(getLayoutPosition());
 
-            if (!isComingFilm) {
+            if (!isComingMovie) {
                 layoutRating.setVisibility(View.VISIBLE);
                 float rate = (float) subjectBean.rating.average;
                 ratingBar.setRating(rate / 2);

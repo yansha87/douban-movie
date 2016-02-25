@@ -200,17 +200,14 @@ public class SubjectActivity extends AppCompatActivity
         }
 
         mId = getIntent().getStringExtra(KEY_SUBJECT_ID);
-        initView();
-        initEvent();
         mSubject = MovieApplication.getDataSource().movieOfId(mId);
-
-
         if (mSubject != null) {
             isCollect = true;
-            // initAfterGetData();
         }
 
-        volleyGetSubject();
+        initView();
+        initEvent();
+        initData();
     }
 
     private void initView() {
@@ -219,23 +216,9 @@ public class SubjectActivity extends AppCompatActivity
                 -DensityUtil.dp2px(getApplication(), 16f),
                 DensityUtil.dp2px(getApplication(), 48f));
         mRefresh.setColorSchemeResources(R.color.green_500);
+
+        // 设置Toolbar
         mToolbar.setTitle("");
-
-        scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) -> {
-            if (titleDy == Float.MAX_VALUE) {
-                /** 计算显示标题需要滑动的距离 */
-                titleDy = mTitle.getY() + mTitle.getHeight();
-            }
-
-            if (scrollY >= titleDy) {
-                if (mSubject.title != null) {
-                    mToolbarContainer.setTitle(mSubject.title);
-                }
-            } else {
-                mToolbarContainer.setTitle("");
-            }
-        });
-
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
@@ -244,13 +227,11 @@ public class SubjectActivity extends AppCompatActivity
                 LinearLayoutManager.HORIZONTAL, false));
         mActorAdapter = new SimpleActorAdapter(this);
         mActorView.setAdapter(mActorAdapter);
-        mActorAdapter.update(mActorData);
 
         mRecommend.setLayoutManager(new LinearLayoutManager(
                 SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
         mRecommendMovieAdapter = new SimpleMovieAdapter(this);
         mRecommend.setAdapter(mRecommendMovieAdapter);
-        mRecommendMovieAdapter.update(mRecommendData);
 
         mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mId + URI_FOR_IMAGE);
         // 判断从缓存加载图片还是从网络加载图片
@@ -278,6 +259,21 @@ public class SubjectActivity extends AppCompatActivity
 
 
     private void initEvent() {
+        scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) -> {
+            if (titleDy == Float.MAX_VALUE) {
+                /** 计算显示标题需要滑动的距离 */
+                titleDy = mTitle.getY() + mTitle.getHeight();
+            }
+
+            if (scrollY >= titleDy) {
+                if (mSubject.title != null) {
+                    mToolbarContainer.setTitle(mSubject.title);
+                }
+            } else {
+                mToolbarContainer.setTitle("");
+            }
+        });
+
         mRefresh.setOnRefreshListener(this);
         mFloatingButton.setOnClickListener(this);
         mRecommendMovieAdapter.setOnItemClickListener(this);
@@ -287,6 +283,12 @@ public class SubjectActivity extends AppCompatActivity
         mActorAdapter.setOnItemClickListener(this);
         //利用appBarLayout的回调接口禁止或启用swipeRefreshLayout
         mHeaderContainer.addOnOffsetChangedListener(this);
+    }
+
+    private void initData() {
+        mActorAdapter.update(mActorData);
+        mRecommendMovieAdapter.update(mRecommendData);
+        volleyGetSubject();
     }
 
     private void volleyGetSubject() {

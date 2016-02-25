@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.activity.base.BaseDrawerLayoutActivity;
 import com.demon.doubanmovies.fragment.BaseFragment;
 import com.demon.doubanmovies.fragment.FavoriteFragment;
 import com.demon.doubanmovies.fragment.HomeFragment;
