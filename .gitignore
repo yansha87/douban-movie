@@ -31,4 +31,5 @@ proguard/
 # Android Studio captures folder
 captures/
 
-.idea/libraries
+# Android studio project file
+.idea
