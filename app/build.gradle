@@ -46,10 +46,13 @@ dependencies {
 
     // squareup
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
 
-    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.code.gson:gson:2.4'
     compile 'com.jakewharton:butterknife:7.0.1'
 
     // network
@@ -60,6 +63,10 @@ dependencies {
     // custom view
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.zhy:flowlayout-lib:1.0.0'
+
+    // ReactiveX
+    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'io.reactivex:rxandroid:1.0.1'
 
     // debug
     compile 'com.tencent.bugly:crashreport:latest.release'
