@@ -11,6 +11,8 @@ import com.demon.doubanmovies.db.DataSource;
 import com.demon.doubanmovies.network.OkHttpStack;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.StringUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,6 +31,13 @@ public class MovieApplication extends Application {
     private static DisplayImageOptions mLoaderRoundedOptions;
     private static RequestQueue mQueue;
     private static DataSource mSource;
+    private static String mCrashReportId = "900019796";
+    private static MovieApplication instance = new MovieApplication();
+    public Gson gson;
+
+    public static MovieApplication getInstance() {
+        return instance;
+    }
 
     public static DataSource getDataSource() {
         return mSource;
@@ -61,8 +70,13 @@ public class MovieApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashReport.initCrashReport(getApplicationContext(), "900019796", false);
+        // Bugly initial
+        CrashReport.initCrashReport(getApplicationContext(), mCrashReportId, false);
+
+        // LeakCanary initial
         LeakCanary.install(this);
+
+
         initImageLoader(getApplicationContext());
         mQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
         mSource = new DataSource(getApplicationContext());
@@ -71,6 +85,12 @@ public class MovieApplication extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        initGson();
+    }
+
+    private void initGson() {
+        // this.gson = new GsonBuilder().create();
     }
 
     public void initImageLoader(Context context) {

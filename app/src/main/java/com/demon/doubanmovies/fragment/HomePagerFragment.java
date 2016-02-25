@@ -114,11 +114,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_base, container, false);
         ButterKnife.bind(this, view);
-        mRefresh.setColorSchemeResources(R.color.colorPrimary);
-        mRefresh.setProgressViewOffset(
-                false, 0, DensityUtil.dp2px(getContext(), 32f));
-        mSharePreferences = getActivity().getSharedPreferences(
-                LAST_RECORD, Context.MODE_PRIVATE);
+
         initData();
         initEvent();
         return view;
@@ -148,6 +144,11 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     private void initData() {
+        mRefresh.setColorSchemeResources(R.color.colorPrimary);
+        mRefresh.setProgressViewOffset(
+                false, 0, DensityUtil.dp2px(getContext(), 32f));
+        mSharePreferences = getActivity().getSharedPreferences(
+                LAST_RECORD, Context.MODE_PRIVATE);
         switch (mTitlePos) {
             case POS_IN_THEATERS:
                 initSimpleRecyclerView(false);
@@ -166,19 +167,13 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     private void initEvent() {
-        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mStart = 0;
-                updateMovieData();
-            }
+        mRefresh.setOnRefreshListener(() -> {
+            mStart = 0;
+            updateMovieData();
         });
-        mFloatingButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mRecyclerView.getAdapter() != null) {
-                    mRecyclerView.scrollToPosition(0);
-                }
+        mFloatingButton.setOnClickListener((View view) -> {
+            if (mRecyclerView.getAdapter() != null) {
+                mRecyclerView.scrollToPosition(0);
             }
         });
     }
@@ -187,9 +182,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      * 初始化“正在上映”和“即将上映”对应的fragment
      */
     private void initSimpleRecyclerView(boolean isComing) {
-        int padding = DensityUtil.dp2px(getContext(), 2f);
-        setPaddingForRecyclerView(-padding);
-
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 getResources().getInteger(R.integer.num_columns));
         mRecyclerView.setLayoutManager(layoutManager);
@@ -209,8 +201,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      * 初始化“北美票房”对应的fragment
      */
     private void initBoxRecyclerView() {
-        int padding = DensityUtil.dp2px(getContext(), 2f);
-        setPaddingForRecyclerView(padding);
 
         GridLayoutManager boxManager = new GridLayoutManager(getActivity(),
                 getResources().getInteger(R.integer.num_columns));
@@ -228,13 +218,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mBoxAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
         mBoxAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mBoxAdapter);
-    }
-
-    /**
-     * 为RecyclerView设置-2dp的padding用于抵消item的margin
-     */
-    private void setPaddingForRecyclerView(int padding) {
-        // mRecyclerView.setPadding(padding, padding, padding, padding);
     }
 
     //更新电影数据
@@ -265,30 +248,25 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private void volleyGetComing() {
         mRefresh.setRefreshing(true);
         JsonObjectRequest request = new JsonObjectRequest(mRequestUrl,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            mTotalItem = response.getInt(JSON_TOTAL);
-                            mDataString = response.getString(JSON_SUBJECTS);
-                            mSimpleData = new Gson().fromJson(mDataString, simpleSubTypeList);
-                            mSubjectAdapter.updateList(mSimpleData, mTotalItem);
-                            //实现recyclerView的下拉刷新
-                            setOnScrollListener();
-                            saveRecord();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } finally {
-                            mRefresh.setRefreshing(false);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                (JSONObject response) -> {
+                    try {
+                        mTotalItem = response.getInt(JSON_TOTAL);
+                        mDataString = response.getString(JSON_SUBJECTS);
+                        mSimpleData = new Gson().fromJson(mDataString, simpleSubTypeList);
+                        mSubjectAdapter.updateList(mSimpleData, mTotalItem);
+                        //实现recyclerView的下拉刷新
+                        setOnScrollListener();
+                        saveRecord();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } finally {
                         mRefresh.setRefreshing(false);
                     }
+
+                },
+                (VolleyError error) -> {
+                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    mRefresh.setRefreshing(false);
                 });
         MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }
@@ -347,23 +325,20 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         if (mSubjectAdapter.getStart() == mStart) return;
         mStart = mSubjectAdapter.getStart();
         String url = mRequestUrl + ("?start=" + mStart);
-        JsonObjectRequest request = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    List<SimpleSubjectBean> moreData = new GsonBuilder().create().fromJson(
-                            response.getString(JSON_SUBJECTS), simpleSubTypeList);
-                    mSubjectAdapter.loadMoreData(moreData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mSubjectAdapter.loadFail();
-            }
-        });
+        JsonObjectRequest request = new JsonObjectRequest(url,
+                (JSONObject response) -> {
+                    try {
+                        List<SimpleSubjectBean> moreData = new GsonBuilder().create().fromJson(
+                                response.getString(JSON_SUBJECTS), simpleSubTypeList);
+                        mSubjectAdapter.loadMoreData(moreData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                (VolleyError error) -> {
+                    mSubjectAdapter.loadFail();
+
+                });
         MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }
 
@@ -397,12 +372,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                        mRefresh.setRefreshing(false);
-                    }
+                (VolleyError error) -> {
+                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                    mRefresh.setRefreshing(false);
                 });
         MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
     }

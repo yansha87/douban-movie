@@ -2,6 +2,7 @@ package com.demon.doubanmovies.db.bean;
 
 import java.util.List;
 
+// 影人条目信息
 public class CelebrityBean {
 
     public String mobile_url;         // 条目移动版url

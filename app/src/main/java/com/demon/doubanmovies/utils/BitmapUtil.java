@@ -2,11 +2,10 @@ package com.demon.doubanmovies.utils;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by user on 2016/2/17.
- */
+
 public class BitmapUtil {
 
+    // 快速模糊算法（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
     public static Bitmap fastBlur(Bitmap inputBitmap, float radiusf) {
         int SCALE = 8;
         // 先缩放图片，增加模糊速度

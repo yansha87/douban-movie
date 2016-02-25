@@ -1,6 +1,9 @@
 package com.demon.doubanmovies.db.bean;
 
-public class ImagesEntity {
+import java.io.Serializable;
+
+// 海报信息
+public class ImagesEntity implements Serializable {
 
     public String small;
     public String large;

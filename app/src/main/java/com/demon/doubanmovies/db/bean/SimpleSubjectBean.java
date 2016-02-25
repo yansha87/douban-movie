@@ -1,8 +1,10 @@
 package com.demon.doubanmovies.db.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SimpleSubjectBean {
+// 简单电影条目
+public class SimpleSubjectBean implements Serializable{
 
     public RatingEntity rating;
     public int collect_count;

@@ -1,6 +1,9 @@
 package com.demon.doubanmovies.db.bean;
 
-public class RatingEntity {
+import java.io.Serializable;
+
+// 评分信息
+public class RatingEntity implements Serializable {
 
     public int max;
     public double average;

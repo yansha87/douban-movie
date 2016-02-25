@@ -14,14 +14,12 @@ import com.demon.doubanmovies.adapter.FavoriteAdapter;
 import com.demon.doubanmovies.db.bean.SubjectBean;
 import com.demon.doubanmovies.utils.DensityUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // 收藏
 public class FavoriteFragment extends BaseFragment {
 
     private FavoriteAdapter mAdapter;
-    private List<SubjectBean> mData;
     private View mView;
 
     @Nullable

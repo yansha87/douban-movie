@@ -1,6 +1,9 @@
 package com.demon.doubanmovies.db.bean;
 
-public class CelebrityEntity {
+import java.io.Serializable;
+
+// 简单影人信息
+public class CelebrityEntity implements Serializable {
 
     public ImagesEntity avatars;
     public String alt;

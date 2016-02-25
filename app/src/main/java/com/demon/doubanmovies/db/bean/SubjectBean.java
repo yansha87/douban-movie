@@ -2,6 +2,7 @@ package com.demon.doubanmovies.db.bean;
 
 import java.util.List;
 
+// 电影条目信息
 public class SubjectBean {
 
     public RatingEntity rating;        // 评分
