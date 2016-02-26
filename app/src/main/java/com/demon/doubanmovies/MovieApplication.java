@@ -2,6 +2,7 @@ package com.demon.doubanmovies;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -27,13 +28,14 @@ import java.sql.SQLException;
 
 public class MovieApplication extends Application {
 
+    private static final String TAG = "MovieApplication";
+    public static Gson gson;
     private static DisplayImageOptions mLoaderOptions;
     private static DisplayImageOptions mLoaderRoundedOptions;
     private static RequestQueue mQueue;
     private static DataSource mSource;
     private static String mCrashReportId = "900019796";
     private static MovieApplication instance = new MovieApplication();
-    public Gson gson;
 
     public static MovieApplication getInstance() {
         return instance;
@@ -90,7 +92,7 @@ public class MovieApplication extends Application {
     }
 
     private void initGson() {
-        // this.gson = new GsonBuilder().create();
+        this.gson = new GsonBuilder().create();
     }
 
     public void initImageLoader(Context context) {

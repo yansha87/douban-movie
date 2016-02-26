@@ -101,7 +101,7 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void loadFail() {
+    public void loadFailHint() {
         mFootView.setFootView(FOOT_FAIL);
     }
 

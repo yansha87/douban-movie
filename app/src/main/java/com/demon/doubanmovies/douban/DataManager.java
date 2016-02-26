@@ -1,14 +1,10 @@
 package com.demon.doubanmovies.douban;
 
-import android.util.Log;
-
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.TopBean;
+import com.demon.doubanmovies.db.bean.CNMovieBean;
+import com.demon.doubanmovies.db.bean.USMovieBean;
 import com.demon.doubanmovies.utils.RxUtil;
 
-import java.util.List;
-
-import rx.Subscriber;
+import rx.Observable;
 
 /**
  * Created by user on 2016/2/25.
@@ -16,10 +12,12 @@ import rx.Subscriber;
 public class DataManager {
     private static final String TAG = "DataManager";
     private static DataManager dataManager;
-    private TopModel topModel;
+    private CNMovieModel cnMovieModel;
+    private USMovieModel usMovieModel;
 
     private DataManager() {
-        topModel = TopModel.getInstance();
+        cnMovieModel = CNMovieModel.getInstance();
+        usMovieModel = usMovieModel.getInstance();
     }
 
     public synchronized static DataManager getInstance() {
@@ -29,29 +27,15 @@ public class DataManager {
         return dataManager;
     }
 
-    public void getTop250ByNetwork(int start) {
-        this.topModel.getTop250()
-                .compose(RxUtil.applyIOToMainThreadSchedulers())
-                .map(topBean -> {
-                    return topBean.subjects;
-                })
-                .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
+    public Observable<CNMovieBean> getMovieData(String type, int start) {
+        return this.cnMovieModel.getMovieData(type, start)
+                .filter(cnMovieBean -> cnMovieBean != null)
+                .compose(RxUtil.applyIOToMainThreadSchedulers());
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i(TAG, "onError: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<SimpleSubjectBean> simpleSubjectBeans) {
-                        for (SimpleSubjectBean simpleSubjectBean : simpleSubjectBeans) {
-                            Log.i(TAG, "onNext: " + simpleSubjectBean.title);
-                        }
-                    }
-                });
+    public Observable<USMovieBean> getMovieData() {
+        return this.usMovieModel.getMovieData()
+                .filter(usMovieBean -> usMovieBean != null)
+                .compose(RxUtil.applyIOToMainThreadSchedulers());
     }
 }

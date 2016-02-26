@@ -50,7 +50,7 @@ public class SearchActivity extends BaseToolbarActivity {
     private SearchMovieView mSearchView;
     private ProgressDialog mDialog;
 
-    private String[] mVals = new String[]{"美人鱼", "西游记", "功夫熊猫", "澳门风云"};
+    private String[] mSearchTags = new String[]{"美人鱼", "西游记", "功夫熊猫", "澳门风云"};
 
     @Override
     protected int getLayoutId() {
@@ -108,14 +108,14 @@ public class SearchActivity extends BaseToolbarActivity {
         });
 
         mTagFlowLayout.setOnTagClickListener((View view, int position, FlowLayout parent) -> {
-            mSearchView.setQueryText(mVals[position]);
+            mSearchView.setQueryText(mSearchTags[position]);
             return true;
         });
     }
 
     @Override
     protected void initData() {
-        mTagFlowLayout.setAdapter(new TagAdapter<String>(mVals) {
+        mTagFlowLayout.setAdapter(new TagAdapter<String>(mSearchTags) {
 
             @Override
             public View getView(FlowLayout parent, int position, String text) {

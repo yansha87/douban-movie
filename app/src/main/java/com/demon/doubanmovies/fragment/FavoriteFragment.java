@@ -58,11 +58,6 @@ public class FavoriteFragment extends BaseFragment {
     private class FavoriteAsyncTask extends AsyncTask<Void, Void, List<SubjectBean>> {
 
         @Override
-        protected void onPreExecute() {
-            // mRefreshLayout.setRefreshing(true);
-        }
-
-        @Override
         protected List<SubjectBean> doInBackground(Void... voids) {
             return MovieApplication.getDataSource().getMovieForCollected();
         }
@@ -70,7 +65,6 @@ public class FavoriteFragment extends BaseFragment {
         @Override
         protected void onPostExecute(List<SubjectBean> subjectBeans) {
             mAdapter.update(subjectBeans);
-            // mRefreshLayout.setRefreshing(false);
         }
     }
 }

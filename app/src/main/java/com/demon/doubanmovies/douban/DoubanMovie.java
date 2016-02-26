@@ -29,14 +29,14 @@ public class DoubanMovie {
 
         okHttpClient.interceptors().add(chain -> {
             Response response = chain.proceed(chain.request());
-            Log.i(TAG, "DoubanMovie: " + chain.request().urlString());
+            Log.i(TAG, "DoubanMovie: " + response.request().urlString());
             return response;
         });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.API)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addConverterFactory(GsonConverterFactory.create(MovieApplication.getInstance().gson))
                 .client(okHttpClient)
                 .build();
 

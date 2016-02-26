@@ -15,44 +15,32 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SimpleSubjectAdapter;
-import com.demon.doubanmovies.db.bean.BoxSubjectBean;
+import com.demon.doubanmovies.db.bean.USSubjectBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.db.bean.CNMovieBean;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
-import static android.support.v7.widget.RecyclerView.OnClickListener;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.demon.doubanmovies.utils.Constant.API;
-import static com.demon.doubanmovies.utils.Constant.COMING;
-import static com.demon.doubanmovies.utils.Constant.IN_THEATERS;
-import static com.demon.doubanmovies.utils.Constant.TOP250;
-import static com.demon.doubanmovies.utils.Constant.US_BOX;
-import static com.demon.doubanmovies.utils.Constant.simpleBoxTypeList;
-import static com.demon.doubanmovies.utils.Constant.simpleSubTypeList;
+import static com.demon.doubanmovies.utils.Constant.*;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
@@ -60,18 +48,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private static final String LAST_RECORD = "last record";
     private static final int RECORD_COUNT = 20;
 
-    private static final String JSON_TOTAL = "total";
-    private static final String JSON_SUBJECTS = "subjects";
     private static final String KEY_FRAGMENT_TITLE = "title";
-
-    private static final int POS_IN_THEATERS = 0;
-    private static final int POS_COMING = 1;
-    private static final int POS_TOP = 2;
-    private static final int POS_US_BOX = 3;
-
     private static final String[] TYPE = {"in theaters", "coming", "top", "us box"};
-
-    private static final String VOLLEY_TAG = "HomePagerFragment";
+    private static final String TAG = "HomePagerFragment";
 
     @Bind(R.id.rv_fragment)
     RecyclerView mRecyclerView;
@@ -82,14 +61,10 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     private String mDataString;
     private SimpleSubjectAdapter mSubjectAdapter;
-    private SimpleSubjectAdapter mBoxAdapter;
     private List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
-    private List<BoxSubjectBean> mBoxData = new ArrayList<>();
-    private OnScrollListener mScrollListener;
+    private List<USSubjectBean> mBoxData = new ArrayList<>();
 
     private int mTitlePos;
-    private String mRequestUrl;
-    private int mTotalItem;
     private boolean isFirstRefresh = true;
     private int mStart = 0;
 
@@ -134,7 +109,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     @Override
     public void onStop() {
         super.onStop();
-        MovieApplication.removeRequest(VOLLEY_TAG + mTitlePos);
     }
 
     @Override
@@ -151,13 +125,11 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 LAST_RECORD, Context.MODE_PRIVATE);
         switch (mTitlePos) {
             case POS_IN_THEATERS:
+            case POS_TOP250:
                 initSimpleRecyclerView(false);
                 break;
             case POS_COMING:
                 initSimpleRecyclerView(true);
-                break;
-            case POS_TOP:
-                initSimpleRecyclerView(false);
                 break;
             case POS_US_BOX:
                 initBoxRecyclerView();
@@ -176,6 +148,43 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                 mRecyclerView.scrollToPosition(0);
             }
         });
+
+        mRecyclerView.addOnScrollListener(
+                new OnScrollListener() {
+                    int lastVisibleItem;
+                    boolean isShow = false;
+
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView,
+                                                     int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == SCROLL_STATE_IDLE
+                                && lastVisibleItem + 2 > mSubjectAdapter.getItemCount()
+                                && mSubjectAdapter.getItemCount() - 1 < mSubjectAdapter.getTotalDataCount()) {
+                            loadMoreMovieData();
+                        }
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+                        lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+                        if (layoutManager.findFirstVisibleItemPosition() == 0) {
+                            if (isShow) {
+                                animatorForGone();
+                                isShow = false;
+                            }
+                        } else if (dy < -50 && !isShow) {
+                            animatorForVisible();
+                            isShow = true;
+                        } else if (dy > 20 && isShow) {
+                            animatorForGone();
+                            isShow = false;
+                        }
+                    }
+                }
+        );
     }
 
     /**
@@ -205,7 +214,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         GridLayoutManager boxManager = new GridLayoutManager(getActivity(),
                 getResources().getInteger(R.integer.num_columns));
         mRecyclerView.setLayoutManager(boxManager);
-        //请求网络数据前先加载上次的电影数据
+        // 请求网络数据前先加载上次的电影数据
         if (getRecord() != null) {
             mBoxData = new Gson().fromJson(getRecord(), simpleBoxTypeList);
         }
@@ -215,174 +224,113 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
             data.add(mBoxData.get(i).subject);
         }
 
-        mBoxAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
-        mBoxAdapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(mBoxAdapter);
+        mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
+        mSubjectAdapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(mSubjectAdapter);
     }
 
     //更新电影数据
     private void updateMovieData() {
         switch (mTitlePos) {
             case POS_IN_THEATERS:
-                mRequestUrl = API + IN_THEATERS;
-                volleyGetComing();
+                loadMovieData(IN_THEATERS);
                 break;
             case POS_COMING:
-                mRequestUrl = API + COMING;
-                volleyGetComing();
+                loadMovieData(COMING);
                 break;
-            case POS_TOP:
-                mRequestUrl = API + TOP250;
-                volleyGetComing();
+            case POS_TOP250:
+                loadMovieData(TOP250);
                 break;
             case POS_US_BOX:
-                mRequestUrl = API + US_BOX;
-                volleyGetUSBox();
+                loadUSMovieData();
                 break;
         }
     }
 
-    /**
-     * 通过Volley框架的全局消息队列获取到url对应的数据
-     */
-    private void volleyGetComing() {
+    private void loadMovieData(String type) {
         mRefresh.setRefreshing(true);
-        JsonObjectRequest request = new JsonObjectRequest(mRequestUrl,
-                (JSONObject response) -> {
-                    try {
-                        mTotalItem = response.getInt(JSON_TOTAL);
-                        mDataString = response.getString(JSON_SUBJECTS);
-                        mSimpleData = new Gson().fromJson(mDataString, simpleSubTypeList);
-                        mSubjectAdapter.updateList(mSimpleData, mTotalItem);
-                        //实现recyclerView的下拉刷新
-                        setOnScrollListener();
-                        saveRecord();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } finally {
+        // 获得开始数据
+        DataManager.getInstance().getMovieData(type, 0)
+                .subscribe(new Subscriber<CNMovieBean>() {
+                    @Override
+                    public void onCompleted() {
                         mRefresh.setRefreshing(false);
                     }
 
-                },
-                (VolleyError error) -> {
-                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    mRefresh.setRefreshing(false);
-                });
-        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
-    }
-
-    /**
-     * 为RecyclerView设置下拉刷新及floatingActionButton的消失出现
-     */
-    private void setOnScrollListener() {
-        if (mRecyclerView == null) {
-            return;
-        }
-        if (mScrollListener == null) {
-            mScrollListener = new OnScrollListener() {
-                int lastVisibleItem;
-                boolean isShow = false;
-
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView,
-                                                 int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    if (newState == SCROLL_STATE_IDLE
-                            && lastVisibleItem + 2 > mSubjectAdapter.getItemCount()
-                            && mSubjectAdapter.getItemCount() - 1 < mSubjectAdapter.getTotalDataCount()) {
-                        loadMore();
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError: " + e.toString());
+                        mRefresh.setRefreshing(false);
                     }
-                }
-
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                    lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-                    if (layoutManager.findFirstVisibleItemPosition() == 0) {
-                        if (isShow) {
-                            animatorForGone();
-                            isShow = false;
-                        }
-                    } else if (dy < -50 && !isShow) {
-                        animatorForVisible();
-                        isShow = true;
-                    } else if (dy > 20 && isShow) {
-                        animatorForGone();
-                        isShow = false;
-                    }
-                }
-            };
-            mRecyclerView.addOnScrollListener(mScrollListener);
-        }
-    }
-
-    /**
-     * adapter加载更多
-     */
-    private void loadMore() {
-        //防止出现多次加载的情况
-        if (mSubjectAdapter.getStart() == mStart) return;
-        mStart = mSubjectAdapter.getStart();
-        String url = mRequestUrl + ("?start=" + mStart);
-        JsonObjectRequest request = new JsonObjectRequest(url,
-                (JSONObject response) -> {
-                    try {
-                        List<SimpleSubjectBean> moreData = new GsonBuilder().create().fromJson(
-                                response.getString(JSON_SUBJECTS), simpleSubTypeList);
-                        mSubjectAdapter.loadMoreData(moreData);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                (VolleyError error) -> {
-                    mSubjectAdapter.loadFail();
-
-                });
-        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
-    }
-
-    /**
-     * 通过Volley框架的全局消息队列获取到url对应的数据
-     */
-    private void volleyGetUSBox() {
-        mRefresh.setRefreshing(true);
-        JsonObjectRequest request = new JsonObjectRequest(mRequestUrl,
-                new Response.Listener<JSONObject>() {
-                    private Gson gson = new GsonBuilder().create();
 
                     @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            mDataString = response.getString(JSON_SUBJECTS);
-                            mBoxData = gson.fromJson(mDataString,
-                                    simpleBoxTypeList);
-
-                            List<SimpleSubjectBean> data = new ArrayList<>();
-                            for (int i = 0; i < mBoxData.size(); i++) {
-                                data.add(mBoxData.get(i).subject);
-                            }
-
-                            mBoxAdapter.updateList(data, data.size());
-                            saveRecord();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } finally {
-                            mRefresh.setRefreshing(false);
-                        }
+                    public void onNext(CNMovieBean bean) {
+                        mSubjectAdapter.updateList(bean.subjects, bean.total);
+                        saveRecord();
                     }
-                },
-                (VolleyError error) -> {
-                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    mRefresh.setRefreshing(false);
                 });
-        MovieApplication.addRequest(request, VOLLEY_TAG + mTitlePos);
+    }
+
+    private void loadMoreMovieData() {
+        if (mSubjectAdapter.getStart() == mStart) return;
+        mStart = mSubjectAdapter.getStart();
+
+        String type = title2TypeDict.get(mTitlePos);
+        DataManager.getInstance().getMovieData(type, mStart)
+                .subscribe(new Subscriber<CNMovieBean>() {
+                    @Override
+                    public void onCompleted() {
+                        mRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError: " + e.toString());
+                        mSubjectAdapter.loadFailHint();
+                    }
+
+                    @Override
+                    public void onNext(CNMovieBean bean) {
+                        mSubjectAdapter.loadMoreData(bean.subjects);
+                    }
+                });
+    }
+
+
+    private void loadUSMovieData() {
+        mRefresh.setRefreshing(true);
+
+        DataManager.getInstance().getMovieData()
+                .map(usMovieBean -> usMovieBean.subjects)
+                .subscribe(new Subscriber<List<USSubjectBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        mRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError: " + e.toString());
+                        mRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(List<USSubjectBean> usSubjectBeans) {
+                        List<SimpleSubjectBean> data = new ArrayList<>();
+                        for (USSubjectBean bean : usSubjectBeans) {
+                            data.add(bean.subject);
+                        }
+
+                        mSubjectAdapter.updateList(data, data.size());
+                        saveRecord();
+                    }
+                });
     }
 
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isMovie) {
         if (id.equals(SimpleSubjectAdapter.FOOT_VIEW_ID)) {
-            loadMore();
+            loadMoreMovieData();
         } else {
             SubjectActivity.toActivity(getActivity(), id, imageUrl);
         }
