@@ -2,20 +2,16 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.db.bean.CelebrityEntity;
 import com.demon.doubanmovies.db.bean.ImagesEntity;
 import com.demon.doubanmovies.db.bean.SimpleActorBean;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +19,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SimpleActorAdapter extends BaseAdapter<SimpleActorAdapter.ViewHolder> {
+public class ActorAdapter extends BaseAdapter<ActorAdapter.ViewHolder> {
 
     private Context mContext;
     private List<SimpleActorBean> mData = new ArrayList<>();
 
-    public SimpleActorAdapter(Context context) {
+    public ActorAdapter(Context context) {
         mContext = context;
     }
 

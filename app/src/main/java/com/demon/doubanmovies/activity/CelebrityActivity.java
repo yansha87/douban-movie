@@ -14,32 +14,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
-import com.demon.doubanmovies.adapter.BaseAdapter;
-import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
+import com.demon.doubanmovies.adapter.MovieAdapter2;
 import com.demon.doubanmovies.db.bean.CelebrityBean;
-import com.demon.doubanmovies.db.bean.SimpleCardBean;
-import com.demon.doubanmovies.db.bean.WorksEntity;
-import com.demon.doubanmovies.utils.Constant;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.StringUtil;
-import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
-public class CelebrityActivity extends BaseToolbarActivity
-        implements BaseAdapter.OnItemClickListener {
+public class CelebrityActivity extends BaseToolbarActivity {
 
-    private static final String VOLLEY_TAG = "CelActivity";
     private static final String KEY_CEL_ID = "cel_id";
 
     @Bind(R.id.tv_cel_name)
@@ -64,7 +54,7 @@ public class CelebrityActivity extends BaseToolbarActivity
     LinearLayout mCelLayout;
 
     private CelebrityBean mCelebrity;
-    private List<SimpleCardBean> mWorksData = new ArrayList<>();
+    private MovieAdapter2 mWorksAdapter;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options = MovieApplication.getLoaderOptions();
@@ -89,19 +79,23 @@ public class CelebrityActivity extends BaseToolbarActivity
 
     @Override
     protected void initListeners() {
+        mWorksAdapter = new MovieAdapter2(mWorksView, null);
 
+        mWorksAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
+            SubjectActivity.toActivity(CelebrityActivity.this, id, imageUrl);
+        });
+        mWorksView.setAdapter(mWorksAdapter);
     }
 
     @Override
     protected void initData() {
         String mId = getIntent().getStringExtra(KEY_CEL_ID);
-        String url = Constant.API + Constant.CELEBRITY + mId;
-        volleyGetCelebrity(url);
+        loadCelebrityData(mId);
     }
+
 
     protected void onStop() {
         super.onStop();
-        MovieApplication.removeRequest(VOLLEY_TAG);
     }
 
     @Override
@@ -134,77 +128,63 @@ public class CelebrityActivity extends BaseToolbarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * 通过volley得到mCelebrity
-     */
-    private void volleyGetCelebrity(String url) {
-        StringRequest request = new StringRequest(url,
-                (String response) -> {
-                    mCelebrity = new GsonBuilder().create().fromJson(response,
-                            Constant.cleType);
-                    setViewAfterGetData();
+    private void loadCelebrityData(String mId) {
+        DataManager.getInstance().getCelebrityData(mId)
+                .subscribe(new Subscriber<CelebrityBean>() {
+                    @Override
+                    public void onCompleted() {
 
-                },
-                (VolleyError error) -> {
-                    Toast.makeText(CelebrityActivity.this, error.toString(),
-                            Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(CelebrityActivity.this, e.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(CelebrityBean celebrityBean) {
+                        mCelebrity = celebrityBean;
+                        setViewAfterGetData(celebrityBean);
+                    }
                 });
-        MovieApplication.addRequest(request, VOLLEY_TAG);
     }
 
     /**
-     * 得到mCelebrity实例后设置界面
+     * 得到Celebrity实例后设置界面
      */
-    private void setViewAfterGetData() {
-        if (mCelebrity == null) return;
-        mActionBarHelper.setTitle(mCelebrity.name);
-        imageLoader.displayImage(mCelebrity.avatars.medium, mImage, options);
-        mName.setText(mCelebrity.name);
-        mNameEn.setText(mCelebrity.name_en);
+    private void setViewAfterGetData(CelebrityBean bean) {
+        if (bean == null) return;
+        mActionBarHelper.setTitle(bean.name);
+        imageLoader.displayImage(bean.avatars.medium, mImage, options);
+        mName.setText(bean.name);
+        mNameEn.setText(bean.name_en);
         String gender = getResources().getString(R.string.gender);
-        mGender.setText(String.format("%s%s", gender, mCelebrity.gender));
+        mGender.setText(String.format("%s%s", gender, bean.gender));
         String bronPlace = getResources().getString(R.string.bron_place);
-        mBronPlace.setText(String.format("%s%s", bronPlace, mCelebrity.born_place));
+        mBronPlace.setText(String.format("%s%s", bronPlace, bean.born_place));
 
-        if (mCelebrity.aka.size() > 0) {
+        if (bean.aka.size() > 0) {
             mAke.setText(StringUtil.getSpannableString(
                     getString(R.string.cel_ake), Color.BLACK));
-            mAke.append(StringUtil.getListString(mCelebrity.aka, '/'));
+            mAke.append(StringUtil.getListString(bean.aka, '/'));
         } else {
             mAke.setVisibility(View.GONE);
         }
 
-        if (mCelebrity.aka_en.size() > 0) {
+        if (bean.aka_en.size() > 0) {
             mAkeEn.setText(StringUtil.getSpannableString(
                     getString(R.string.cel_ake_en), Color.BLACK));
-            mAkeEn.append(StringUtil.getListString(mCelebrity.aka_en, '/'));
+            mAkeEn.append(StringUtil.getListString(bean.aka_en, '/'));
         } else {
             mAkeEn.setVisibility(View.GONE);
         }
 
-        mWorks.setText(String.format("%s%s", mCelebrity.name, getString(R.string.video_works)));
+        mWorks.setText(String.format("%s%s", bean.name, getString(R.string.video_works)));
 
-        for (WorksEntity work : mCelebrity.works) {
-            SimpleCardBean data = new SimpleCardBean(
-                    work.getSubject().id,
-                    work.getSubject().title,
-                    work.getSubject().images.large,
-                    true);
-            mWorksData.add(data);
-        }
-        SimpleMovieAdapter mWorksAdapter =
-                new SimpleMovieAdapter(CelebrityActivity.this);
-        mWorksAdapter.setOnItemClickListener(this);
-        mWorksView.setAdapter(mWorksAdapter);
-        mWorksAdapter.update(mWorksData);
+        mWorksAdapter.update(bean.works);
 
         mCelLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onItemClick(String id, String imageUrl, Boolean isMovie) {
-        SubjectActivity.toActivity(this, id, imageUrl);
     }
 
 }

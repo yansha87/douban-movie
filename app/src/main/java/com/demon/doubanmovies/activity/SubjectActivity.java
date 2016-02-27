@@ -28,6 +28,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,21 +38,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.adapter.BaseAdapter;
-import com.demon.doubanmovies.adapter.SimpleActorAdapter;
-import com.demon.doubanmovies.adapter.SimpleMovieAdapter;
+import com.demon.doubanmovies.adapter.ActorAdapter;
+import com.demon.doubanmovies.adapter.MovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityEntity;
 import com.demon.doubanmovies.db.bean.SimpleActorBean;
-import com.demon.doubanmovies.db.bean.SimpleCardBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.db.bean.SubjectBean;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
@@ -59,13 +54,9 @@ import com.demon.doubanmovies.utils.StringUtil;
 import com.demon.doubanmovies.widget.ColoredSnackbar;
 import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,24 +65,23 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
 import static android.app.ActivityOptions.makeSceneTransitionAnimation;
 
 public class SubjectActivity extends AppCompatActivity
-        implements BaseAdapter.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
+        implements SwipeRefreshLayout.OnRefreshListener,
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
     //intent中subjectId的key用于查询数据
     private static final String KEY_SUBJECT_ID = "subject_id";
     private static final String KEY_IMAGE_URL = "image_url";
-    //json中subject的标签
-    private static final String JSON_SUBJECTS = "subjects";
-
-    private static final String SHARE_IMAGE = "share_image";
+    //json中subject的标签s
     private static final String URI_FOR_FILE = "file:/";
     private static final String URI_FOR_IMAGE = ".png";
+
+    private static final String TAG = "SubjectActivity";
 
 
     @Bind(R.id.cl_container)
@@ -145,15 +135,14 @@ public class SubjectActivity extends AppCompatActivity
 
     // movie subject
     private String mId;
-    private String mContent;
     private SubjectBean mSubject;
 
     private List<SimpleActorBean> mActorData = new ArrayList<>();
-    private SimpleActorAdapter mActorAdapter;
+    private ActorAdapter mActorAdapter;
 
     private String mRecommendTags;
-    private List<SimpleCardBean> mRecommendData = new ArrayList<>();
-    private SimpleMovieAdapter mRecommendMovieAdapter;
+    private List<SimpleSubjectBean> mRecommendData = new ArrayList<>();
+    private MovieAdapter mRecommendMovieAdapter;
     private boolean isSummaryShow = false;
 
     private File mFile;
@@ -225,15 +214,16 @@ public class SubjectActivity extends AppCompatActivity
 
         mActorView.setLayoutManager(new LinearLayoutManager(SubjectActivity.this,
                 LinearLayoutManager.HORIZONTAL, false));
-        mActorAdapter = new SimpleActorAdapter(this);
+        mActorAdapter = new ActorAdapter(this);
         mActorView.setAdapter(mActorAdapter);
 
         mRecommend.setLayoutManager(new LinearLayoutManager(
                 SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        mRecommendMovieAdapter = new SimpleMovieAdapter(this);
+        mRecommendMovieAdapter = new MovieAdapter(mRecommend, null);
         mRecommend.setAdapter(mRecommendMovieAdapter);
 
-        mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mId + URI_FOR_IMAGE);
+        mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                mId + URI_FOR_IMAGE);
         // 判断从缓存加载图片还是从网络加载图片
         String imageUri = (mFile.exists() ?
                 String.format("%s%s", URI_FOR_FILE, mFile.getPath()) :
@@ -276,11 +266,39 @@ public class SubjectActivity extends AppCompatActivity
 
         mRefresh.setOnRefreshListener(this);
         mFloatingButton.setOnClickListener(this);
-        mRecommendMovieAdapter.setOnItemClickListener(this);
+        mRecommendMovieAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
+
+            if (id == null) {
+                Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null);
+                // 改变snackbar默认颜色
+                ColoredSnackbar.alert(snackbar).show();
+            }
+
+            if (isFilm) {
+                SubjectActivity.toActivity(this, id, imageUrl);
+            } else {
+                CelebrityActivity.toActivity(this, id);
+            }
+        });
         mRecommendTip.setOnClickListener(this);
         mRecommendTip.setClickable(false);
 
-        mActorAdapter.setOnItemClickListener(this);
+        mActorAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
+            if (id == null) {
+                Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null);
+                // 改变snackbar默认颜色
+                ColoredSnackbar.alert(snackbar).show();
+            }
+
+            if (isFilm) {
+                SubjectActivity.toActivity(this, id, imageUrl);
+            } else {
+                CelebrityActivity.toActivity(this, id);
+            }
+        });
+
         //利用appBarLayout的回调接口禁止或启用swipeRefreshLayout
         mHeaderContainer.addOnOffsetChangedListener(this);
     }
@@ -288,28 +306,33 @@ public class SubjectActivity extends AppCompatActivity
     private void initData() {
         mActorAdapter.update(mActorData);
         mRecommendMovieAdapter.update(mRecommendData);
-        volleyGetSubject();
+        loadSubjectData();
     }
 
-    private void volleyGetSubject() {
-        String url = Constant.API + Constant.SUBJECT + mId;
+    private void loadSubjectData() {
         mRefresh.setRefreshing(true);
-        StringRequest stringRequest = new StringRequest(url,
-                (String response) -> {
-                    mContent = response;
-                    // 如果movie已经收藏,更新数据
-                    if (isCollect) saveMovie();
-                    mSubject = new Gson().fromJson(mContent, Constant.subType);
-                    initAfterGetData();
-                    mRefresh.setRefreshing(false);
+        DataManager.getInstance().getSubjectData(mId)
+                .subscribe(new Subscriber<SubjectBean>() {
+                    @Override
+                    public void onCompleted() {
+                        mRefresh.setRefreshing(false);
+                    }
 
-                },
-                (VolleyError error) -> {
-                    Toast.makeText(SubjectActivity.this, error.toString(),
-                            Toast.LENGTH_SHORT).show();
-                    mRefresh.setRefreshing(false);
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(SubjectActivity.this, e.toString(),
+                                Toast.LENGTH_SHORT).show();
+                        mRefresh.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(SubjectBean subjectBean) {
+                        // 如果movie已经收藏,更新数据
+                        if (isCollect) saveMovie();
+                        mSubject = subjectBean;
+                        initAfterGetData();
+                    }
                 });
-        MovieApplication.addRequest(stringRequest, mId);
     }
 
     /**
@@ -363,7 +386,7 @@ public class SubjectActivity extends AppCompatActivity
             if (i == 1) break;
         }
         mRecommendTags = tag.toString();
-        volleyGetRecommend();
+        loadRecommendData();
     }
 
     /**
@@ -390,66 +413,51 @@ public class SubjectActivity extends AppCompatActivity
         mActorView.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * 通过查询tag获得recommend数据
-     */
-    private void volleyGetRecommend() {
+    private void loadRecommendData() {
+        DataManager.getInstance().getRecommendData(mRecommendTags)
+                .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
+                    @Override
+                    public void onCompleted() {
 
-        if (TextUtils.isEmpty(mRecommendTags)) return;
-        String url = Constant.API + Constant.SEARCH_TAG + mRecommendTags;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,
-                (JSONObject response) -> {
-                    Gson gson = new GsonBuilder().create();
-                    try {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError: " + e.toString());
+                        mRecommendTip.setText(getString(R.string.recommend_load_fail));
+                        mRecommendTip.setClickable(true);
+                    }
+
+                    @Override
+                    public void onNext(List<SimpleSubjectBean> simpleSubjectBeans) {
                         mRecommendTip.setText(getString(R.string.recommend_list));
                         mRecommendTip.setClickable(false);
-                        String json = response.getString(JSON_SUBJECTS);
-                        List<SimpleSubjectBean> data = gson.fromJson(json,
-                                Constant.simpleSubTypeList);
-                        mRecommendData = new ArrayList<>();
-                        for (SimpleSubjectBean simpleSub : data) {
+                        /* mRecommendData = new ArrayList<>();
+                        for (SimpleSubjectBean simpleSub : simpleSubjectBeans) {
                             mRecommendData.add(new SimpleCardBean(
                                     simpleSub.id,
                                     simpleSub.title,
                                     simpleSub.images.large,
                                     true));
-                        }
+                        } */
+                        mRecommendData = simpleSubjectBeans;
                         mRecommendMovieAdapter.update(mRecommendData);
                         mRecommend.setVisibility(View.VISIBLE);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-
-                },
-                (VolleyError error) -> {
-                    mRecommendTip.setText(getString(R.string.recommend_load_fail));
-                    mRecommendTip.setClickable(true);
-
                 });
-        MovieApplication.addRequest(request, mId);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        MovieApplication.removeRequest(mId);
     }
 
+    /*
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isFilm) {
-        if (id == null) {
-            Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null);
-            // 改变snackbar默认颜色
-            ColoredSnackbar.alert(snackbar).show();
-        }
 
-        if (isFilm) {
-            SubjectActivity.toActivity(this, id, imageUrl);
-        } else {
-            CelebrityActivity.toActivity(this, id);
-        }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -543,7 +551,7 @@ public class SubjectActivity extends AppCompatActivity
      */
     @Override
     public void onRefresh() {
-        volleyGetSubject();
+        loadSubjectData();
     }
 
     /**
@@ -580,7 +588,7 @@ public class SubjectActivity extends AppCompatActivity
                         mSubject.mobile_url, mSubject.title);
                 break;
             case R.id.tv_subject_recommend_tip:
-                volleyGetRecommend();
+                loadRecommendData();
                 break;
         }
     }

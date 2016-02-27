@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.SearchAdapter;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.widget.SearchMovieView;
 import com.google.gson.GsonBuilder;
@@ -32,11 +34,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.Subscriber;
 
 public class SearchActivity extends BaseToolbarActivity {
 
-    private static final String VOLLEY_TAG = "SearchActivity";
-    private static final String JSON_SUBJECTS = "subjects";
     private static final String TAG = "SearchActivity";
 
     @Bind(R.id.rv_search)
@@ -87,17 +88,15 @@ public class SearchActivity extends BaseToolbarActivity {
         });
 
         mSearchView.setOnQueryChangeListener((String query) -> {
-            final String url;
             try {
-                url = Constant.API + Constant.SEARCH_Q + URLEncoder.encode(query, "UTF-8");
-                getDataFromUrl(url);
+                loadSearchData(URLEncoder.encode(query, "UTF-8"));
                 if (mDialog == null) {
                     mDialog = new ProgressDialog(SearchActivity.this);
                     mDialog.setMessage(getString(R.string.search_message));
                     mDialog.setCancelable(true);
-                    mDialog.setOnCancelListener((DialogInterface dialog) -> {
-                        MovieApplication.getHttpQueue().cancelAll(url);
-                    });
+                    //mDialog.setOnCancelListener((DialogInterface dialog) -> {
+                    //    MovieApplication.getHttpQueue().cancelAll(url);
+                    //});
                 }
                 mDialog.show();
                 mSearchView.clearFocus();
@@ -127,21 +126,35 @@ public class SearchActivity extends BaseToolbarActivity {
         });
     }
 
-    private void getDataFromUrl(String url) {
-        final String no_result = getString(R.string.search_no_result);
-        final String error_result = getString(R.string.search_error);
-        JsonObjectRequest request = new JsonObjectRequest(url,
-                (JSONObject response) -> {
-                    try {
-                        String subjects = response.getString(JSON_SUBJECTS);
-                        mData = new GsonBuilder().create().fromJson(subjects,
-                                Constant.simpleSubTypeList);
+    private void loadSearchData(String url) {
+        DataManager.getInstance().getSearchData(url)
+                .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "onError: " + e.toString());
                         if (mDialog != null) {
                             mDialog.dismiss();
                             mDialog = null;
                         }
+
+                        Toast.makeText(SearchActivity.this, R.string.search_error,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(List<SimpleSubjectBean> simpleSubjectBeans) {
+                        if (mDialog != null) {
+                            mDialog.dismiss();
+                            mDialog = null;
+                        }
+                        mData = simpleSubjectBeans;
                         if (mData.size() == 0) {
-                            Toast.makeText(SearchActivity.this, no_result,
+                            Toast.makeText(SearchActivity.this, R.string.search_no_result,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             mAdapter = new SearchAdapter(mRecyclerView, mData);
@@ -151,26 +164,13 @@ public class SearchActivity extends BaseToolbarActivity {
                             mTagFlowLayout.setVisibility(View.GONE);
                             mRecyclerView.setAdapter(mAdapter);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                },
-                (VolleyError error) -> {
-                    if (mDialog != null) {
-                        mDialog.dismiss();
-                        mDialog = null;
-                    }
-                    Toast.makeText(SearchActivity.this, error_result,
-                            Toast.LENGTH_SHORT).show();
-
                 });
-        MovieApplication.addRequest(request, VOLLEY_TAG);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        MovieApplication.removeRequest(VOLLEY_TAG);
     }
 
     @Override

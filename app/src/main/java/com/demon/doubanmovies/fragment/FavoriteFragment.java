@@ -46,7 +46,6 @@ public class FavoriteFragment extends BaseFragment {
 
     @Override
     protected void initEvent() {
-        // mRefreshLayout.setOnRefreshListener(this);
         // disable refresh here
         mRefreshLayout.setEnabled(false);
         mAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isMovie) -> {

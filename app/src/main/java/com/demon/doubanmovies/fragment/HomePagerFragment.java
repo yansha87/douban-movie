@@ -24,7 +24,7 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.BaseAdapter;
-import com.demon.doubanmovies.adapter.SimpleSubjectAdapter;
+import com.demon.doubanmovies.adapter.SubjectAdapter;
 import com.demon.doubanmovies.db.bean.USSubjectBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.db.bean.CNMovieBean;
@@ -60,7 +60,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     FloatingActionButton mFloatingButton;
 
     private String mDataString;
-    private SimpleSubjectAdapter mSubjectAdapter;
+    private SubjectAdapter mSubjectAdapter;
     private List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
     private List<USSubjectBean> mBoxData = new ArrayList<>();
 
@@ -197,7 +197,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mRecyclerView.setBackgroundResource(R.color.gray_100);
 
         //请求网络数据前先加载上次的电影数据
-        mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), mSimpleData, isComing);
+        mSubjectAdapter = new SubjectAdapter(getActivity(), mSimpleData, isComing);
         if (getRecord() != null) {
             mSimpleData = new Gson().fromJson(getRecord(), simpleSubTypeList);
             mSubjectAdapter.updateList(mSimpleData, RECORD_COUNT);
@@ -224,7 +224,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
             data.add(mBoxData.get(i).subject);
         }
 
-        mSubjectAdapter = new SimpleSubjectAdapter(getActivity(), data, false);
+        mSubjectAdapter = new SubjectAdapter(getActivity(), data, false);
         mSubjectAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mSubjectAdapter);
     }
@@ -329,7 +329,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     @Override
     public void onItemClick(String id, String imageUrl, Boolean isMovie) {
-        if (id.equals(SimpleSubjectAdapter.FOOT_VIEW_ID)) {
+        if (id.equals(SubjectAdapter.FOOT_VIEW_ID)) {
             loadMoreMovieData();
         } else {
             SubjectActivity.toActivity(getActivity(), id, imageUrl);

@@ -58,7 +58,7 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
         holder.setText(R.id.tv_item_favorite_cel, getBaseInformation(item));
 
         String url = String.format("%s%s", URI_FOR_FILE, item.localImageFile);
-        holder.setImageFromUrl(R.id.iv_item_favorite_image, url);
+        holder.setRoundImageFromUrl(R.id.iv_item_favorite_image, url);
     }
 
     private String getBaseInformation(SubjectBean item) {

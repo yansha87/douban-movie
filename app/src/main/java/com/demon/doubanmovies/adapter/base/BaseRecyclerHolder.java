@@ -61,9 +61,15 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public BaseRecyclerHolder setImageFromUrl(int viewId, String url) {
+    public BaseRecyclerHolder setRoundImageFromUrl(int viewId, String url) {
         ImageView view = getView(viewId);
         imageLoader.displayImage(url, view, roundOptions);
+        return this;
+    }
+
+    public BaseRecyclerHolder setImageFromUrl(int viewId, String url) {
+        ImageView view = getView(viewId);
+        imageLoader.displayImage(url, view, options);
         return this;
     }
 

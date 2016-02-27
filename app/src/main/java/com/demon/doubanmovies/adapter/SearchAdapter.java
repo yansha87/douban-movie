@@ -49,7 +49,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
         holder.setText(R.id.tv_item_search_favorite_count, comment.toString());
 
         // 设置电影海报
-        holder.setImageFromUrl(R.id.iv_item_search_images, item.images.large);
+        holder.setRoundImageFromUrl(R.id.iv_item_search_images, item.images.large);
 
         holder.setText(R.id.tv_item_search_title, item.title);
         holder.setText(R.id.tv_item_search_content, getBaseInformation(item));

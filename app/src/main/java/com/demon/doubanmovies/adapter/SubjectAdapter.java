@@ -3,7 +3,6 @@ package com.demon.doubanmovies.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
+public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     // FootView的显示类型
     public static final int FOOT_LOADING = 0;
@@ -57,12 +56,12 @@ public class SimpleSubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     private ImageLoadingListener imageLoadingListener =
             new AnimateFirstDisplayListener();
 
-    public SimpleSubjectAdapter(Context context, List<SimpleSubjectBean> data) {
+    public SubjectAdapter(Context context, List<SimpleSubjectBean> data) {
         this(context, data, false);
     }
 
-    public SimpleSubjectAdapter(Context context, List<SimpleSubjectBean> data,
-                                boolean isComingMovie) {
+    public SubjectAdapter(Context context, List<SimpleSubjectBean> data,
+                          boolean isComingMovie) {
         this.mContext = context;
         this.mData = data;
         this.isComingMovie = isComingMovie;

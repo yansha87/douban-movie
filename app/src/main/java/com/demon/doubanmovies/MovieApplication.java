@@ -32,7 +32,6 @@ public class MovieApplication extends Application {
     public static Gson gson;
     private static DisplayImageOptions mLoaderOptions;
     private static DisplayImageOptions mLoaderRoundedOptions;
-    private static RequestQueue mQueue;
     private static DataSource mSource;
     private static String mCrashReportId = "900019796";
     private static MovieApplication instance = new MovieApplication();
@@ -45,28 +44,12 @@ public class MovieApplication extends Application {
         return mSource;
     }
 
-    public static RequestQueue getHttpQueue() {
-        return mQueue;
-    }
-
     public static DisplayImageOptions getLoaderOptions() {
         return mLoaderOptions;
     }
 
     public static DisplayImageOptions getLoaderRoundedOptions() {
         return mLoaderRoundedOptions;
-    }
-
-    public static void addRequest(Request request, Object tag) {
-        request.setTag(tag);
-        request.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        mQueue.add(request);
-    }
-
-    public static void removeRequest(Object tag) {
-        mQueue.cancelAll(tag);
     }
 
     @Override
@@ -78,9 +61,7 @@ public class MovieApplication extends Application {
         // LeakCanary initial
         LeakCanary.install(this);
 
-
         initImageLoader(getApplicationContext());
-        mQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
         mSource = new DataSource(getApplicationContext());
         try {
             mSource.open();
