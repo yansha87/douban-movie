@@ -7,19 +7,14 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.SubjectBean;
-import com.demon.doubanmovies.db.bean.WorksEntity;
 
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by demon on 2016/2/27.
- */
-public class MovieAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
+public class RecommendMovieAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
     protected OnItemClickListener mCallback;
 
-    public MovieAdapter(RecyclerView view, Collection<SimpleSubjectBean> datas) {
+    public RecommendMovieAdapter(RecyclerView view, Collection<SimpleSubjectBean> datas) {
         super(view, datas, R.layout.item_simple_movie_layout);
         setOnItemClickListener((View v, Object data, int position) -> {
                     if (mCallback != null) {

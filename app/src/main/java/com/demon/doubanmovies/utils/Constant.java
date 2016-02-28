@@ -33,10 +33,6 @@ public class Constant {
     public static final String US_BOX = "us_box";
     public static final String COMING = "coming_soon";
     public static final String TOP250 = "top250";
-    public static final String SUBJECT = "/v2/movie/subject/";
-    public static final String CELEBRITY = "/v2/movie/celebrity/";
-    public static final String SEARCH_Q = "/v2/movie/search?q=";
-    public static final String SEARCH_TAG = "/v2/movie/search?tag=";
 
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();

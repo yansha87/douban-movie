@@ -11,9 +11,6 @@ import com.demon.doubanmovies.R;
 
 import de.psdev.licensesdialog.LicensesDialog;
 
-/**
- * Created by user on 2016/2/18.
- */
 public class SettingFragment extends PreferenceFragmentCompat {
     private static final String TAG = "SettingFragment";
     private static final String OTHER = "other";

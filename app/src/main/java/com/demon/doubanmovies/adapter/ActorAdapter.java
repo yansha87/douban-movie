@@ -58,7 +58,7 @@ public class ActorAdapter extends BaseAdapter<ActorAdapter.ViewHolder> {
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_simple_actor_image)
         ImageView imageMovie;

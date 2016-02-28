@@ -2,30 +2,19 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
 import com.demon.doubanmovies.db.bean.CelebrityEntity;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.db.bean.SubjectBean;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
 
-    private static final String URI_FOR_FILE = "file:/";
     protected OnItemClickListener mCallback;
     private Context mContext;
 
@@ -57,8 +46,7 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
         holder.setText(R.id.tv_item_favorite_rating, String.format("%s", rate));
         holder.setText(R.id.tv_item_favorite_cel, getBaseInformation(item));
 
-        String url = String.format("%s%s", URI_FOR_FILE, item.localImageFile);
-        holder.setRoundImageFromUrl(R.id.iv_item_favorite_image, url);
+        holder.setRoundImageFromUrl(R.id.iv_item_favorite_image, item.localImageFile);
     }
 
     private String getBaseInformation(SubjectBean item) {

@@ -1,5 +1,6 @@
 package com.demon.doubanmovies.adapter.base;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -8,24 +9,21 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.demon.doubanmovies.MovieApplication;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.demon.doubanmovies.utils.DensityUtil;
 
-import org.w3c.dom.Text;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-/**
- * Created by user on 2016/2/24.
- */
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
+    private static final String TAG = "BaseRecyclerHolder";
     private final SparseArray<View> mViews;
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
-    protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
-    protected DisplayImageOptions roundOptions = MovieApplication.getLoaderRoundedOptions();
+    private Context mContext;
 
     public BaseRecyclerHolder(View itemView) {
         super(itemView);
 
+        mContext = itemView.getContext();
         // 最多16个view
         this.mViews = new SparseArray<>(16);
     }
@@ -63,13 +61,23 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
 
     public BaseRecyclerHolder setRoundImageFromUrl(int viewId, String url) {
         ImageView view = getView(viewId);
-        imageLoader.displayImage(url, view, roundOptions);
+        Glide.with(mContext)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new RoundedCornersTransformation(mContext,
+                        DensityUtil.dp2px(mContext, 2), 0))
+                .crossFade()
+                .into(view);
         return this;
     }
 
     public BaseRecyclerHolder setImageFromUrl(int viewId, String url) {
         ImageView view = getView(viewId);
-        imageLoader.displayImage(url, view, options);
+        Glide.with(mContext)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
+                .into(view);
         return this;
     }
 

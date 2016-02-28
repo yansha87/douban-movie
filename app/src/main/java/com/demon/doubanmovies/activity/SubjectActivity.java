@@ -41,7 +41,7 @@ import android.widget.Toast;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.ActorAdapter;
-import com.demon.doubanmovies.adapter.MovieAdapter;
+import com.demon.doubanmovies.adapter.RecommendMovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityEntity;
 import com.demon.doubanmovies.db.bean.SimpleActorBean;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
@@ -77,10 +77,7 @@ public class SubjectActivity extends AppCompatActivity
     //intent中subjectId的key用于查询数据
     private static final String KEY_SUBJECT_ID = "subject_id";
     private static final String KEY_IMAGE_URL = "image_url";
-    //json中subject的标签s
-    private static final String URI_FOR_FILE = "file:/";
     private static final String URI_FOR_IMAGE = ".png";
-
     private static final String TAG = "SubjectActivity";
 
 
@@ -131,18 +128,16 @@ public class SubjectActivity extends AppCompatActivity
     @Bind(R.id.tv_subject_recommend_tip)
     TextView mRecommendTip;
     @Bind(R.id.re_subject_recommend)
-    RecyclerView mRecommend;
+    RecyclerView mRecommendView;
 
     // movie subject
     private String mId;
     private SubjectBean mSubject;
 
-    private List<SimpleActorBean> mActorData = new ArrayList<>();
     private ActorAdapter mActorAdapter;
 
     private String mRecommendTags;
-    private List<SimpleSubjectBean> mRecommendData = new ArrayList<>();
-    private MovieAdapter mRecommendMovieAdapter;
+    private RecommendMovieAdapter mRecommendMovieAdapter;
     private boolean isSummaryShow = false;
 
     private File mFile;
@@ -217,16 +212,15 @@ public class SubjectActivity extends AppCompatActivity
         mActorAdapter = new ActorAdapter(this);
         mActorView.setAdapter(mActorAdapter);
 
-        mRecommend.setLayoutManager(new LinearLayoutManager(
+        mRecommendView.setLayoutManager(new LinearLayoutManager(
                 SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        mRecommendMovieAdapter = new MovieAdapter(mRecommend, null);
-        mRecommend.setAdapter(mRecommendMovieAdapter);
+        mRecommendMovieAdapter = new RecommendMovieAdapter(mRecommendView, null);
+        mRecommendView.setAdapter(mRecommendMovieAdapter);
 
         mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 mId + URI_FOR_IMAGE);
         // 判断从缓存加载图片还是从网络加载图片
-        String imageUri = (mFile.exists() ?
-                String.format("%s%s", URI_FOR_FILE, mFile.getPath()) :
+        String imageUri = (mFile.exists() ? mFile.getPath() :
                 getIntent().getStringExtra(KEY_IMAGE_URL));
 
         imageLoader.displayImage(imageUri, mToolbarImage, options,
@@ -249,7 +243,8 @@ public class SubjectActivity extends AppCompatActivity
 
 
     private void initEvent() {
-        scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) -> {
+        scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX,
+                                              int scrollY, int oldScrollX, int oldScrollY) -> {
             if (titleDy == Float.MAX_VALUE) {
                 /** 计算显示标题需要滑动的距离 */
                 titleDy = mTitle.getY() + mTitle.getHeight();
@@ -304,8 +299,6 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     private void initData() {
-        mActorAdapter.update(mActorData);
-        mRecommendMovieAdapter.update(mRecommendData);
         loadSubjectData();
     }
 
@@ -394,22 +387,19 @@ public class SubjectActivity extends AppCompatActivity
      */
     private void getActorData() {
         mActorTip.setText(getString(R.string.actor_list));
+        List<SimpleActorBean> actorData = new ArrayList<>();
 
-        int directorCount = mSubject.directors.size();
-        for (int i = 0; i < directorCount; i++) {
-            CelebrityEntity celebrity = mSubject.directors.get(i);
-            if (celebrity.id != null)
-                mActorData.add(new SimpleActorBean(celebrity, 1));
+        for (CelebrityEntity entity : mSubject.directors) {
+            if (entity != null)
+                actorData.add(new SimpleActorBean(entity, 1));
         }
 
-        for (int i = 0; i < mSubject.casts.size(); i++) {
-            CelebrityEntity celebrity = mSubject.casts.get(i);
-            if (celebrity.id != null)
-                mActorData.add(new SimpleActorBean(celebrity, 3));
-
+        for (CelebrityEntity entity : mSubject.casts) {
+            if (entity.id != null)
+                actorData.add(new SimpleActorBean(entity, 3));
         }
 
-        mActorAdapter.update(mActorData);
+        mActorAdapter.update(actorData);
         mActorView.setVisibility(View.VISIBLE);
     }
 
@@ -418,7 +408,7 @@ public class SubjectActivity extends AppCompatActivity
                 .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
                     @Override
                     public void onCompleted() {
-
+                        mRecommendView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -432,17 +422,8 @@ public class SubjectActivity extends AppCompatActivity
                     public void onNext(List<SimpleSubjectBean> simpleSubjectBeans) {
                         mRecommendTip.setText(getString(R.string.recommend_list));
                         mRecommendTip.setClickable(false);
-                        /* mRecommendData = new ArrayList<>();
-                        for (SimpleSubjectBean simpleSub : simpleSubjectBeans) {
-                            mRecommendData.add(new SimpleCardBean(
-                                    simpleSub.id,
-                                    simpleSub.title,
-                                    simpleSub.images.large,
-                                    true));
-                        } */
-                        mRecommendData = simpleSubjectBeans;
-                        mRecommendMovieAdapter.update(mRecommendData);
-                        mRecommend.setVisibility(View.VISIBLE);
+
+                        mRecommendMovieAdapter.update(simpleSubjectBeans);
                     }
                 });
     }
@@ -451,13 +432,6 @@ public class SubjectActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
     }
-
-    /*
-    @Override
-    public void onItemClick(String id, String imageUrl, Boolean isFilm) {
-
-    }
-    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -592,5 +566,4 @@ public class SubjectActivity extends AppCompatActivity
                 break;
         }
     }
-
 }

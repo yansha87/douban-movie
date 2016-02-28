@@ -61,6 +61,7 @@ public class MovieApplication extends Application {
         // LeakCanary initial
         LeakCanary.install(this);
 
+        // imageloader initial
         initImageLoader(getApplicationContext());
         mSource = new DataSource(getApplicationContext());
         try {

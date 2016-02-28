@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
-import com.demon.doubanmovies.adapter.MovieAdapter2;
+import com.demon.doubanmovies.adapter.WorksMovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityBean;
 import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.StringUtil;
@@ -54,7 +54,7 @@ public class CelebrityActivity extends BaseToolbarActivity {
     LinearLayout mCelLayout;
 
     private CelebrityBean mCelebrity;
-    private MovieAdapter2 mWorksAdapter;
+    private WorksMovieAdapter mWorksAdapter;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options = MovieApplication.getLoaderOptions();
@@ -79,7 +79,7 @@ public class CelebrityActivity extends BaseToolbarActivity {
 
     @Override
     protected void initListeners() {
-        mWorksAdapter = new MovieAdapter2(mWorksView, null);
+        mWorksAdapter = new WorksMovieAdapter(mWorksView, null);
 
         mWorksAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
             SubjectActivity.toActivity(CelebrityActivity.this, id, imageUrl);

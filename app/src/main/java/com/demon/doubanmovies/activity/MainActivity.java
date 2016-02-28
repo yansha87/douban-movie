@@ -17,9 +17,6 @@ import com.demon.doubanmovies.fragment.HomeFragment;
 import com.demon.doubanmovies.fragment.SettingFragment;
 import com.demon.doubanmovies.utils.Constant;
 
-/**
- * Created by user on 2016/2/23.
- */
 public class MainActivity extends BaseDrawerLayoutActivity {
 
     private FragmentManager mFragmentManager;

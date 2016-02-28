@@ -1,7 +1,6 @@
 package com.demon.doubanmovies.activity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,23 +10,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.SearchAdapter;
 import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.douban.DataManager;
-import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.widget.SearchMovieView;
-import com.google.gson.GsonBuilder;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
