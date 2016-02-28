@@ -16,11 +16,9 @@ import java.util.List;
 
 public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
     protected OnItemClickListener mCallback;
-    private Context mContext;
 
     public SearchAdapter(RecyclerView view, Collection<SimpleSubjectBean> datas) {
         super(view, datas, R.layout.item_search_layout);
-        mContext = view.getContext();
         setOnItemClickListener((View v, Object data, int position) -> {
             if (mCallback != null) {
                 SimpleSubjectBean bean = (SimpleSubjectBean) data;

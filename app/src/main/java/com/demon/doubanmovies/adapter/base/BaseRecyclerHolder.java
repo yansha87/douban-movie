@@ -66,6 +66,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new RoundedCornersTransformation(mContext,
                         DensityUtil.dp2px(mContext, 2), 0))
+                .centerCrop()
                 .crossFade()
                 .into(view);
         return this;
@@ -76,6 +77,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
         Glide.with(mContext)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .crossFade()
                 .into(view);
         return this;

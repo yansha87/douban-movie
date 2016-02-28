@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -122,12 +121,14 @@ public class SearchActivity extends BaseToolbarActivity {
                 .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
                     @Override
                     public void onCompleted() {
-
+                        if (mDialog != null) {
+                            mDialog.dismiss();
+                            mDialog = null;
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: " + e.toString());
                         if (mDialog != null) {
                             mDialog.dismiss();
                             mDialog = null;
@@ -139,10 +140,6 @@ public class SearchActivity extends BaseToolbarActivity {
 
                     @Override
                     public void onNext(List<SimpleSubjectBean> simpleSubjectBeans) {
-                        if (mDialog != null) {
-                            mDialog.dismiss();
-                            mDialog = null;
-                        }
                         mData = simpleSubjectBeans;
                         if (mData.size() == 0) {
                             Toast.makeText(SearchActivity.this, R.string.search_no_result,

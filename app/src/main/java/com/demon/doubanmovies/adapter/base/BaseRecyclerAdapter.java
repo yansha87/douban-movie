@@ -28,7 +28,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         }
 
         this.mItemLayoutId = itemLayoutId;
-        mContext = view.getContext();
+        this.mContext = view.getContext();
         view.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

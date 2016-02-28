@@ -14,15 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.demon.doubanmovies.MovieApplication;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.WorksMovieAdapter;
 import com.demon.doubanmovies.db.bean.CelebrityBean;
 import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.StringUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,9 +54,6 @@ public class CelebrityActivity extends BaseToolbarActivity {
 
     private CelebrityBean mCelebrity;
     private WorksMovieAdapter mWorksAdapter;
-
-    private ImageLoader imageLoader = ImageLoader.getInstance();
-    private DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
     public static void toActivity(Context context, String id) {
         Intent intent = new Intent(context, CelebrityActivity.class);
@@ -156,7 +152,11 @@ public class CelebrityActivity extends BaseToolbarActivity {
     private void setViewAfterGetData(CelebrityBean bean) {
         if (bean == null) return;
         mActionBarHelper.setTitle(bean.name);
-        imageLoader.displayImage(bean.avatars.medium, mImage, options);
+        Glide.with(this)
+                .load(bean.avatars.large)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(mImage);
         mName.setText(bean.name);
         mNameEn.setText(bean.name_en);
         String gender = getResources().getString(R.string.gender);

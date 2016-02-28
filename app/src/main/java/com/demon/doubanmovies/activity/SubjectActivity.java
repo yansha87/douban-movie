@@ -38,6 +38,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.ActorAdapter;
@@ -54,9 +58,7 @@ import com.demon.doubanmovies.utils.StringUtil;
 import com.demon.doubanmovies.widget.ColoredSnackbar;
 import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -144,7 +146,6 @@ public class SubjectActivity extends AppCompatActivity
     private boolean isCollect = false;
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
-    private DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
     private float titleDy = Float.MAX_VALUE;
 
@@ -209,7 +210,7 @@ public class SubjectActivity extends AppCompatActivity
 
         mActorView.setLayoutManager(new LinearLayoutManager(SubjectActivity.this,
                 LinearLayoutManager.HORIZONTAL, false));
-        mActorAdapter = new ActorAdapter(this);
+        mActorAdapter = new ActorAdapter(mActorView, null);
         mActorView.setAdapter(mActorAdapter);
 
         mRecommendView.setLayoutManager(new LinearLayoutManager(
@@ -223,22 +224,28 @@ public class SubjectActivity extends AppCompatActivity
         String imageUri = (mFile.exists() ? mFile.getPath() :
                 getIntent().getStringExtra(KEY_IMAGE_URL));
 
-        imageLoader.displayImage(imageUri, mToolbarImage, options,
-                new SimpleImageLoadingListener() {
+        Glide.with(this)
+                .load(imageUri)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .listener(new RequestListener<String, Bitmap>() {
                     @Override
-                    public void onLoadingComplete(String imageUri, View view,
-                                                  final Bitmap loadedImage) {
-                        super.onLoadingComplete(imageUri, view, loadedImage);
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-
-                        Bitmap blurBitmap = BitmapUtil.fastBlur(loadedImage, 25);
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        Bitmap blurBitmap = BitmapUtil.fastBlur(resource, 25);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
                         // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
                         // toolbar模糊背景
                         mToolbarContainer.setBackground(drawable);
+                        return false;
                     }
-                });
+                }).into(mToolbarImage);
     }
 
 
