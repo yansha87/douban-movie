@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.v4.content.ContextCompat;
 import android.text.style.ReplacementSpan;
 
 import com.demon.doubanmovies.R;
@@ -16,8 +17,8 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
     public RoundedBackgroundSpan(Context context) {
         super();
-        backgroundColor = context.getResources().getColor(R.color.green_100);
-        textColor = context.getResources().getColor(R.color.gray_white_1000);
+        backgroundColor = ContextCompat.getColor(context, R.color.green_100);
+        textColor = ContextCompat.getColor(context, R.color.gray_white_1000);
     }
 
     @Override

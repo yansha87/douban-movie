@@ -16,7 +16,6 @@ import com.demon.doubanmovies.utils.DensityUtil;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
-    private static final String TAG = "BaseRecyclerHolder";
     private final SparseArray<View> mViews;
     private Context mContext;
 
@@ -24,7 +23,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         mContext = itemView.getContext();
-        // 最多16个view
+        // item 最多只能有16个 view，超过就跪了
         this.mViews = new SparseArray<>(16);
     }
 

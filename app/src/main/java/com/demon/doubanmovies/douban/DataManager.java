@@ -12,7 +12,6 @@ import java.util.List;
 import rx.Observable;
 
 public class DataManager {
-    private static final String TAG = "DataManager";
     private static DataManager dataManager;
     private MovieModel movieModel;
 

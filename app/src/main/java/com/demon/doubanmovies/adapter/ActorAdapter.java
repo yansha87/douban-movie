@@ -39,8 +39,11 @@ public class ActorAdapter extends BaseRecyclerAdapter<SimpleActorBean> {
     @Override
     public void convert(BaseRecyclerHolder holder, SimpleActorBean item, int position, boolean isScrolling) {
         holder.setText(R.id.tv_item_simple_actor_text, item.entity.name);
-        if (item.type == 1)
+        if (item.type == 1) {
             holder.setText(R.id.tv_item_simple_director_text, mContext.getString(R.string.directors));
+        } else {
+            holder.setText(R.id.tv_item_simple_director_text, "");
+        }
         String imageUrl = getImageUrl(item.entity);
         if (imageUrl != null)
             holder.setImageFromUrl(R.id.iv_item_simple_actor_image, imageUrl);

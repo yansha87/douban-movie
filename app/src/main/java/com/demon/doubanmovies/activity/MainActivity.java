@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseDrawerLayoutActivity;
-import com.demon.doubanmovies.fragment.BaseFragment;
+import com.demon.doubanmovies.fragment.base.BaseFragment;
 import com.demon.doubanmovies.fragment.FavoriteFragment;
 import com.demon.doubanmovies.fragment.HomeFragment;
 import com.demon.doubanmovies.fragment.SettingFragment;

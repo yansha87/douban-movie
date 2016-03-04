@@ -69,6 +69,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         }
     }
 
+    // 更新 RecyclerView
     public void update(List<T> data) {
         this.mDatas.clear();
         notifyDataSetChanged();

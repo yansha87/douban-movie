@@ -12,14 +12,12 @@ import com.demon.doubanmovies.R;
 import de.psdev.licensesdialog.LicensesDialog;
 
 public class SettingFragment extends PreferenceFragmentCompat {
-    private static final String TAG = "SettingFragment";
     private static final String OTHER = "other";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

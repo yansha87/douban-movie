@@ -1,7 +1,6 @@
 package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.DensityUtil;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,13 +45,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
      * 判断是否属于“即将上映”
      */
     private boolean isComingMovie;
-
-    /**
-     * imageLoader的异步加载监听接口实例
-     */
-    private ImageLoadingListener imageLoadingListener =
-            new AnimateFirstDisplayListener();
-
+    
     public SubjectAdapter(Context context, List<SimpleSubjectBean> data) {
         this(context, data, false);
     }
@@ -157,21 +147,6 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
 
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -206,8 +181,9 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             String title = subjectBean.title;
             textTitle.setText(title);
 
-            imageLoader.displayImage(subjectBean.images.large,
-                    imageMovie, options, imageLoadingListener);
+            Glide.with(mContext)
+                    .load(subjectBean.images.large)
+                    .into(imageMovie);
         }
 
         @Override

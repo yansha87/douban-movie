@@ -1,18 +1,12 @@
-package com.demon.doubanmovies.adapter;
+package com.demon.doubanmovies.adapter.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
-import com.demon.doubanmovies.MovieApplication;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 public class BaseAdapter<T extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<T> {
     protected OnItemClickListener mCallback;
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
-    protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mCallback = listener;

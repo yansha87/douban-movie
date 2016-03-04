@@ -52,8 +52,8 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
         this.mCanChildScrollUpCallback = mCanChildScrollUpCallback;
     }
 
-    public static interface CanChildScrollUpCallback {
-        public boolean canSwipeRefreshChildScrollUp();
+    public interface CanChildScrollUpCallback {
+        boolean canSwipeRefreshChildScrollUp();
     }
 
     @Override

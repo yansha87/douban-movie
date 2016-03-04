@@ -1,4 +1,4 @@
-package com.demon.doubanmovies.fragment;
+package com.demon.doubanmovies.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

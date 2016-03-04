@@ -11,29 +11,27 @@ import android.view.ViewGroup;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.FavoriteAdapter;
+import com.demon.doubanmovies.fragment.base.BaseFragment;
 import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.demon.doubanmovies.model.realm.SimpleSubject;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.RealmUtil;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 // 收藏
 public class FavoriteFragment extends BaseFragment {
 
     private FavoriteAdapter mAdapter;
-    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = super.onCreateView(inflater, container, savedInstanceState);
+        View mView = super.onCreateView(inflater, container, savedInstanceState);
         int padding = DensityUtil.dp2px(getContext(), 3f);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -15,10 +15,11 @@
 ![favorite](https://github.com/demonyan/douban-movie/blob/master/screenshots/favorite.png) ![search](https://github.com/demonyan/douban-movie/blob/master/screenshots/search.png)  
 
 ##待完成
-1. 完善setting
+1. 完善 setting
 2. 添加夜间模式
-3. 适配低版本SDK
+3. 适配低版本 SDK
 4. 增加适当的转场动画
-5. 完善ProGuard配置文件
+5. 完善 ProGuard 配置文件
 6. 完善签名发布
-7. ...
+7. 也许可以试试 Data Binding
+8. ...

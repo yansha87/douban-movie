@@ -14,6 +14,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -46,12 +47,12 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.ActorAdapter;
 import com.demon.doubanmovies.adapter.RecommendMovieAdapter;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.model.bean.CelebrityEntity;
 import com.demon.doubanmovies.model.bean.SimpleActorBean;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.demon.doubanmovies.model.realm.SimpleSubject;
-import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
@@ -59,7 +60,6 @@ import com.demon.doubanmovies.utils.RealmUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 import com.demon.doubanmovies.widget.ColoredSnackbar;
 import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -147,8 +147,6 @@ public class SubjectActivity extends AppCompatActivity
     private File mFile;
     private boolean isCollect = false;
 
-    private ImageLoader imageLoader = ImageLoader.getInstance();
-
     private float titleDy = Float.MAX_VALUE;
 
     public static void toActivity(Activity activity, String id, String imageUrl) {
@@ -187,17 +185,6 @@ public class SubjectActivity extends AppCompatActivity
         }
 
         mId = getIntent().getStringExtra(KEY_SUBJECT_ID);
-
-        SimpleSubject subject = Realm.getDefaultInstance().where(SimpleSubject.class)
-                .equalTo("id", mId).findFirst();
-        if (subject != null) {
-            subject.getJsonStr();
-            mSubject = MovieApplication.gson.fromJson(subject.getJsonStr(), Constant.subType);
-        }
-
-        if (mSubject != null) {
-            isCollect = true;
-        }
 
         initView();
         initEvent();
@@ -278,7 +265,6 @@ public class SubjectActivity extends AppCompatActivity
         mRefresh.setOnRefreshListener(this);
         mFloatingButton.setOnClickListener(this);
         mRecommendMovieAdapter.setOnItemClickListener((String id, String imageUrl, Boolean isFilm) -> {
-
             if (id == null) {
                 Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null);
@@ -299,7 +285,7 @@ public class SubjectActivity extends AppCompatActivity
             if (id == null) {
                 Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null);
-                // 改变snackbar默认颜色
+                // 改变 SnackBar 默认颜色
                 ColoredSnackbar.alert(snackbar).show();
             }
 
@@ -310,11 +296,22 @@ public class SubjectActivity extends AppCompatActivity
             }
         });
 
-        //利用appBarLayout的回调接口禁止或启用swipeRefreshLayout
+        // 利用 appBarLayout 的回调接口禁止或启用 swipeRefreshLayout
         mHeaderContainer.addOnOffsetChangedListener(this);
     }
 
     private void initData() {
+        SimpleSubject subject = Realm.getDefaultInstance().where(SimpleSubject.class)
+                .equalTo(Constant.SIMPLE_SUBJECT_ID, mId).findFirst();
+        if (subject != null) {
+            subject.getJsonStr();
+            mSubject = MovieApplication.gson.fromJson(subject.getJsonStr(), Constant.subType);
+        }
+
+        if (mSubject != null) {
+            isCollect = true;
+        }
+
         loadSubjectData();
     }
 
@@ -368,11 +365,11 @@ public class SubjectActivity extends AppCompatActivity
 
         mGenres.setText(StringUtil.getListString(mSubject.genres, '/'));
         mCountries.setText(StringUtil.getSpannableString(
-                getString(R.string.countries), getResources().getColor(R.color.gray_black_1000)));
+                getString(R.string.countries), ContextCompat.getColor(this, R.color.gray_black_1000)));
         mCountries.append(StringUtil.getListString(mSubject.countries, '/'));
 
         mSummaryText.setText(StringUtil.getSpannableString(
-                getString(R.string.summary), getResources().getColor(R.color.gray_500)));
+                getString(R.string.summary), ContextCompat.getColor(this, R.color.gray_500)));
         mSummaryText.append(System.getProperty("line.separator"));
         mSummaryText.append(mSubject.summary);
         mSummaryText.setEllipsize(TextUtils.TruncateAt.END);
@@ -505,23 +502,38 @@ public class SubjectActivity extends AppCompatActivity
      * 用于保存content和image
      */
     private void saveMovie() {
-        if (mFile.exists()) mFile.delete();
-        FileOutputStream out = null;
+        if (mFile.exists()) {
+            mFile.delete();
+        }
         try {
-            out = new FileOutputStream(mFile);
-            Bitmap bitmap = imageLoader.loadImageSync(mSubject.images.large);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            final FileOutputStream out = new FileOutputStream(mFile);
+
+            new Thread(() -> {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(this)
+                            .load(mSubject.images.large)
+                            .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(-1, -1)       // get full size
+                            .get();
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.flush();
+                            out.close();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.flush();
-                    out.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         // 将电影信息存入到数据库中
         mSubject.localImageFile = mFile.getPath();
@@ -534,7 +546,9 @@ public class SubjectActivity extends AppCompatActivity
         // 将数据从数据库中删除
         RealmUtil.deleteRecord(Constant.SIMPLE_SUBJECT_ID, mId);
         // 将保存的海报图片删除
-        if (mFile.exists()) mFile.delete();
+        if (mFile.exists()) {
+            mFile.delete();
+        }
     }
 
 
@@ -574,7 +588,8 @@ public class SubjectActivity extends AppCompatActivity
                 }
                 break;
             case R.id.btn_subject_skip://跳往豆瓣电影的移动版网页
-                if (mSubject == null) break;
+                if (mSubject == null)
+                    break;
                 WebActivity.toWebActivity(this,
                         mSubject.mobile_url, mSubject.title);
                 break;

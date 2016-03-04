@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.douban.DataManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         mViewPager.setOffscreenPageLimit(TITLES.length);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.setTabTextColors(Color.GRAY, getResources().getColor(R.color.blue_500));
+        mTabLayout.setTabTextColors(Color.GRAY, ContextCompat.getColor(getActivity(), R.color.blue_500));
         mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

@@ -22,7 +22,7 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
-import com.demon.doubanmovies.adapter.BaseAdapter;
+import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.adapter.SubjectAdapter;
 import com.demon.doubanmovies.model.bean.CNMovieBean;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
@@ -56,7 +56,6 @@ import static com.demon.doubanmovies.utils.Constant.title2TypeDict;
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
     private static final String AUTO_REFRESH = "auto refresh?";
-    private static final String LAST_RECORD = "last record";
     private static final int RECORD_COUNT = 20;
 
     private static final String KEY_FRAGMENT_TITLE = "title";

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.utils.Constant;
-import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Response;
 
@@ -33,7 +32,7 @@ public class DoubanMovie {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.API)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(MovieApplication.getInstance().gson))
+                .addConverterFactory(GsonConverterFactory.create(MovieApplication.gson))
                 .client(okHttpClient)
                 .build();
 

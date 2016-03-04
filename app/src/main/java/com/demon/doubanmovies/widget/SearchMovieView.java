@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.ResultReceiver;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -36,7 +37,9 @@ public class SearchMovieView extends LinearLayout {
     SearchAutoComplete mQueryTextView;
     @Bind(R.id.view_search_close_btn)
     ImageView mClearTextButton;
+
     private boolean mClearingFocus;
+    private Context mContext;
     private OnQueryTextListener mOnQueryChangeListener;
     private OnClearButtonListener mOnClearButtonListener;
     private Runnable mShowImeRunnable = () -> {
@@ -48,9 +51,7 @@ public class SearchMovieView extends LinearLayout {
         }
     };
 
-    private Runnable mUpdateDrawableStateRunnable = () -> {
-        updateFocusedState();
-    };
+    private Runnable mUpdateDrawableStateRunnable = this::updateFocusedState;
 
     public SearchMovieView(Context context) {
         this(context, null);
@@ -59,6 +60,7 @@ public class SearchMovieView extends LinearLayout {
     public SearchMovieView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        mContext = context;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_movie_search, this, true);
@@ -232,7 +234,7 @@ public class SearchMovieView extends LinearLayout {
 
     private CharSequence getDecoratedHint(CharSequence hintText) {
         Spannable spannable = new SpannableString(hintText);
-        spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_200)),
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.blue_200)),
                 0, hintText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
     }
