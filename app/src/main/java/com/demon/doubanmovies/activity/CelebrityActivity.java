@@ -19,7 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.WorksMovieAdapter;
-import com.demon.doubanmovies.db.bean.CelebrityBean;
+import com.demon.doubanmovies.model.bean.CelebrityBean;
 import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.StringUtil;
 

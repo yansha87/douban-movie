@@ -11,10 +11,18 @@ import android.view.ViewGroup;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.FavoriteAdapter;
-import com.demon.doubanmovies.db.bean.SubjectBean;
+import com.demon.doubanmovies.model.bean.SubjectBean;
+import com.demon.doubanmovies.model.realm.SimpleSubject;
+import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.RealmUtil;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 // 收藏
 public class FavoriteFragment extends BaseFragment {
@@ -58,7 +66,14 @@ public class FavoriteFragment extends BaseFragment {
 
         @Override
         protected List<SubjectBean> doInBackground(Void... voids) {
-            return MovieApplication.getDataSource().getMovieForCollected();
+
+            RealmResults<SimpleSubject> subjects = RealmUtil.queryRecord(Constant.SIMPLE_SUBJECT_FOR, "1");
+            List<SubjectBean> beanList = new ArrayList<>();
+            for (SimpleSubject subject : subjects) {
+                SubjectBean bean = MovieApplication.gson.fromJson(subject.getJsonStr(), Constant.subType);
+                beanList.add(bean);
+            }
+            return beanList;
         }
 
         @Override

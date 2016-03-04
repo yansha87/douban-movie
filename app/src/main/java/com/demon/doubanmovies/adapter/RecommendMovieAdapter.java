@@ -6,7 +6,7 @@ import android.view.View;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +35,8 @@ public class RecommendMovieAdapter extends BaseRecyclerAdapter<SimpleSubjectBean
     }
 
     @Override
-    public void convert(BaseRecyclerHolder holder, SimpleSubjectBean item, int position, boolean isScrolling) {
+    public void convert(BaseRecyclerHolder holder, SimpleSubjectBean item,
+                        int position, boolean isScrolling) {
         holder.setText(R.id.tv_item_simple_movie_text, item.title);
         holder.setImageFromUrl(R.id.iv_item_simple_movie_image, item.images.large);
     }

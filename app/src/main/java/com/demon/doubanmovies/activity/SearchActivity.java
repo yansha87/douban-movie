@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.SearchAdapter;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.widget.SearchMovieView;
 import com.zhy.view.flowlayout.FlowLayout;

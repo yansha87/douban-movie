@@ -1,4 +1,4 @@
-package com.demon.doubanmovies.db.bean;
+package com.demon.doubanmovies.model.bean;
 
 public class SimpleActorBean {
     public CelebrityEntity entity;

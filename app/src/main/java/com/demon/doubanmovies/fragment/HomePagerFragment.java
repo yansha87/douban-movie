@@ -2,9 +2,7 @@ package com.demon.doubanmovies.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -20,16 +18,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.BaseAdapter;
 import com.demon.doubanmovies.adapter.SubjectAdapter;
-import com.demon.doubanmovies.db.bean.USSubjectBean;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.CNMovieBean;
+import com.demon.doubanmovies.model.bean.CNMovieBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.USSubjectBean;
+import com.demon.doubanmovies.model.realm.SimpleSubject;
 import com.demon.doubanmovies.douban.DataManager;
+import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.RealmUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -37,10 +39,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import rx.Subscriber;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.demon.doubanmovies.utils.Constant.*;
+import static com.demon.doubanmovies.utils.Constant.COMING;
+import static com.demon.doubanmovies.utils.Constant.IN_THEATERS;
+import static com.demon.doubanmovies.utils.Constant.POS_COMING;
+import static com.demon.doubanmovies.utils.Constant.POS_IN_THEATERS;
+import static com.demon.doubanmovies.utils.Constant.POS_TOP250;
+import static com.demon.doubanmovies.utils.Constant.POS_US_BOX;
+import static com.demon.doubanmovies.utils.Constant.TOP250;
+import static com.demon.doubanmovies.utils.Constant.simpleSubTypeList;
+import static com.demon.doubanmovies.utils.Constant.title2TypeDict;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
@@ -59,16 +70,11 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     @Bind(R.id.btn_fragment)
     FloatingActionButton mFloatingButton;
 
-    private String mDataString;
     private SubjectAdapter mSubjectAdapter;
-    private List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
-    private List<USSubjectBean> mBoxData = new ArrayList<>();
 
     private int mTitlePos;
     private boolean isFirstRefresh = true;
     private int mStart = 0;
-
-    private SharedPreferences mSharePreferences;
 
     public static HomePagerFragment newInstance(int titlePos) {
         HomePagerFragment fragment = new HomePagerFragment();
@@ -121,18 +127,14 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mRefresh.setColorSchemeResources(R.color.colorPrimary);
         mRefresh.setProgressViewOffset(
                 false, 0, DensityUtil.dp2px(getContext(), 32f));
-        mSharePreferences = getActivity().getSharedPreferences(
-                LAST_RECORD, Context.MODE_PRIVATE);
         switch (mTitlePos) {
             case POS_IN_THEATERS:
             case POS_TOP250:
+            case POS_US_BOX:
                 initSimpleRecyclerView(false);
                 break;
             case POS_COMING:
                 initSimpleRecyclerView(true);
-                break;
-            case POS_US_BOX:
-                initBoxRecyclerView();
                 break;
             default:
         }
@@ -188,7 +190,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 初始化“正在上映”和“即将上映”对应的fragment
+     * 初始化fragment
      */
     private void initSimpleRecyclerView(boolean isComing) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
@@ -196,7 +198,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setBackgroundResource(R.color.gray_100);
 
-        //请求网络数据前先加载上次的电影数据
+        // 请求网络数据前先加载上次的电影数据
+        List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
         mSubjectAdapter = new SubjectAdapter(getActivity(), mSimpleData, isComing);
         if (getRecord() != null) {
             mSimpleData = new Gson().fromJson(getRecord(), simpleSubTypeList);
@@ -206,28 +209,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         mRecyclerView.setAdapter(mSubjectAdapter);
     }
 
-    /**
-     * 初始化“北美票房”对应的fragment
-     */
-    private void initBoxRecyclerView() {
-
-        GridLayoutManager boxManager = new GridLayoutManager(getActivity(),
-                getResources().getInteger(R.integer.num_columns));
-        mRecyclerView.setLayoutManager(boxManager);
-        // 请求网络数据前先加载上次的电影数据
-        if (getRecord() != null) {
-            mBoxData = new Gson().fromJson(getRecord(), simpleBoxTypeList);
-        }
-
-        List<SimpleSubjectBean> data = new ArrayList<>();
-        for (int i = 0; i < mBoxData.size(); i++) {
-            data.add(mBoxData.get(i).subject);
-        }
-
-        mSubjectAdapter = new SubjectAdapter(getActivity(), data, false);
-        mSubjectAdapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(mSubjectAdapter);
-    }
 
     //更新电影数据
     private void updateMovieData() {
@@ -259,18 +240,20 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: " + e.toString());
                         mRefresh.setRefreshing(false);
                     }
 
                     @Override
                     public void onNext(CNMovieBean bean) {
                         mSubjectAdapter.updateList(bean.subjects, bean.total);
-                        saveRecord();
+                        saveRecord(bean.subjects);
                     }
                 });
     }
 
+    /**
+     * 加载更多
+     */
     private void loadMoreMovieData() {
         if (mSubjectAdapter.getStart() == mStart) return;
         mStart = mSubjectAdapter.getStart();
@@ -285,7 +268,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: " + e.toString());
                         mSubjectAdapter.loadFailHint();
                     }
 
@@ -316,13 +298,13 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
                     @Override
                     public void onNext(List<USSubjectBean> usSubjectBeans) {
-                        List<SimpleSubjectBean> data = new ArrayList<>();
+                        List<SimpleSubjectBean> beanList = new ArrayList<>();
                         for (USSubjectBean bean : usSubjectBeans) {
-                            data.add(bean.subject);
+                            beanList.add(bean.subject);
                         }
 
-                        mSubjectAdapter.updateList(data, data.size());
-                        saveRecord();
+                        mSubjectAdapter.updateList(beanList, beanList.size());
+                        saveRecord(beanList);
                     }
                 });
     }
@@ -340,18 +322,21 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      * 当网络不好或中断时用以显示上一次加载的数据
      */
     private String getRecord() {
-        return mSharePreferences.getString(TYPE[mTitlePos], null);
+        SimpleSubject subject = Realm.getDefaultInstance().where(SimpleSubject.class)
+                .equalTo(Constant.SIMPLE_SUBJECT_ID, TYPE[mTitlePos]).findFirst();
+        if (subject != null) {
+            return subject.getJsonStr();
+        }
+
+        return null;
     }
 
     /**
      * 保存上一次网络请求得到的数据
      */
-    private void saveRecord() {
-        if (mDataString != null) {
-            Editor edit = mSharePreferences.edit();
-            edit.putString(TYPE[mTitlePos], mDataString);
-            edit.apply();
-        }
+    private void saveRecord(List<SimpleSubjectBean> beanList) {
+        String jsonStr = MovieApplication.gson.toJson(beanList, simpleSubTypeList);
+        RealmUtil.saveRecord(TYPE[mTitlePos], jsonStr, "0");
     }
 
     /**

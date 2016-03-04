@@ -3,7 +3,6 @@ package com.demon.doubanmovies;
 import android.app.Application;
 import android.content.Context;
 
-import com.demon.doubanmovies.db.DataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -15,32 +14,28 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
-import java.sql.SQLException;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MovieApplication extends Application {
 
     public static Gson gson;
     private static DisplayImageOptions mLoaderOptions;
-    private static DataSource mSource;
     private static String mCrashReportId = "900019796";
-    private static MovieApplication instance = new MovieApplication();
+    private static MovieApplication instance;
 
     public static MovieApplication getInstance() {
         return instance;
-    }
-
-    public static DataSource getDataSource() {
-        return mSource;
     }
 
     public static DisplayImageOptions getLoaderOptions() {
         return mLoaderOptions;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         // Bugly initial
         CrashReport.initCrashReport(getApplicationContext(), mCrashReportId, false);
 
@@ -49,12 +44,11 @@ public class MovieApplication extends Application {
 
         // imageloader initial
         initImageLoader(getApplicationContext());
-        mSource = new DataSource(getApplicationContext());
-        try {
-            mSource.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this)
+                .schemaVersion(1)
+                .deleteRealmIfMigrationNeeded()
+                .build());
 
         initGson();
     }

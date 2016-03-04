@@ -1,14 +1,13 @@
 package com.demon.doubanmovies.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
-import com.demon.doubanmovies.db.bean.CelebrityEntity;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.CelebrityEntity;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 
 import java.util.ArrayList;
 import java.util.Collection;

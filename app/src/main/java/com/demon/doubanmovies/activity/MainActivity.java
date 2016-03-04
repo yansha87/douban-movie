@@ -116,11 +116,11 @@ public class MainActivity extends BaseDrawerLayoutActivity {
      */
     private Fragment createFragmentByTitle(String title) {
         switch (title) {
-            case Constant.homepage:
+            case Constant.HOMEPAGE:
                 return new HomeFragment();
-            case Constant.favorite:
+            case Constant.FAVORITE:
                 return new FavoriteFragment();
-            case Constant.setting:
+            case Constant.SETTING:
                 return new SettingFragment();
             default:
                 return new BaseFragment();

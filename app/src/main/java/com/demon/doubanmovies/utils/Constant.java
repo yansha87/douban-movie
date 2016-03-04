@@ -1,10 +1,8 @@
 package com.demon.doubanmovies.utils;
 
 import com.demon.doubanmovies.R;
-import com.demon.doubanmovies.db.bean.USSubjectBean;
-import com.demon.doubanmovies.db.bean.CelebrityBean;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.SubjectBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -19,9 +17,9 @@ public class Constant {
     public static final HashMap<Integer, String> menuId2TitleDict = new HashMap<Integer, String>();
     public static final HashMap<Integer, String> title2TypeDict = new HashMap<Integer, String>();
 
-    public static final String homepage = "首页";
-    public static final String favorite = "收藏";
-    public static final String setting = "设置";
+    public static final String HOMEPAGE = "首页";
+    public static final String FAVORITE = "收藏";
+    public static final String SETTING = "设置";
 
     public static final int POS_IN_THEATERS = 0;
     public static final int POS_COMING = 1;
@@ -34,16 +32,14 @@ public class Constant {
     public static final String COMING = "coming_soon";
     public static final String TOP250 = "top250";
 
+    public static final String SIMPLE_SUBJECT_ID = "id";
+    public static final String SIMPLE_SUBJECT_FOR = "favorite";
+
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();
 
-    public static final Type cleType = new TypeToken<CelebrityBean>() {
-    }.getType();
 
     public static final Type simpleSubTypeList = new TypeToken<List<SimpleSubjectBean>>() {
-    }.getType();
-
-    public static final Type simpleBoxTypeList = new TypeToken<List<USSubjectBean>>() {
     }.getType();
 
 
@@ -54,9 +50,9 @@ public class Constant {
     };
 
     static {
-        menuId2TitleDict.put(R.id.nav_homepage, Constant.homepage);
-        menuId2TitleDict.put(R.id.nav_favorite, Constant.favorite);
-        menuId2TitleDict.put(R.id.nav_setting, Constant.setting);
+        menuId2TitleDict.put(R.id.nav_homepage, Constant.HOMEPAGE);
+        menuId2TitleDict.put(R.id.nav_favorite, Constant.FAVORITE);
+        menuId2TitleDict.put(R.id.nav_setting, Constant.SETTING);
     }
 
     static {

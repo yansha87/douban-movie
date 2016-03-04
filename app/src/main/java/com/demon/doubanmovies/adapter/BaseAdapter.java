@@ -1,14 +1,9 @@
 package com.demon.doubanmovies.adapter;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.demon.doubanmovies.MovieApplication;
-import com.demon.doubanmovies.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -18,8 +13,6 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
     protected OnItemClickListener mCallback;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     protected DisplayImageOptions options = MovieApplication.getLoaderOptions();
-
-    private int mLastPosition = -1;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mCallback = listener;
@@ -38,26 +31,6 @@ public class BaseAdapter<T extends RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return 0;
-    }
-
-    public void showItemAnim(final View view, int pos) {
-        final Context mContext = view.getContext();
-        if (pos > mLastPosition) {
-            view.setAlpha(0.0f);
-            view.post(() -> {
-                Animator animator = AnimatorInflater.loadAnimator(
-                        mContext, R.animator.slide_from_right);
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        view.setAlpha(1.0f);
-                    }
-                });
-                animator.setTarget(view);
-                animator.start();
-            });
-            mLastPosition = pos;
-        }
     }
 
     public interface OnItemClickListener {

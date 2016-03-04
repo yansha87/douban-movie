@@ -6,9 +6,9 @@ import android.view.View;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
-import com.demon.doubanmovies.db.bean.CelebrityEntity;
-import com.demon.doubanmovies.db.bean.ImagesEntity;
-import com.demon.doubanmovies.db.bean.SimpleActorBean;
+import com.demon.doubanmovies.model.bean.CelebrityEntity;
+import com.demon.doubanmovies.model.bean.ImagesEntity;
+import com.demon.doubanmovies.model.bean.SimpleActorBean;
 
 import java.util.Collection;
 import java.util.List;

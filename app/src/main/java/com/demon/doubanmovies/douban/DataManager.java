@@ -1,14 +1,13 @@
 package com.demon.doubanmovies.douban;
 
-import com.demon.doubanmovies.db.bean.CNMovieBean;
-import com.demon.doubanmovies.db.bean.CelebrityBean;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.SubjectBean;
-import com.demon.doubanmovies.db.bean.USMovieBean;
+import com.demon.doubanmovies.model.bean.CNMovieBean;
+import com.demon.doubanmovies.model.bean.CelebrityBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.SubjectBean;
+import com.demon.doubanmovies.model.bean.USMovieBean;
 import com.demon.doubanmovies.utils.RxUtil;
 
 import java.util.List;
-import java.util.Objects;
 
 import rx.Observable;
 

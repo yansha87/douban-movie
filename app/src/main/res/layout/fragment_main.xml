@@ -10,7 +10,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_home"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/size_48dp"
         android:background="@color/gray_white_1000"
         android:elevation="@dimen/size_4dp"
         app:tabIndicatorColor="@color/blue_500"

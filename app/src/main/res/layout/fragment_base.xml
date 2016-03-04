@@ -21,9 +21,9 @@
         android:id="@+id/btn_fragment"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/size_14dp"
+        android:layout_marginEnd="@dimen/size_14dp"
         android:src="@drawable/ic_up"
         android:visibility="gone"
         />

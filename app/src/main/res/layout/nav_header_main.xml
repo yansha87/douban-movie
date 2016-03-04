@@ -41,7 +41,7 @@
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginTop="@dimen/size_8dp"
         android:layout_toEndOf="@id/civ_picture"
-        android:text="I have know nothing!"
+        android:text="I know nothing about!"
         android:textSize="@dimen/size_12sp"
         />
 

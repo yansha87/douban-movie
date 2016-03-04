@@ -6,7 +6,7 @@ import android.view.View;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
-import com.demon.doubanmovies.db.bean.WorksEntity;
+import com.demon.doubanmovies.model.bean.WorksEntity;
 
 import java.util.Collection;
 import java.util.List;

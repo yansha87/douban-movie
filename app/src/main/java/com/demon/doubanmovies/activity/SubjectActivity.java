@@ -46,18 +46,19 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.ActorAdapter;
 import com.demon.doubanmovies.adapter.RecommendMovieAdapter;
-import com.demon.doubanmovies.db.bean.CelebrityEntity;
-import com.demon.doubanmovies.db.bean.SimpleActorBean;
-import com.demon.doubanmovies.db.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.db.bean.SubjectBean;
+import com.demon.doubanmovies.model.bean.CelebrityEntity;
+import com.demon.doubanmovies.model.bean.SimpleActorBean;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.model.bean.SubjectBean;
+import com.demon.doubanmovies.model.realm.SimpleSubject;
 import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.BitmapUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.RealmUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 import com.demon.doubanmovies.widget.ColoredSnackbar;
 import com.demon.doubanmovies.widget.RoundedBackgroundSpan;
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -67,6 +68,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import rx.Subscriber;
 
 import static android.app.ActivityOptions.makeSceneTransitionAnimation;
@@ -76,7 +78,7 @@ public class SubjectActivity extends AppCompatActivity
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
-    //intent中subjectId的key用于查询数据
+    // intent中subjectId的key用于查询数据
     private static final String KEY_SUBJECT_ID = "subject_id";
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String URI_FOR_IMAGE = ".png";
@@ -185,7 +187,14 @@ public class SubjectActivity extends AppCompatActivity
         }
 
         mId = getIntent().getStringExtra(KEY_SUBJECT_ID);
-        mSubject = MovieApplication.getDataSource().movieOfId(mId);
+
+        SimpleSubject subject = Realm.getDefaultInstance().where(SimpleSubject.class)
+                .equalTo("id", mId).findFirst();
+        if (subject != null) {
+            subject.getJsonStr();
+            mSubject = MovieApplication.gson.fromJson(subject.getJsonStr(), Constant.subType);
+        }
+
         if (mSubject != null) {
             isCollect = true;
         }
@@ -241,7 +250,7 @@ public class SubjectActivity extends AppCompatActivity
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
                         // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
-                        // toolbar模糊背景
+                        // 设置 toolbar 模糊背景
                         mToolbarContainer.setBackground(drawable);
                         return false;
                     }
@@ -273,7 +282,7 @@ public class SubjectActivity extends AppCompatActivity
             if (id == null) {
                 Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null);
-                // 改变snackbar默认颜色
+                // 改变 snack bar 默认颜色
                 ColoredSnackbar.alert(snackbar).show();
             }
 
@@ -479,7 +488,7 @@ public class SubjectActivity extends AppCompatActivity
                     .setAction("Action", null);
             ColoredSnackbar.info(snackbar).show();
 
-            unsaveMovie();
+            deleteMovie();
             isCollect = false;
         } else {
             Snackbar snackbar = Snackbar.make(mContainer, getString(R.string.favorite_completed), Snackbar.LENGTH_LONG)
@@ -516,16 +525,18 @@ public class SubjectActivity extends AppCompatActivity
         }
         // 将电影信息存入到数据库中
         mSubject.localImageFile = mFile.getPath();
-        String content = new Gson().toJson(mSubject, Constant.subType);
-        MovieApplication.getDataSource().insertOrUpDataFilm(mId, content);
+        String content = MovieApplication.gson.toJson(mSubject, Constant.subType);
+
+        RealmUtil.saveRecord(mId, content, "1");
     }
 
-    private void unsaveMovie() {
+    private void deleteMovie() {
         // 将数据从数据库中删除
-        MovieApplication.getDataSource().deleteFilm(mId);
+        RealmUtil.deleteRecord(Constant.SIMPLE_SUBJECT_ID, mId);
         // 将保存的海报图片删除
         if (mFile.exists()) mFile.delete();
     }
+
 
     /**
      * SwipeRefreshLayout onRefreshListener
@@ -540,10 +551,8 @@ public class SubjectActivity extends AppCompatActivity
      */
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        //利用AppBarLayout的回调接口启用或者关闭下拉刷新
+        // 利用AppBarLayout的回调接口启用或者关闭下拉刷新
         mRefresh.setEnabled(i == 0);
-        //设置AppBarLayout下方内容的滚动效果
-        float alpha = Math.abs(i) * 1.0f / appBarLayout.getTotalScrollRange();
     }
 
     @Override
@@ -554,6 +563,7 @@ public class SubjectActivity extends AppCompatActivity
                 if (isSummaryShow) {
                     isSummaryShow = false;
                     mSummaryText.setEllipsize(TextUtils.TruncateAt.END);
+                    // 需要根据实际字数来设置函数
                     mSummaryText.setLines(5);
                     mSummaryTip.setText(getString(R.string.more_info));
                 } else {
