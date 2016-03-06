@@ -1,6 +1,6 @@
 # 豆瓣电影
 ##介绍  
-基于 Material design 的练手项目, 使用的开源库包括：  
+使用了豆瓣开放的 API, 基于 Material design 的练手项目。主要目的是了解以下第三方开源库的使用：  
 - [RxJava](https://github.com/ReactiveX/RxJava)  
 - [Retrofit](https://github.com/square/retrofit)  
 - [OkHttp](https://github.com/square/okhttp)  
@@ -9,12 +9,12 @@
 - [Gson](https://github.com/google/gson)  
 - [leakcanary](https://github.com/square/leakcanary)
 
-##截图  
+##预览  
 ![mainpage](https://github.com/demonyan/douban-movie/blob/master/screenshots/mainpage.png) ![subject](https://github.com/demonyan/douban-movie/blob/master/screenshots/subject.png)  
 
 ![favorite](https://github.com/demonyan/douban-movie/blob/master/screenshots/favorite.png) ![search](https://github.com/demonyan/douban-movie/blob/master/screenshots/search.png)  
 
-##待完成
+##待完善功能
 1. 完善 setting
 2. 添加夜间模式
 3. 适配低版本 SDK
@@ -23,3 +23,17 @@
 6. 完善签名发布
 7. 也许可以试试 Data Binding
 8. ...
+
+##License
+Copyright 2016 demonyan
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
