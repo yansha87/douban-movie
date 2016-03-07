@@ -2,6 +2,7 @@ package com.demon.doubanmovies.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +46,6 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
      * 判断是否属于“即将上映”
      */
     private boolean isComingMovie;
-    
-    public SubjectAdapter(Context context, List<SimpleSubjectBean> data) {
-        this(context, data, false);
-    }
 
     public SubjectAdapter(Context context, List<SimpleSubjectBean> data,
                           boolean isComingMovie) {
@@ -213,8 +210,11 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
 
         public void update() {
-            if (isLoadCompleted()) setFootView(FOOT_COMPLETED);
-            else setFootView(FOOT_LOADING);
+            if (isLoadCompleted()) {
+                setFootView(FOOT_COMPLETED);
+            } else {
+                setFootView(FOOT_LOADING);
+            }
         }
 
         public void setFootView(int event) {
@@ -230,6 +230,8 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
                 case FOOT_COMPLETED:
                     params.height = 0;
                     itemView.setLayoutParams(params);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    textLoadTip.setVisibility(View.INVISIBLE);
                     itemView.setClickable(false);
                     break;
                 case FOOT_FAIL:
@@ -238,6 +240,9 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
                     progressBar.setVisibility(View.GONE);
                     textLoadTip.setText(mContext.getString(R.string.foot_fail));
                     itemView.setClickable(true);
+                    break;
+                default:
+                    break;
             }
         }
 

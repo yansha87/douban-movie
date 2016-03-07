@@ -1,11 +1,15 @@
 package com.demon.doubanmovies.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -69,7 +73,9 @@ public class MainActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void initData() {
-
+        // SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        // String imageSize = sp.getString("image_size", "");
+        // String language = sp.getString("language", "");
     }
 
     @Override

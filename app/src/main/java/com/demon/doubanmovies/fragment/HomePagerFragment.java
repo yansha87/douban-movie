@@ -335,7 +335,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
      */
     private void saveRecord(List<SimpleSubjectBean> beanList) {
         String jsonStr = MovieApplication.gson.toJson(beanList, simpleSubTypeList);
-        RealmUtil.saveRecord(TYPE[mTitlePos], jsonStr, "0");
+        RealmUtil.saveRecord(TYPE[mTitlePos], jsonStr, Constant.SAVE_COMMON);
     }
 
     /**

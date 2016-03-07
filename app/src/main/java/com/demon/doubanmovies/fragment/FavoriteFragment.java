@@ -65,7 +65,8 @@ public class FavoriteFragment extends BaseFragment {
         @Override
         protected List<SubjectBean> doInBackground(Void... voids) {
 
-            RealmResults<SimpleSubject> subjects = RealmUtil.queryRecord(Constant.SIMPLE_SUBJECT_FOR, "1");
+            RealmResults<SimpleSubject> subjects = RealmUtil.queryRecord(Constant.SIMPLE_SUBJECT_FOR,
+                    Constant.SAVE_FAVORITE);
             List<SubjectBean> beanList = new ArrayList<>();
             for (SimpleSubject subject : subjects) {
                 SubjectBean bean = MovieApplication.gson.fromJson(subject.getJsonStr(), Constant.subType);

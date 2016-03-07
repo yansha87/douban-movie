@@ -35,6 +35,9 @@ public class Constant {
     public static final String SIMPLE_SUBJECT_ID = "id";
     public static final String SIMPLE_SUBJECT_FOR = "favorite";
 
+    public static final String SAVE_FAVORITE = "1";
+    public static final String SAVE_COMMON = "0";
+
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();
 

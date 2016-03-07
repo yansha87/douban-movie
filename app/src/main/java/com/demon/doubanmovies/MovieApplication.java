@@ -1,6 +1,7 @@
 package com.demon.doubanmovies;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,16 +15,14 @@ public class MovieApplication extends Application {
 
     public static Gson gson;
     private static String mCrashReportId = "900019796";
-    private static MovieApplication instance;
 
-    public static MovieApplication getInstance() {
-        return instance;
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
         // Bugly initial
         CrashReport.initCrashReport(getApplicationContext(), mCrashReportId, false);
 

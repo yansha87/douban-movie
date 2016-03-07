@@ -233,7 +233,7 @@ public class SubjectActivity extends AppCompatActivity
 
                     @Override
                     public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        Bitmap blurBitmap = BitmapUtil.fastBlur(resource, 25);
+                        Bitmap blurBitmap = BitmapUtil.fastBlur(resource, 20);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
                         // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
@@ -518,15 +518,14 @@ public class SubjectActivity extends AppCompatActivity
                             .into(-1, -1)       // get full size
                             .get();
 
+                    // 将image保存到缓存
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
                     try {
-                        if (out != null) {
-                            out.flush();
-                            out.close();
-                        }
+                        out.flush();
+                        out.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -539,7 +538,7 @@ public class SubjectActivity extends AppCompatActivity
         mSubject.localImageFile = mFile.getPath();
         String content = MovieApplication.gson.toJson(mSubject, Constant.subType);
 
-        RealmUtil.saveRecord(mId, content, "1");
+        RealmUtil.saveRecord(mId, content, Constant.SAVE_FAVORITE);
     }
 
     private void deleteMovie() {
