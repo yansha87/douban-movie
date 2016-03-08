@@ -28,17 +28,17 @@
     <string name="favorite_cancel">取消收藏!</string>
     <string name="exit">再按一次退出程序</string>
     <!--SubjectItem-->
-    <string name="genres">类型:</string>
+    <string name="genres">类型: </string>
     <string name="directors">导演</string>
     <string name="director">(导演)</string>
-    <string name="actors">主演:</string>
+    <string name="actors">主演: </string>
     <string name="dir_and_actor">(导演兼主演)</string>
     <string name="actor">(主演)</string>
     <string name="left_brackets">(</string>
     <string name="count">人评价)</string>
-    <string name="box">票房:</string>
-    <string name="ake">又名:</string>
-    <string name="countries">制片国家或地区:</string>
+    <string name="box">票房: </string>
+    <string name="ake">又名: </string>
+    <string name="countries">制片国家或地区: </string>
     <string name="summary">简介</string>
     <string name="no_rating">暂无评分</string>
     <string name="overflow">取消收藏</string>
@@ -82,6 +82,7 @@
     <string name="personal">个性化</string>
     <string name="image_size">图片大小</string>
     <string name="switch_language">切换语言</string>
+    <string name="switch_day_night">切换夜间模式</string>
     <string name="profile">修改资料</string>
     <string name="about">关于</string>
     <string name="code_repo">源代码仓库地址</string>

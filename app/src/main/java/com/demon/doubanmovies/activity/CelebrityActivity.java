@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.WorksMovieAdapter;
 import com.demon.doubanmovies.model.bean.CelebrityBean;
 import com.demon.doubanmovies.douban.DataManager;
+import com.demon.doubanmovies.utils.PrefsUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 
 import butterknife.Bind;
@@ -159,14 +161,13 @@ public class CelebrityActivity extends BaseToolbarActivity {
                 .into(mImage);
         mName.setText(bean.name);
         mNameEn.setText(bean.name_en);
-        String gender = getResources().getString(R.string.gender);
+        String gender = getString(R.string.gender);
         mGender.setText(String.format("%s%s", gender, bean.gender));
-        String bronPlace = getResources().getString(R.string.bron_place);
-        mBronPlace.setText(String.format("%s%s", bronPlace, bean.born_place));
+        String bornPlace = getString(R.string.bron_place);
+        mBronPlace.setText(String.format("%s%s", bornPlace, bean.born_place));
 
         if (bean.aka.size() > 0) {
-            mAke.setText(StringUtil.getSpannableString(
-                    getString(R.string.cel_ake), Color.BLACK));
+            mAke.setText(getString(R.string.cel_ake));
             mAke.append(StringUtil.getListString(bean.aka, '/'));
         } else {
             mAke.setVisibility(View.GONE);

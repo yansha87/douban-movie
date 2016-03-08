@@ -195,7 +195,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 getResources().getInteger(R.integer.num_columns));
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setBackgroundResource(R.color.gray_100);
 
         // 请求网络数据前先加载上次的电影数据
         List<SimpleSubjectBean> mSimpleData = new ArrayList<>();

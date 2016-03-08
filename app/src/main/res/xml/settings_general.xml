@@ -21,6 +21,15 @@
             android:layout="@layout/preference_item"
             android:title="@string/switch_language"/>
 
+
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/settings_entries_day_night"
+            android:entryValues="@array/settings_entry_values_day_night"
+            android:key="day_night"
+            android:layout="@layout/preference_item"
+            android:title="@string/switch_day_night"/>
+
         <PreferenceScreen
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:key="description"

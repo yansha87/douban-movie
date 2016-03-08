@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:colorBackground"
         android:orientation="horizontal"
         >
 
@@ -39,7 +40,7 @@
                     android:id="@+id/tv_item_favorite_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray_black_1000"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="@dimen/size_16sp"
                     />
 
@@ -70,7 +71,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/size_8dp"
                 android:layout_marginTop="@dimen/size_8dp"
-                android:textColor="@color/gray_white_1000"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="@dimen/size_14sp"
                 />
         </FrameLayout>

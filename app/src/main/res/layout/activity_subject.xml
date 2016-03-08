@@ -11,6 +11,7 @@
         android:id="@+id/cl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:colorBackground"
         >
 
         <android.support.design.widget.AppBarLayout
@@ -69,7 +70,7 @@
                 android:id="@+id/movie_container_subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray_white_1000"
+                android:background="?android:colorBackground"
                 android:orientation="vertical"
                 android:padding="@dimen/size_8dp"
                 android:visibility="gone"
@@ -80,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_6dp"
-                    android:textColor="@color/gray_black_1000"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="18sp"
                     />
 
@@ -91,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_6dp"
-                    android:textColor="@color/gray_black_1000"
+                    android:textColor="?android:attr/textColorPrimary"
                     />
 
                 <TextView
@@ -99,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_6dp"
-                    android:textColor="@color/gray_black_1000"
+                    android:textColor="?android:attr/textColorPrimary"
                     />
 
                 <Space
@@ -113,10 +114,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/size_6dp"
                     android:layout_marginTop="@dimen/size_6dp"
-                    android:background="@color/gray_white_1000"
                     android:lineSpacingExtra="@dimen/size_6dp"
                     android:lines="5"
-                    android:textColor="@color/gray_black_1000"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textSize="@dimen/size_14sp"
                     />
 

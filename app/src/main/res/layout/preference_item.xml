@@ -22,7 +22,7 @@
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:singleLine="true"
-            android:textColor="@color/gray_black_1000"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/size_16sp"
             />
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
             android:text="summary"
-            android:textColor="@color/gray_500"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/size_14sp"
             />
 

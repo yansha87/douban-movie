@@ -364,8 +364,7 @@ public class SubjectActivity extends AppCompatActivity
                 new RelativeSizeSpan(0.87f)));
 
         mGenres.setText(StringUtil.getListString(mSubject.genres, '/'));
-        mCountries.setText(StringUtil.getSpannableString(
-                getString(R.string.countries), ContextCompat.getColor(this, R.color.gray_black_1000)));
+        mCountries.setText(getString(R.string.countries));
         mCountries.append(StringUtil.getListString(mSubject.countries, '/'));
 
         mSummaryText.setText(StringUtil.getSpannableString(
@@ -426,7 +425,6 @@ public class SubjectActivity extends AppCompatActivity
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: " + e.toString());
                         mRecommendTip.setText(getString(R.string.recommend_load_fail));
                         mRecommendTip.setClickable(true);
                     }

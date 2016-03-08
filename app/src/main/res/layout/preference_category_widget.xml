@@ -3,7 +3,7 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_gravity="center_vertical"
-              android:background="@color/gray_200"
+              android:background="?android:colorBackground"
               android:orientation="vertical"
     >
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/size_8dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/size_14sp"
         />
 

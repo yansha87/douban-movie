@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
+
+import com.demon.doubanmovies.utils.PrefsUtil;
 
 import butterknife.ButterKnife;
 
@@ -13,6 +16,7 @@ import butterknife.ButterKnife;
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseAppCompatActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

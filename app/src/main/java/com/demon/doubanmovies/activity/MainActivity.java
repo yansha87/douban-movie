@@ -1,30 +1,38 @@
 package com.demon.doubanmovies.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseDrawerLayoutActivity;
-import com.demon.doubanmovies.fragment.base.BaseFragment;
 import com.demon.doubanmovies.fragment.FavoriteFragment;
 import com.demon.doubanmovies.fragment.HomeFragment;
 import com.demon.doubanmovies.fragment.SettingFragment;
+import com.demon.doubanmovies.fragment.base.BaseFragment;
 import com.demon.doubanmovies.utils.Constant;
+
+import java.util.List;
 
 public class MainActivity extends BaseDrawerLayoutActivity {
 
+    public static final String ACTION_LOCAL_SEND = "action.local.send";
+    private static final String SAVE_STATE_TITLE = "title";
+    private static String mTitle;
     private FragmentManager mFragmentManager;
     private Fragment mCurFragment;
+
+    // 用于接收设置广播
+    private LocalBroadcastReceiver localReceiver = new LocalBroadcastReceiver();
 
     @Override
     protected int getLayoutId() {
@@ -33,8 +41,17 @@ public class MainActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
-        String title = getString(R.string.nav_home);
-        mFragmentManager = getSupportFragmentManager();
+        String title = null;
+        if (savedInstanceState != null) {
+            title = savedInstanceState.getString(SAVE_STATE_TITLE);
+        }
+        if (title == null) {
+            title = getString(R.string.nav_home);
+        }
+
+        // 切换夜间模式时需要将其他fragment去掉
+        removeFragment(title);
+
         mCurFragment = mFragmentManager.findFragmentByTag(title);
         if (mCurFragment == null) {
             Fragment homeFragment = new HomeFragment();
@@ -42,6 +59,22 @@ public class MainActivity extends BaseDrawerLayoutActivity {
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
                     add(R.id.rl_main_container, homeFragment, title).commit();
             mCurFragment = homeFragment;
+        }
+    }
+
+    private void removeFragment(String title) {
+        mFragmentManager = getSupportFragmentManager();
+        List<Fragment> fragments = mFragmentManager.getFragments();
+        if (fragments == null) {
+            return;
+        }
+
+        // 保留当前fragment
+        for (Fragment fragment : fragments) {
+            if (fragment == null || fragment.getTag().equals(title))
+                continue;
+
+            mFragmentManager.beginTransaction().remove(fragment).commit();
         }
     }
 
@@ -68,14 +101,12 @@ public class MainActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void initListeners() {
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(localReceiver,
+                new IntentFilter(ACTION_LOCAL_SEND));
     }
 
     @Override
     protected void initData() {
-        // SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        // String imageSize = sp.getString("image_size", "");
-        // String language = sp.getString("language", "");
     }
 
     @Override
@@ -93,7 +124,8 @@ public class MainActivity extends BaseDrawerLayoutActivity {
 
         if (Constant.menuId2TitleDict.containsKey(now.getItemId())) {
             mActionBarHelper.setTitle(Constant.menuId2TitleDict.get(now.getItemId()));
-            this.switchFragment(Constant.menuId2TitleDict.get(now.getItemId()));
+            mTitle = Constant.menuId2TitleDict.get(now.getItemId());
+            this.switchFragment(mTitle);
         }
     }
 
@@ -130,6 +162,19 @@ public class MainActivity extends BaseDrawerLayoutActivity {
                 return new SettingFragment();
             default:
                 return new BaseFragment();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SAVE_STATE_TITLE, mTitle);
+    }
+
+    public class LocalBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            recreate();
         }
     }
 }
