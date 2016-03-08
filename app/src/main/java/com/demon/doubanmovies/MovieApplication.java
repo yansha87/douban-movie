@@ -36,7 +36,7 @@ public class MovieApplication extends Application {
         initGson();
 
         // switch day night mode
-        String mode = PrefsUtil.getDayNightMode(this);
+        String mode = PrefsUtil.getPrefDayNightMode(this);
         PrefsUtil.switchDayNightMode(mode);
     }
 

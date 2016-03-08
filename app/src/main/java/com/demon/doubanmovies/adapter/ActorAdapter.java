@@ -6,9 +6,8 @@ import android.view.View;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
-import com.demon.doubanmovies.model.bean.CelebrityEntity;
-import com.demon.doubanmovies.model.bean.ImagesEntity;
 import com.demon.doubanmovies.model.bean.SimpleActorBean;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,8 +20,8 @@ public class ActorAdapter extends BaseRecyclerAdapter<SimpleActorBean> {
         setOnItemClickListener((View v, Object data, int position) -> {
                     if (mCallback != null) {
                         SimpleActorBean bean = (SimpleActorBean) data;
-                        mCallback.onItemClick(bean.entity.id,
-                                bean.entity.avatars.large, false);
+                        String url = ImageUtil.getDisplayImage(mContext, bean.entity.avatars);
+                        mCallback.onItemClick(bean.entity.id, url, false);
                     }
                 }
         );
@@ -44,25 +43,9 @@ public class ActorAdapter extends BaseRecyclerAdapter<SimpleActorBean> {
         } else {
             holder.setText(R.id.tv_item_simple_director_text, "");
         }
-        String imageUrl = getImageUrl(item.entity);
+        String imageUrl = ImageUtil.getDisplayImage(mContext, item.entity.avatars);
         if (imageUrl != null)
-            holder.setImageFromUrl(R.id.iv_item_simple_actor_image, imageUrl);
-    }
-
-    private String getImageUrl(CelebrityEntity entity) {
-        ImagesEntity imagesEntity = entity.avatars;
-        String url = null;
-        if (imagesEntity != null) {
-            // 如果有大图，使用大图
-            url = imagesEntity.large;
-            // 如果没有大图，使用中图
-            if (url == null)
-                url = imagesEntity.medium;
-            // 如果没有中图，使用小图
-            if (url == null)
-                url = imagesEntity.small;
-        }
-        return url;
+            holder.setImageFromEntity(R.id.iv_item_simple_actor_image, item.entity.avatars);
     }
 
     public interface OnItemClickListener {

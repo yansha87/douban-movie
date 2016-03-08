@@ -7,9 +7,15 @@ import android.support.v7.preference.PreferenceManager;
 
 public class PrefsUtil {
 
-    public static String getDayNightMode(Context context) {
+    public static String getPrefDayNightMode(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String value = sp.getString("day_night", Constant.MODE_AUTO);
+        return value;
+    }
+
+    public static String getPrefImageSize(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String value = sp.getString("image_size", Constant.IMAGE_MEDIUM);
         return value;
     }
 

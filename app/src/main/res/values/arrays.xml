@@ -12,16 +12,6 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="settings_entries_language">
-        <item>中文</item>
-        <item>英文</item>
-    </string-array>
-
-    <string-array name="settings_entry_values_language">
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
     <string-array name="settings_entries_day_night">
         <item>白天</item>
         <item>夜间</item>

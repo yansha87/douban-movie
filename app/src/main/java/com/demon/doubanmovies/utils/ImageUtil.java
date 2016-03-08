@@ -1,9 +1,14 @@
 package com.demon.doubanmovies.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.demon.doubanmovies.model.bean.ImagesEntity;
 
-public class BitmapUtil {
+
+public class ImageUtil {
+
+    private static final String TAG = "ImageUtil";
 
     // 快速模糊算法（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
     public static Bitmap fastBlur(Bitmap inputBitmap, float radiusF) {
@@ -206,5 +211,25 @@ public class BitmapUtil {
         }
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
         return (bitmap);
+    }
+
+    public static String getDisplayImage(Context context, ImagesEntity entity) {
+        String size = PrefsUtil.getPrefImageSize(context);
+        // use medium image if not large image , and use small if not medium,
+        // so we should not need break in case
+        switch (size) {
+            case Constant.IMAGE_LARGE:
+                if (entity.large != null)
+                    return entity.large;
+            case Constant.IMAGE_MEDIUM:
+                if (entity.medium != null)
+                    return entity.medium;
+            case Constant.IMAGE_SMALL:
+                if (entity.small != null)
+                    return entity.small;
+            default:
+                break;
+        }
+        return null;
     }
 }

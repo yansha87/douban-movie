@@ -6,21 +6,12 @@
         android:title="@string/personal">
 
         <ListPreference
-            android:defaultValue="3"
+            android:defaultValue="2"
             android:entries="@array/settings_entries_image"
             android:entryValues="@array/settings_entry_values_image"
             android:key="image_size"
             android:layout="@layout/preference_item"
             android:title="@string/image_size"/>
-
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/settings_entries_language"
-            android:entryValues="@array/settings_entry_values_language"
-            android:key="language"
-            android:layout="@layout/preference_item"
-            android:title="@string/switch_language"/>
-
 
         <ListPreference
             android:defaultValue="3"

@@ -15,14 +15,12 @@
 ![favorite](https://github.com/demonyan/douban-movie/blob/master/screenshots/favorite.png) ![search](https://github.com/demonyan/douban-movie/blob/master/screenshots/search.png)  
 
 ##待完善功能
-1. 完善 setting
-2. 添加夜间模式
-3. 适配低版本 SDK
-4. 增加适当的转场动画
-5. 完善 ProGuard 配置文件
-6. 完善签名发布
-7. 也许可以试试 Data Binding
-8. ...
+1. 适配低版本 SDK
+2. 增加适当的转场动画
+3. 完善 ProGuard 配置文件
+4. 完善签名发布
+5. 也许可以试试 Data Binding
+6. ...
 
 ##License
 Copyright 2016 demonyan

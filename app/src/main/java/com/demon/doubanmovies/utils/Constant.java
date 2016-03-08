@@ -38,9 +38,17 @@ public class Constant {
     public static final String SAVE_FAVORITE = "1";
     public static final String SAVE_COMMON = "0";
 
+    /* preference */
     public static final String MODE_DAY = "1";
     public static final String MODE_NIGHT = "2";
     public static final String MODE_AUTO = "3";
+
+    public static final String IMAGE_SMALL = "1";
+    public static final String IMAGE_MEDIUM = "2";
+    public static final String IMAGE_LARGE = "3";
+
+    public static final String LANGUAGE_CN = "1";
+    public static final String LANGUAGE_EN = "2";
 
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();

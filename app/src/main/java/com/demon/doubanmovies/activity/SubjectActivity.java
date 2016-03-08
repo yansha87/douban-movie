@@ -29,7 +29,6 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +52,7 @@ import com.demon.doubanmovies.model.bean.SimpleActorBean;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.demon.doubanmovies.model.realm.SimpleSubject;
-import com.demon.doubanmovies.utils.BitmapUtil;
+import com.demon.doubanmovies.utils.ImageUtil;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
 import com.demon.doubanmovies.utils.RealmUtil;
@@ -227,13 +226,16 @@ public class SubjectActivity extends AppCompatActivity
                 .centerCrop()
                 .listener(new RequestListener<String, Bitmap>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                    public boolean onException(Exception e, String model,
+                                               Target<Bitmap> target, boolean isFirstResource) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        Bitmap blurBitmap = BitmapUtil.fastBlur(resource, 20);
+                    public boolean onResourceReady(Bitmap resource, String model,
+                                                   Target<Bitmap> target, boolean isFromMemoryCache,
+                                                   boolean isFirstResource) {
+                        Bitmap blurBitmap = ImageUtil.fastBlur(resource, 20);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
                         // 设置 alpha 值降低亮度
                         drawable.setAlpha(192);
@@ -509,8 +511,9 @@ public class SubjectActivity extends AppCompatActivity
             new Thread(() -> {
                 Bitmap bitmap = null;
                 try {
+                    String url = ImageUtil.getDisplayImage(this, mSubject.images);
                     bitmap = Glide.with(this)
-                            .load(mSubject.images.large)
+                            .load(url)
                             .asBitmap()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(-1, -1)       // get full size

@@ -17,6 +17,7 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import java.util.List;
 
@@ -178,8 +179,9 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             String title = subjectBean.title;
             textTitle.setText(title);
 
+            String url = ImageUtil.getDisplayImage(mContext, subjectBean.images);
             Glide.with(mContext)
-                    .load(subjectBean.images.large)
+                    .load(url)
                     .into(imageMovie);
         }
 

@@ -8,6 +8,7 @@ import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
 import com.demon.doubanmovies.model.bean.CelebrityEntity;
 import com.demon.doubanmovies.model.bean.SubjectBean;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,8 +22,8 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
         setOnItemClickListener((View v, Object data, int position) -> {
             if (mCallback != null) {
                 SubjectBean bean = (SubjectBean) data;
-                mCallback.onItemClick(bean.id,
-                        bean.images.large, true);
+                String url = ImageUtil.getDisplayImage(mContext, bean.images);
+                mCallback.onItemClick(bean.id, url, true);
             }
         });
     }

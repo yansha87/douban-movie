@@ -8,6 +8,7 @@ import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
 import com.demon.doubanmovies.model.bean.CelebrityEntity;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,8 +22,8 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
         setOnItemClickListener((View v, Object data, int position) -> {
             if (mCallback != null) {
                 SimpleSubjectBean bean = (SimpleSubjectBean) data;
-                mCallback.onItemClick(bean.id,
-                        bean.images.large, false);
+                String url = ImageUtil.getDisplayImage(mContext, bean.images);
+                mCallback.onItemClick(bean.id, url, false);
             }
         });
     }
@@ -45,7 +46,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
         holder.setText(R.id.tv_item_search_favorite_count, comment.toString());
 
         // 设置电影海报
-        holder.setRoundImageFromUrl(R.id.iv_item_search_images, item.images.large);
+        holder.setRoundImageFromEntity(R.id.iv_item_search_images, item.images);
 
         holder.setText(R.id.tv_item_search_title, item.title);
         holder.setText(R.id.tv_item_search_content, getBaseInformation(item));

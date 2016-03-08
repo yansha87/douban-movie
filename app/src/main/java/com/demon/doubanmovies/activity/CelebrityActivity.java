@@ -22,6 +22,7 @@ import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.WorksMovieAdapter;
 import com.demon.doubanmovies.model.bean.CelebrityBean;
 import com.demon.doubanmovies.douban.DataManager;
+import com.demon.doubanmovies.utils.ImageUtil;
 import com.demon.doubanmovies.utils.PrefsUtil;
 import com.demon.doubanmovies.utils.StringUtil;
 
@@ -154,8 +155,9 @@ public class CelebrityActivity extends BaseToolbarActivity {
     private void setViewAfterGetData(CelebrityBean bean) {
         if (bean == null) return;
         mActionBarHelper.setTitle(bean.name);
+        String url = ImageUtil.getDisplayImage(this, bean.avatars);
         Glide.with(this)
-                .load(bean.avatars.large)
+                .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(mImage);

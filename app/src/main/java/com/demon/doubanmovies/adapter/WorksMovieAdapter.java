@@ -7,6 +7,7 @@ import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerAdapter;
 import com.demon.doubanmovies.adapter.base.BaseRecyclerHolder;
 import com.demon.doubanmovies.model.bean.WorksEntity;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,8 +20,8 @@ public class WorksMovieAdapter extends BaseRecyclerAdapter<WorksEntity> {
         setOnItemClickListener((View v, Object data, int position) -> {
                     if (mCallback != null) {
                         WorksEntity bean = (WorksEntity) data;
-                        mCallback.onItemClick(bean.subject.id,
-                                bean.subject.images.large, true);
+                        String url = ImageUtil.getDisplayImage(mContext, bean.subject.images);
+                        mCallback.onItemClick(bean.subject.id, url, true);
                     }
                 }
         );
@@ -37,7 +38,7 @@ public class WorksMovieAdapter extends BaseRecyclerAdapter<WorksEntity> {
     @Override
     public void convert(BaseRecyclerHolder holder, WorksEntity item, int position, boolean isScrolling) {
         holder.setText(R.id.tv_item_simple_movie_text, item.subject.title);
-        holder.setImageFromUrl(R.id.iv_item_simple_movie_image, item.subject.images.large);
+        holder.setImageFromEntity(R.id.iv_item_simple_movie_image, item.subject.images);
     }
 
     public interface OnItemClickListener {

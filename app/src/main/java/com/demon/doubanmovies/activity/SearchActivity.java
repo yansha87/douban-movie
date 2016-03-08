@@ -28,8 +28,6 @@ import rx.Subscriber;
 
 public class SearchActivity extends BaseToolbarActivity {
 
-    private static final String TAG = "SearchActivity";
-
     @Bind(R.id.rv_search)
     RecyclerView mRecyclerView;
     @Bind(R.id.tag_layout)

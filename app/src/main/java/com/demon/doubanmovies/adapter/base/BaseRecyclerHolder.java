@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.demon.doubanmovies.model.bean.ImagesEntity;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.ImageUtil;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -71,7 +73,22 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public BaseRecyclerHolder setImageFromUrl(int viewId, String url) {
+    public BaseRecyclerHolder setRoundImageFromEntity(int viewId, ImagesEntity entity) {
+        String url = ImageUtil.getDisplayImage(mContext, entity);
+        ImageView view = getView(viewId);
+        Glide.with(mContext)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new RoundedCornersTransformation(mContext,
+                        DensityUtil.dp2px(mContext, 2), 0))
+                .centerCrop()
+                .crossFade()
+                .into(view);
+        return this;
+    }
+
+    public BaseRecyclerHolder setImageFromEntity(int viewId, ImagesEntity entity) {
+        String url = ImageUtil.getDisplayImage(mContext, entity);
         ImageView view = getView(viewId);
         Glide.with(mContext)
                 .load(url)
