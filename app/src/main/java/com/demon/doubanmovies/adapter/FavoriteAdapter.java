@@ -48,7 +48,7 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
     }
 
     private String getBaseInformation(SubjectBean item) {
-        StringBuffer infor = new StringBuffer();
+        StringBuilder infor = new StringBuilder();
 
         // 导演
         if (item.directors.size() > 0) {

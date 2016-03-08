@@ -8,8 +8,6 @@ import com.demon.doubanmovies.model.bean.ImagesEntity;
 
 public class ImageUtil {
 
-    private static final String TAG = "ImageUtil";
-
     // 快速模糊算法（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
     public static Bitmap fastBlur(Bitmap inputBitmap, float radiusF) {
         int SCALE = 8;

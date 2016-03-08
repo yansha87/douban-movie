@@ -39,6 +39,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
             view = itemView.findViewById(viewId);
             mViews.put(viewId, view);
         }
+
         return (T) view;
     }
 

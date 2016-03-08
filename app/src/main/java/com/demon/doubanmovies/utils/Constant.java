@@ -1,12 +1,13 @@
 package com.demon.doubanmovies.utils;
 
+import android.util.SparseArray;
+
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,8 +15,8 @@ import java.util.List;
  */
 public class Constant {
 
-    public static final HashMap<Integer, String> menuId2TitleDict = new HashMap<Integer, String>();
-    public static final HashMap<Integer, String> title2TypeDict = new HashMap<Integer, String>();
+    public static final SparseArray<String> menuId2TitleDict = new SparseArray<>();
+    public static final SparseArray<String> title2TypeDict = new SparseArray<>();
 
     public static final String HOMEPAGE = "首页";
     public static final String FAVORITE = "收藏";

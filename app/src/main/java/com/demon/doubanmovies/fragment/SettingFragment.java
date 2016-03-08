@@ -26,14 +26,18 @@ public class SettingFragment extends PreferenceFragmentCompat {
     Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
 
         String key = preference.getKey();
-        if (key.equals(DAY_NIGHT)) {
-            Intent intent = new Intent(MainActivity.ACTION_LOCAL_SEND);
-            PrefsUtil.switchDayNightMode((String) newValue);
-            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-        } else if (key.equals(NICKNAME)) {
-            preference.setSummary((String) newValue);
-        } else if (key.equals(SIGNATURE)) {
-            preference.setSummary((String) newValue);
+        switch (key) {
+            case DAY_NIGHT:
+                Intent intent = new Intent(MainActivity.ACTION_LOCAL_SEND);
+                PrefsUtil.switchDayNightMode((String) newValue);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+                break;
+            case NICKNAME:
+            case SIGNATURE:
+                preference.setSummary((String) newValue);
+                break;
+            default:
+                break;
         }
 
         return true;

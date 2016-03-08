@@ -39,7 +39,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
         holder.setText(R.id.tv_item_search_rating, String.format("%s ", item.rating.average));
 
         // 设置评分人数
-        StringBuffer comment = new StringBuffer();
+        StringBuilder comment = new StringBuilder();
         comment.append(mContext.getString(R.string.left_brackets));
         comment.append(String.format("%d", item.collect_count));
         comment.append(mContext.getString(R.string.count));
@@ -53,7 +53,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
     }
 
     private String getBaseInformation(SimpleSubjectBean item) {
-        StringBuffer infor = new StringBuffer();
+        StringBuilder infor = new StringBuilder();
 
         List<String> entries = new ArrayList<>();
         // 导演

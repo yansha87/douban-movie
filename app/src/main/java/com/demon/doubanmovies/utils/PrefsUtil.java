@@ -14,35 +14,35 @@ public class PrefsUtil {
 
     public static String getPrefDayNightMode(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sp.getString(DAY_NIGHT, Constant.MODE_AUTO);
-        return value;
+        return sp.getString(DAY_NIGHT, Constant.MODE_AUTO);
     }
 
     public static String getPrefImageSize(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sp.getString(IMAGE_SIZE, Constant.IMAGE_LARGE);
-        return value;
+        return sp.getString(IMAGE_SIZE, Constant.IMAGE_LARGE);
     }
 
     public static String getPrefNickname(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sp.getString(NICKNAME, Constant.NICKNAME);
-        return value;
+        return sp.getString(NICKNAME, Constant.NICKNAME);
     }
 
     public static String getPrefSignature(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sp.getString(SIGNATURE, Constant.SIGNATURE);
-        return value;
+        return sp.getString(SIGNATURE, Constant.SIGNATURE);
     }
 
     public static void switchDayNightMode(String mode) {
-        if (mode.equals(Constant.MODE_DAY)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (mode.equals(Constant.MODE_NIGHT)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        switch (mode) {
+            case Constant.MODE_DAY:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case Constant.MODE_NIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case Constant.MODE_AUTO:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
         }
     }
 }

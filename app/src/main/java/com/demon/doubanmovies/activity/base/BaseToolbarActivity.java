@@ -36,7 +36,7 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
         this.mActionBarHelper = this.createActionBarHelper();
         this.mActionBarHelper.init();
 
-        if (Build.VERSION.SDK_INT >= 21)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.mAppBarLayout.setElevation(6f);
     }
 
