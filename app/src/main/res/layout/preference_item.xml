@@ -10,7 +10,7 @@
     >
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         >
@@ -31,9 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
-            android:text="summary"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/size_14sp"
+            android:textSize="@dimen/size_13sp"
             />
 
     </RelativeLayout>
@@ -42,7 +41,7 @@
         android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
+        android:layout_gravity="end|center_vertical"
         android:orientation="vertical"
         >
 

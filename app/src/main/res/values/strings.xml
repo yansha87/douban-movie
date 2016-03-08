@@ -83,9 +83,11 @@
     <string name="image_size">图片大小</string>
     <string name="switch_language">切换语言</string>
     <string name="switch_day_night">切换夜间模式</string>
-    <string name="profile">修改资料</string>
+    <string name="profile">基本资料</string>
     <string name="about">关于</string>
     <string name="code_repo">源代码仓库地址</string>
     <string name="source_code">源代码</string>
     <string name="licence">开源许可</string>
+    <string name="nickname">呢称</string>
+    <string name="signature">个性签名</string>
 </resources>

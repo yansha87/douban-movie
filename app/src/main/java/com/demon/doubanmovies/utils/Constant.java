@@ -47,8 +47,8 @@ public class Constant {
     public static final String IMAGE_MEDIUM = "2";
     public static final String IMAGE_LARGE = "3";
 
-    public static final String LANGUAGE_CN = "1";
-    public static final String LANGUAGE_EN = "2";
+    public static final String NICKNAME = "demon";
+    public static final String SIGNATURE = "I know nothing about!";
 
     public static final Type subType = new TypeToken<SubjectBean>() {
     }.getType();

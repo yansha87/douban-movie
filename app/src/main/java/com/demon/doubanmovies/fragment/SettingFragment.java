@@ -3,6 +3,7 @@ package com.demon.doubanmovies.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -19,11 +20,21 @@ import de.psdev.licensesdialog.LicensesDialog;
 public class SettingFragment extends PreferenceFragmentCompat {
     private static final String OTHER = "other";
     private static final String DAY_NIGHT = "day_night";
+    private static final String NICKNAME = "nickname";
+    private static final String SIGNATURE = "signature";
 
     Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
-        Intent intent = new Intent(MainActivity.ACTION_LOCAL_SEND);
-        PrefsUtil.switchDayNightMode((String) newValue);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
+        String key = preference.getKey();
+        if (key.equals(DAY_NIGHT)) {
+            Intent intent = new Intent(MainActivity.ACTION_LOCAL_SEND);
+            PrefsUtil.switchDayNightMode((String) newValue);
+            LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+        } else if (key.equals(NICKNAME)) {
+            preference.setSummary((String) newValue);
+        } else if (key.equals(SIGNATURE)) {
+            preference.setSummary((String) newValue);
+        }
 
         return true;
     };
@@ -40,6 +51,14 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
         ListPreference listPreference = (ListPreference) findPreference(DAY_NIGHT);
         listPreference.setOnPreferenceChangeListener(listener);
+
+        EditTextPreference namePref = (EditTextPreference) findPreference(NICKNAME);
+        namePref.setSummary(PrefsUtil.getPrefNickname(getActivity()));
+        namePref.setOnPreferenceChangeListener(listener);
+
+        EditTextPreference signPref = (EditTextPreference) findPreference(SIGNATURE);
+        signPref.setSummary(PrefsUtil.getPrefSignature(getActivity()));
+        signPref.setOnPreferenceChangeListener(listener);
     }
 
 

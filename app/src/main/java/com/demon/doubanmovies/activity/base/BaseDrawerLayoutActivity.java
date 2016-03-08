@@ -11,9 +11,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-
+import android.widget.TextView;
 
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.utils.PrefsUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,8 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
     protected NavigationView mNavigationView;
     protected HashMap<Integer, MenuItem> mMenuItems;
     private ActionBarDrawerToggle mDrawerToggle;
+    private TextView mNickname;
+    private TextView mSignature;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
             this.mNavigationView.setNavigationItemSelectedListener(this.getNavigationItemSelectedListener());
         }
 
-        this.mDrawerLayout.setDrawerListener(new EasyDrawerListener());
+        this.mDrawerLayout.addDrawerListener(new BaseDrawerListener());
 
         this.mMenuItems = new HashMap<>();
         int[] menuItemIds = this.getMenuItemIds();
@@ -61,6 +64,10 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
                 this.mDrawerLayout,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
+
+        View v = mNavigationView.getHeaderView(0);
+        mNickname = (TextView) v.findViewById(R.id.tv_name);
+        mSignature = (TextView) v.findViewById(R.id.tv_sign);
     }
 
     protected abstract NavigationView.OnNavigationItemSelectedListener getNavigationItemSelectedListener();
@@ -128,7 +135,13 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
         }
     }
 
-    private class EasyDrawerListener implements DrawerLayout.DrawerListener {
+    // 更新Navigation内容
+    private void updateNav() {
+        mNickname.setText(PrefsUtil.getPrefNickname(getBaseContext()));
+        mSignature.setText(PrefsUtil.getPrefSignature(getBaseContext()));
+    }
+
+    private class BaseDrawerListener implements DrawerLayout.DrawerListener {
 
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -137,6 +150,8 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
         @Override
         public void onDrawerOpened(View drawerView) {
+            updateNav();
+
             BaseDrawerLayoutActivity.this.mDrawerToggle.onDrawerOpened(drawerView);
             if (BaseDrawerLayoutActivity.this.mActionBarHelper != null) {
                 BaseDrawerLayoutActivity.this.mActionBarHelper.onDrawerOpened();

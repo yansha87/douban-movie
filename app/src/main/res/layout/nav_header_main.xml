@@ -28,7 +28,6 @@
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginTop="64dp"
         android:layout_toEndOf="@id/civ_picture"
-        android:text="demonyan"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="@dimen/size_14sp"
         />
@@ -41,7 +40,6 @@
         android:layout_marginStart="@dimen/size_16dp"
         android:layout_marginTop="@dimen/size_8dp"
         android:layout_toEndOf="@id/civ_picture"
-        android:text="I know nothing about!"
         android:textSize="@dimen/size_12sp"
         />
 

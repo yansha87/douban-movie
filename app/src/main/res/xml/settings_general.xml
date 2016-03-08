@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
@@ -6,7 +7,7 @@
         android:title="@string/personal">
 
         <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="3"
             android:entries="@array/settings_entries_image"
             android:entryValues="@array/settings_entry_values_image"
             android:key="image_size"
@@ -21,12 +22,22 @@
             android:layout="@layout/preference_item"
             android:title="@string/switch_day_night"/>
 
-        <PreferenceScreen
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:key="description"
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="description"
+        android:title="@string/profile">
+
+        <EditTextPreference
+            android:dialogTitle="@string/nickname"
+            android:key="nickname"
             android:layout="@layout/preference_item"
-            android:title="@string/profile">
-        </PreferenceScreen>
+            android:title="@string/nickname"/>
+        <EditTextPreference
+            android:dialogTitle="@string/signature"
+            android:key="signature"
+            android:layout="@layout/preference_item"
+            android:title="@string/signature"/>
     </PreferenceCategory>
 
     <PreferenceCategory
