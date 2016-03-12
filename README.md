@@ -22,6 +22,9 @@
 5. 也许可以试试 Data Binding
 6. ...
 
+## 感谢
+1. [EasyGank](https://github.com/CaMnter/EasyGank)
+
 ##License
 Copyright 2016 demonyan
 
