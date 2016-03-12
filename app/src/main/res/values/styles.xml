@@ -2,7 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -52,8 +51,8 @@
 
     <style name="MovieRatingBar" parent="@android:style/Widget.Holo.RatingBar.Small">
         <item name="android:progressDrawable">@drawable/my_rating_bar</item>
-        <item name="android:minHeight">16dp</item>
-        <item name="android:maxHeight">16dp</item>
+        <item name="android:minHeight">@dimen/size_16dp</item>
+        <item name="android:maxHeight">@dimen/size_16dp</item>
     </style>
 
     <style name="AppWindowTranslucentStatusTheme" parent="AppTheme.NoActionBar">

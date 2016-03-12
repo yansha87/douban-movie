@@ -1,6 +1,5 @@
 <resources>>
 
-    <!--
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -28,6 +27,5 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
-    -->
 
 </resources>

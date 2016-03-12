@@ -43,8 +43,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.demon.doubanmovies.MovieApplication;
+
 import com.demon.doubanmovies.R;
+import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.adapter.ActorAdapter;
 import com.demon.doubanmovies.adapter.RecommendMovieAdapter;
 import com.demon.doubanmovies.douban.DataManager;
@@ -82,7 +83,6 @@ public class SubjectActivity extends AppCompatActivity
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String URI_FOR_IMAGE = ".png";
     private static final String TAG = "SubjectActivity";
-
 
     @Bind(R.id.cl_container)
     CoordinatorLayout mContainer;
@@ -148,6 +148,7 @@ public class SubjectActivity extends AppCompatActivity
 
     private float titleDy = Float.MAX_VALUE;
 
+    @SuppressWarnings("unchecked")
     public static void toActivity(Activity activity, String id, String imageUrl) {
         Intent intent = new Intent(activity, SubjectActivity.class);
         intent.putExtra(KEY_SUBJECT_ID, id);
@@ -247,6 +248,7 @@ public class SubjectActivity extends AppCompatActivity
                         drawable.setAlpha(192);
                         // set blur background of toolbar
                         mToolbarContainer.setBackground(drawable);
+
                         return false;
                     }
                 }).into(mToolbarImage);
