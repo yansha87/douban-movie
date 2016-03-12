@@ -49,6 +49,7 @@ public class DataManager {
                 .filter(subjectBean -> subjectBean != null)
                 .compose(RxUtil.applyIOToMainThreadSchedulers());
     }
+
     public Observable<List<SimpleSubjectBean>> getSearchData(String query) {
         return this.movieModel.getSearchMovieData(query)
                 .map(cnMovieBean -> cnMovieBean.subjects)

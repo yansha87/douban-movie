@@ -3,7 +3,8 @@ package com.demon.doubanmovies.model.bean;
 import java.io.Serializable;
 import java.util.List;
 
-// 简单电影条目
+// simple movie information
+@SuppressWarnings("unused")
 public class SimpleSubjectBean implements Serializable{
 
     public RatingEntity rating;

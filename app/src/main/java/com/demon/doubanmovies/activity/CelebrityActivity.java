@@ -148,7 +148,8 @@ public class CelebrityActivity extends BaseToolbarActivity {
     }
 
     /**
-     * 得到Celebrity实例后设置界面
+     * setting views after get celerity data
+     * @param bean celebrity bean
      */
     private void setViewAfterGetData(CelebrityBean bean) {
         if (bean == null) return;

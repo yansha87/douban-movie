@@ -34,7 +34,7 @@ public class SearchMovieView extends LinearLayout {
     static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
     private static final String TAG = "SearchMovieView";
     @Bind(R.id.view_search_src_text)
-    SearchAutoComplete mQueryTextView;
+    SearchAutoCompleteView mQueryTextView;
     @Bind(R.id.view_search_close_btn)
     ImageView mClearTextButton;
 
@@ -99,11 +99,15 @@ public class SearchMovieView extends LinearLayout {
             return true;
         });
 
-
         setFocusable(true);
         updateCloseButton();
     }
 
+    /**
+     * is landscape mode or not
+     * @param context context
+     * @return landscape mode or portrait mode
+     */
     static boolean isLandscapeMode(Context context) {
         return context.getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
@@ -202,6 +206,10 @@ public class SearchMovieView extends LinearLayout {
         invalidate();
     }
 
+    /**
+     * set Ime visible or not
+     * @param visible visible
+     */
     private void setImeVisibility(final boolean visible) {
         if (visible) {
             post(mShowImeRunnable);
@@ -227,7 +235,7 @@ public class SearchMovieView extends LinearLayout {
     public void setQueryText(String text) {
         if (text != null) {
             mQueryTextView.setText(text);
-            // 点击tag,直接开始搜索
+            // click tag and start to search
             onSubmitQuery();
         }
     }
@@ -256,11 +264,14 @@ public class SearchMovieView extends LinearLayout {
         boolean onClearButtonClick();
     }
 
-    public static class SearchAutoComplete extends AutoCompleteTextView {
+    /**
+     * subclass of AutoCompleteTextView
+     */
+    public static class SearchAutoCompleteView extends AutoCompleteTextView {
         private int mThreshold;
         private SearchMovieView mSearchView;
 
-        public SearchAutoComplete(Context context, AttributeSet attrs) {
+        public SearchAutoCompleteView(Context context, AttributeSet attrs) {
             super(context, attrs);
             mThreshold = getThreshold();
         }
@@ -333,6 +344,9 @@ public class SearchMovieView extends LinearLayout {
         }
     }
 
+    /**
+     * class realize reflector of AutoCompleteTextView
+     */
     private static class AutoCompleteTextViewReflector {
         private Method doBeforeTextChanged, doAfterTextChanged;
         private Method ensureImeVisible;

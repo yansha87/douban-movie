@@ -12,7 +12,7 @@ public class RealmUtil {
 
     private static final String TAG = "RealmUtil";
 
-    // 保存或者更新记录
+    // save or update record
     public static void saveRecord(String id, String content, String favorite) {
 
         SimpleSubject subject = new SimpleSubject();
@@ -31,7 +31,7 @@ public class RealmUtil {
         }
     }
 
-    // 删除记录
+    // delete movie record
     public static void deleteRecord(String key, String value) {
         Realm realm = Realm.getDefaultInstance();
         try {
@@ -46,7 +46,7 @@ public class RealmUtil {
 
     }
 
-    // 查询记录
+    // query movie record
     public static RealmResults<SimpleSubject> queryRecord(String key, String value) {
         return Realm.getDefaultInstance()
                 .where(SimpleSubject.class)

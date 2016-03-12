@@ -23,7 +23,9 @@ import java.util.List;
 
 import io.realm.RealmResults;
 
-// 收藏
+/**
+ * favorite fragment
+ */
 public class FavoriteFragment extends BaseFragment {
 
     private FavoriteAdapter mAdapter;
@@ -60,6 +62,9 @@ public class FavoriteFragment extends BaseFragment {
     }
 
 
+    /**
+     * AsyncTask to load cache data
+     */
     private class FavoriteAsyncTask extends AsyncTask<Void, Void, List<SubjectBean>> {
 
         @Override

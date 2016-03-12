@@ -50,15 +50,18 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
         }
     }
 
+    @SuppressWarnings("unused")
     protected void showBack() {
         if (this.mActionBarHelper != null)
             this.mActionBarHelper.setDisplayHomeAsUpEnable(true);
     }
 
+    @SuppressWarnings("unused")
     public void setAppBarLayoutAlpha(float alpha) {
         this.mAppBarLayout.setAlpha(alpha);
     }
 
+    @SuppressWarnings("unused")
     protected void setAppBarLayoutVisibility(boolean visibility) {
         if (visibility) {
             this.mAppBarLayout.setVisibility(View.VISIBLE);
@@ -71,6 +74,9 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
         return new ActionBarHelper();
     }
 
+    /**
+     * A helper class to operator toolbar
+     */
     public class ActionBarHelper {
         private final ActionBar mActionBar;
 
@@ -86,7 +92,7 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
             this.mActionBar.setDisplayHomeAsUpEnabled(true);
             this.mActionBar.setDisplayShowHomeEnabled(false);
             this.mTitle = mDrawerTitle = getString(R.string.nav_home);
-            // 第一次启动时设置title为首页
+            // set nav_home string as title when app setup
             this.mActionBar.setTitle(this.mTitle);
         }
 
@@ -105,6 +111,7 @@ public abstract class BaseToolbarActivity extends BaseAppCompatActivity {
             this.mActionBar.setTitle(mTitle);
         }
 
+        @SuppressWarnings("unused")
         public void setDrawerTitle(CharSequence mDrawerTitle) {
             this.mDrawerTitle = mDrawerTitle;
         }

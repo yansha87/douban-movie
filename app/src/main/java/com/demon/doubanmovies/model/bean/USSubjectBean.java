@@ -2,7 +2,8 @@ package com.demon.doubanmovies.model.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-// 北美票房榜
+// American box
+@SuppressWarnings("unused")
 public class USSubjectBean {
 
     public int box;

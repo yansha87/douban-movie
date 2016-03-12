@@ -2,7 +2,6 @@ package com.demon.doubanmovies.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,8 +24,6 @@ public class BaseFragment extends Fragment {
     protected RecyclerView recyclerView;
     @Bind(R.id.fresh_fragment)
     protected SwipeRefreshLayout mRefreshLayout;
-    @Bind(R.id.btn_fragment)
-    protected FloatingActionButton mFloatingBtn;
 
     @Nullable
     @Override
@@ -42,15 +39,17 @@ public class BaseFragment extends Fragment {
         return view;
     }
 
+
     /**
-     * 初始化数据
+     * initial data
      */
     protected void initData() {
 
     }
 
+
     /**
-     * 初始化事件
+     * initial event listener
      */
     protected void initEvent() {
 

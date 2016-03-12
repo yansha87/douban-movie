@@ -29,6 +29,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,7 +78,6 @@ public class SubjectActivity extends AppCompatActivity
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
-    // intent中subjectId的key用于查询数据
     private static final String KEY_SUBJECT_ID = "subject_id";
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String URI_FOR_IMAGE = ".png";
@@ -152,6 +152,7 @@ public class SubjectActivity extends AppCompatActivity
         Intent intent = new Intent(activity, SubjectActivity.class);
         intent.putExtra(KEY_SUBJECT_ID, id);
         intent.putExtra(KEY_IMAGE_URL, imageUrl);
+        // using scene transition animation when SDK > LOLLIPOP
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             activity.startActivity(intent,
                     makeSceneTransitionAnimation(activity).toBundle());
@@ -161,7 +162,7 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     /**
-     * activity转场动画
+     * activity scene transition animation
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private Transition makeTransition() {
@@ -191,13 +192,14 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     private void initView() {
-        // 设置圆形刷新球的偏移量
+        // set the offset of round refresh view
         mRefresh.setProgressViewOffset(false,
                 -DensityUtil.dp2px(getApplication(), 16f),
                 DensityUtil.dp2px(getApplication(), 48f));
+        // set the color of round refresh view
         mRefresh.setColorSchemeResources(R.color.green_500);
 
-        // 设置Toolbar
+        // clear title of toolbar
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -215,7 +217,9 @@ public class SubjectActivity extends AppCompatActivity
 
         mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 mId + URI_FOR_IMAGE);
-        // 判断从缓存加载图片还是从网络加载图片
+
+        // get image load uri according cache file exists or not
+        // may be we can use LRUDiskCache in future
         String imageUri = (mFile.exists() ? mFile.getPath() :
                 getIntent().getStringExtra(KEY_IMAGE_URL));
 
@@ -235,11 +239,13 @@ public class SubjectActivity extends AppCompatActivity
                     public boolean onResourceReady(Bitmap resource, String model,
                                                    Target<Bitmap> target, boolean isFromMemoryCache,
                                                    boolean isFirstResource) {
+
                         Bitmap blurBitmap = ImageUtil.fastBlur(resource, 20);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), blurBitmap);
-                        // 设置 alpha 值降低亮度
+
+                        // set alpha of bitmap to reduce brightness
                         drawable.setAlpha(192);
-                        // 设置 toolbar 模糊背景
+                        // set blur background of toolbar
                         mToolbarContainer.setBackground(drawable);
                         return false;
                     }
@@ -251,7 +257,7 @@ public class SubjectActivity extends AppCompatActivity
         scrollView.setOnScrollChangeListener((NestedScrollView v, int scrollX,
                                               int scrollY, int oldScrollX, int oldScrollY) -> {
             if (titleDy == Float.MAX_VALUE) {
-                /** 计算显示标题需要滑动的距离 */
+                // scroll distance of display title in toolbar
                 titleDy = mTitle.getY() + mTitle.getHeight();
             }
 
@@ -270,7 +276,7 @@ public class SubjectActivity extends AppCompatActivity
             if (id == null) {
                 Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null);
-                // 改变 snack bar 默认颜色
+                // change default color of snack bar
                 ColoredSnackbar.alert(snackbar).show();
             }
 
@@ -287,7 +293,7 @@ public class SubjectActivity extends AppCompatActivity
             if (id == null) {
                 Snackbar snackbar = Snackbar.make(mContainer, R.string.no_detail_info, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null);
-                // 改变 SnackBar 默认颜色
+                // change default color of snack bar
                 ColoredSnackbar.alert(snackbar).show();
             }
 
@@ -298,7 +304,7 @@ public class SubjectActivity extends AppCompatActivity
             }
         });
 
-        // 利用 appBarLayout 的回调接口禁止或启用 swipeRefreshLayout
+        // disable or enable swipeRefreshLayout by appBarLayout callback
         mHeaderContainer.addOnOffsetChangedListener(this);
     }
 
@@ -335,8 +341,9 @@ public class SubjectActivity extends AppCompatActivity
 
                     @Override
                     public void onNext(SubjectBean subjectBean) {
-                        // 如果movie已经收藏,更新数据
-                        if (isCollect) saveMovie();
+                        // update if movie is collected before
+                        if (isCollect)
+                            saveMovie();
                         mSubject = subjectBean;
                         initAfterGetData();
                     }
@@ -344,7 +351,7 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     /**
-     * 得到网络返回数据初始化界面
+     * initial views after get SubjectBean from server
      */
     private void initAfterGetData() {
         if (mSubject == null) return;
@@ -377,15 +384,15 @@ public class SubjectActivity extends AppCompatActivity
         mSummaryText.setOnClickListener(this);
         mSummaryTip.setOnClickListener(this);
 
-        // 获得导演和演员数据列表
+        // get director and actor list
         getActorData();
 
-        // 显示View并配上动画
+        // display view and animation
         mMovieContainer.setAlpha(0f);
         mMovieContainer.setVisibility(View.VISIBLE);
         mMovieContainer.animate().alpha(1f).setDuration(800);
 
-        //加载推荐
+        // load recommend movie
         mRecommendTip.setText(getString(R.string.recommend_loading));
         StringBuilder tag = new StringBuilder();
         for (int i = 0; i < mSubject.genres.size(); i++) {
@@ -397,7 +404,7 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     /**
-     * 获得导演演员的数据
+     * get director and actor list
      */
     private void getActorData() {
         mActorTip.setText(getString(R.string.actor_list));
@@ -417,6 +424,9 @@ public class SubjectActivity extends AppCompatActivity
         mActorView.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * get recommend movie list
+     */
     private void loadRecommendData() {
         DataManager.getInstance().getRecommendData(mRecommendTags)
                 .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
@@ -476,7 +486,7 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     /**
-     * 点击收藏后将subject存入数据库中,并将图片存入文件
+     * save subject data into database
      */
     private void favoriteAndSaveMovie() {
         if (mSubject == null) return;
@@ -499,11 +509,13 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     /**
-     * 用于保存content和image
+     * save movie content and image
      */
     private void saveMovie() {
         if (mFile.exists()) {
-            mFile.delete();
+            if (!mFile.delete()) {
+                Log.i(TAG, "File delete failed!" );
+            }
         }
         try {
             final FileOutputStream out = new FileOutputStream(mFile);
@@ -519,7 +531,7 @@ public class SubjectActivity extends AppCompatActivity
                             .into(-1, -1)       // get full size
                             .get();
 
-                    // 将image保存到缓存
+                    // save image into cache file
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -535,19 +547,25 @@ public class SubjectActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // 将电影信息存入到数据库中
+
+        // save movie content into database
         mSubject.localImageFile = mFile.getPath();
         String content = MovieApplication.gson.toJson(mSubject, Constant.subType);
-
         RealmUtil.saveRecord(mId, content, Constant.SAVE_FAVORITE);
     }
 
+    /**
+     * delete movie content and image
+     */
     private void deleteMovie() {
-        // 将数据从数据库中删除
+        // delete movie content from database
         RealmUtil.deleteRecord(Constant.SIMPLE_SUBJECT_ID, mId);
-        // 将保存的海报图片删除
+
+        // delete image cache file
         if (mFile.exists()) {
-            mFile.delete();
+            if (!mFile.delete()) {
+                Log.i(TAG, "File delete failed!");
+            }
         }
     }
 
@@ -565,7 +583,7 @@ public class SubjectActivity extends AppCompatActivity
      */
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-        // 利用AppBarLayout的回调接口启用或者关闭下拉刷新
+        // disable or enable refresh
         mRefresh.setEnabled(i == 0);
     }
 
@@ -577,7 +595,8 @@ public class SubjectActivity extends AppCompatActivity
                 if (isSummaryShow) {
                     isSummaryShow = false;
                     mSummaryText.setEllipsize(TextUtils.TruncateAt.END);
-                    // 需要根据实际字数来设置函数
+
+                    // TODO: set line number according actual words
                     mSummaryText.setLines(5);
                     mSummaryTip.setText(getString(R.string.more_info));
                 } else {
@@ -587,9 +606,11 @@ public class SubjectActivity extends AppCompatActivity
                     mSummaryTip.setText(getString(R.string.put_away));
                 }
                 break;
-            case R.id.btn_subject_skip://跳往豆瓣电影的移动版网页
+            case R.id.btn_subject_skip:
                 if (mSubject == null)
                     break;
+
+                // to mobile web page of DouBan movie
                 WebActivity.toWebActivity(this,
                         mSubject.mobile_url, mSubject.title);
                 break;

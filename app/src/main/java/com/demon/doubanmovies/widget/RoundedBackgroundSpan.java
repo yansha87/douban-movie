@@ -11,7 +11,7 @@ import com.demon.doubanmovies.R;
 
 public class RoundedBackgroundSpan extends ReplacementSpan {
 
-    private int CORNER_RADIUS = 10;
+    private final static int CORNER_RADIUS = 10;
     private int backgroundColor = 0;
     private int textColor = 0;
 
@@ -22,7 +22,8 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
     }
 
     @Override
-    public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
+    public void draw(Canvas canvas, CharSequence text, int start, int end, float x,
+                     int top, int y, int bottom, Paint paint) {
         RectF rect = new RectF(x, top, x + measureText(paint, text, start, end), bottom);
         paint.setColor(backgroundColor);
         canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, paint);

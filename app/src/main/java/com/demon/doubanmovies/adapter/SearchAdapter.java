@@ -13,6 +13,7 @@ import com.demon.doubanmovies.utils.ImageUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
     protected OnItemClickListener mCallback;
@@ -34,18 +35,18 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
 
     @Override
     public void convert(BaseRecyclerHolder holder, SimpleSubjectBean item, int position, boolean isScrolling) {
-        // 设置评分
+        // set rating bar
         holder.setRatingBar(R.id.rb_item_search_rating, ((float) item.rating.average) / 2);
         holder.setText(R.id.tv_item_search_rating, String.format("%s ", item.rating.average));
 
-        // 设置评分人数
+        // set rating count
         StringBuilder comment = new StringBuilder();
         comment.append(mContext.getString(R.string.left_brackets));
-        comment.append(String.format("%d", item.collect_count));
+        comment.append(String.format(Locale.getDefault(), "%d", item.collect_count));
         comment.append(mContext.getString(R.string.count));
         holder.setText(R.id.tv_item_search_favorite_count, comment.toString());
 
-        // 设置电影海报
+        // display image
         holder.setRoundImageFromEntity(R.id.iv_item_search_images, item.images);
 
         holder.setText(R.id.tv_item_search_title, item.title);
@@ -56,23 +57,23 @@ public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
         StringBuilder infor = new StringBuilder();
 
         List<String> entries = new ArrayList<>();
-        // 导演
+        // director
         if (item.directors.size() > 0) {
             infor.append(item.directors.get(0).name);
             infor.append(mContext.getString(R.string.director));
         }
 
-        // 演员
+        // actor
         for (CelebrityEntity cast : item.casts) {
             entries.add(cast.name);
         }
 
-        // 电影类型
+        // movie genre
         for (String genre : item.genres) {
             entries.add(genre);
         }
 
-        // 公映年份
+        // movie year
         if (item.year.length() > 0) {
             entries.add(item.year);
         }

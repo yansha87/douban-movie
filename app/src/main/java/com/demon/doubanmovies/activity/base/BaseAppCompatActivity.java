@@ -23,16 +23,34 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         this.initListeners();
     }
 
+    /**
+     * @return inflater layout id
+     */
     protected abstract int getLayoutId();
 
+    /**
+     * initial views
+     * @param savedInstanceState saved instance state
+     */
     protected abstract void initViews(Bundle savedInstanceState);
 
+    /**
+     * initial toolbar
+     * @param savedInstanceState saved instance state
+     */
     protected abstract void initToolbar(Bundle savedInstanceState);
 
+    /**
+     * initial event listener
+     */
     protected abstract void initListeners();
 
+    /**
+     * initial data
+     */
     protected abstract void initData();
 
+    @SuppressWarnings("unused")
     protected <V extends View> V findView(int id) {
         return (V) this.findViewById(id);
     }

@@ -3,7 +3,7 @@ package com.demon.doubanmovies.model.realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-// 简单电影条目
+// simple movie information
 public class SimpleSubject extends RealmObject {
     @PrimaryKey
     private String id;

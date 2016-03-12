@@ -25,26 +25,27 @@ import butterknife.ButterKnife;
 
 public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
-    // FootView的显示类型
+    // FootView is loading
     public static final int FOOT_LOADING = 0;
+    // FootView loading completed
     public static final int FOOT_COMPLETED = 1;
+    // FootView loading fail
     public static final int FOOT_FAIL = 2;
-    // 用于判断是否是加载失败时点击的FootView
+
     public static final String FOOT_VIEW_ID = "-1";
-    // ItemView的类型，FootView应用于加载更多
+    // ItemView type
     private static final int TYPE_ITEM = 0;
+    // FootView type
     private static final int TYPE_FOOT = 1;
 
     private FootViewHolder mFootView;
     private Context mContext;
     private List<SimpleSubjectBean> mData;
-    /**
-     * 用于加载更多数据
-     */
+
+    // total data count
     private int mTotalDataCount = 0;
-    /**
-     * 判断是否属于“即将上映”
-     */
+
+    // is coming movie of not
     private boolean isComingMovie;
 
     public SubjectAdapter(Context context, List<SimpleSubjectBean> data,
@@ -55,14 +56,16 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * 用于加载数据时的url起点
+     * get start position of loading data
+     * @return start position
      */
     public int getStart() {
         return mData.size();
     }
 
     /**
-     * 返回adapter数据的总数
+     * get total data count
+     * @return total data count
      */
     public int getTotalDataCount() {
         return mTotalDataCount;
@@ -73,15 +76,13 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * 判断是否已经加载完毕
+     * load completed or not
+     * @return load completed or not
      */
     public boolean isLoadCompleted() {
         return mData.size() >= getTotalDataCount();
     }
 
-    /**
-     * 用于加载更多item
-     */
     public void loadMoreData(List<SimpleSubjectBean> data) {
         this.mData.addAll(data);
         notifyDataSetChanged();
@@ -92,10 +93,9 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * 用于更新数据
-     *
-     * @param data           更新的数据
-     * @param totalDataCount 数据的总量，采取多次加载
+     * update recycle view
+     * @param data update data list
+     * @param totalDataCount total data count
      */
     public void updateList(List<SimpleSubjectBean> data, int totalDataCount) {
         this.mData = data;
@@ -103,6 +103,12 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    /**
+     * create ViewHolder
+     * @param parent parent
+     * @param viewType view type
+     * @return Foot ViewHolder or Item ViewHolder
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_FOOT) {
@@ -136,7 +142,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        // 最后一个位置为foot
+        // last position is foot view
         if (position == mData.size()) {
             return TYPE_FOOT;
         } else {
@@ -144,7 +150,9 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         }
     }
 
-
+    /**
+     * Item ViewHolder
+     */
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_item_simple_subject_image)
@@ -178,6 +186,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             String title = subjectBean.title;
             textTitle.setText(title);
 
+            // get display image url by preference
             String url = ImageUtil.getDisplayImage(mContext, subjectBean.images);
             Glide.with(mContext)
                     .load(url)
@@ -195,13 +204,12 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * recyclerView上拉加载更多的footViewHolder
+     * Foot ViewHolder
      */
     class FootViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ProgressBar progressBar;
         private TextView textLoadTip;
-
 
         public FootViewHolder(final View itemView) {
             super(itemView);

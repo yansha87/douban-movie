@@ -31,7 +31,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     private FragmentManager mFragmentManager;
     private Fragment mCurFragment;
 
-    // 用于接收设置广播
+    // local receiver to receive setting broadcast
     private LocalBroadcastReceiver localReceiver = new LocalBroadcastReceiver();
 
     @Override
@@ -49,7 +49,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
             title = getString(R.string.nav_home);
         }
 
-        // 切换夜间模式时需要将其他fragment去掉
+        // clear other fragments when switch day & night mode
         removeFragment(title);
 
         mCurFragment = mFragmentManager.findFragmentByTag(title);
@@ -69,7 +69,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
             return;
         }
 
-        // 保留当前fragment
+        // retain current fragment
         for (Fragment fragment : fragments) {
             if (fragment == null || fragment.getTag().equals(title))
                 continue;
@@ -130,7 +130,8 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     }
 
     /**
-     * 判断各种逻辑下的fragment显示问题
+     * switch fragment by title
+     * @param title fragment title
      */
     private void switchFragment(String title) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -150,7 +151,9 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     }
 
     /**
-     * 根据menuItem的title返回对应的fragment
+     * create fragment by title
+     * @param title fragment title
+     * @return fragment
      */
     private Fragment createFragmentByTitle(String title) {
         switch (title) {
@@ -174,6 +177,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     public class LocalBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            // recreate activity
             recreate();
         }
     }

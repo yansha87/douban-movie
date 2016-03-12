@@ -51,21 +51,21 @@ public class SearchActivity extends BaseToolbarActivity {
         mSearchView = new SearchMovieView(SearchActivity.this);
         mSearchView.setQueryHint(getString(R.string.query_hint));
 
-        // 将SearchMovieView添加到Toolbar
+        // add SearchMovieView into toolbar
         mToolbar.addView(mSearchView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // 设置允许选择有且一个tag
+        // only need one tag in TagFlowLayout
         mTagFlowLayout.setMaxSelectCount(1);
     }
 
     @Override
     protected void initListeners() {
         mSearchView.setOnQueryClearListener(() -> {
-            // 清除 RecyclerView 中的内容
+            // clear content in RecyclerView
             if (mData != null)
                 mData.clear();
 
@@ -82,9 +82,6 @@ public class SearchActivity extends BaseToolbarActivity {
                     mDialog = new ProgressDialog(SearchActivity.this);
                     mDialog.setMessage(getString(R.string.search_message));
                     mDialog.setCancelable(true);
-                    //mDialog.setOnCancelListener((DialogInterface dialog) -> {
-                    //    MovieApplication.getHttpQueue().cancelAll(url);
-                    //});
                 }
                 mDialog.show();
                 mSearchView.clearFocus();

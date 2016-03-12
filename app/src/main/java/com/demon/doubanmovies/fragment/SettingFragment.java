@@ -23,6 +23,9 @@ public class SettingFragment extends PreferenceFragmentCompat {
     private static final String NICKNAME = "nickname";
     private static final String SIGNATURE = "signature";
 
+    /**
+     * Preference change listener
+     */
     Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
 
         String key = preference.getKey();
@@ -53,8 +56,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.settings_general);
 
-        ListPreference listPreference = (ListPreference) findPreference(DAY_NIGHT);
-        listPreference.setOnPreferenceChangeListener(listener);
+        ListPreference listPref = (ListPreference) findPreference(DAY_NIGHT);
+        listPref.setOnPreferenceChangeListener(listener);
 
         EditTextPreference namePref = (EditTextPreference) findPreference(NICKNAME);
         namePref.setSummary(PrefsUtil.getPrefNickname(getActivity()));
@@ -78,6 +81,9 @@ public class SettingFragment extends PreferenceFragmentCompat {
         return super.onPreferenceTreeClick(preference);
     }
 
+    /**
+     * show licence dialog
+     */
     private void showApacheLicenseDialog() {
 
         new LicensesDialog.

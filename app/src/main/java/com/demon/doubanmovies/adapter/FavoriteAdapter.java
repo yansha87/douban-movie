@@ -48,20 +48,20 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
     }
 
     private String getBaseInformation(SubjectBean item) {
-        StringBuilder infor = new StringBuilder();
+        StringBuilder info = new StringBuilder();
 
-        // 导演
+        // director
         if (item.directors.size() > 0) {
-            infor.append(item.directors.get(0).name);
-            infor.append(mContext.getString(R.string.director));
+            info.append(item.directors.get(0).name);
+            info.append(mContext.getString(R.string.director));
         }
 
-        // 演员
+        // actor
         for (CelebrityEntity cast : item.casts) {
-            infor.append("/").append(cast.name);
+            info.append("/").append(cast.name);
         }
 
-        return infor.toString();
+        return info.toString();
     }
 
     public interface OnItemClickListener {

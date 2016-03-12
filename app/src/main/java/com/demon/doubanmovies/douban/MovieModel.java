@@ -11,6 +11,7 @@ import rx.Observable;
 public class MovieModel {
     private static final MovieModel instance = new MovieModel();
 
+    // initial instance
     public static MovieModel getInstance() {
         return instance;
     }

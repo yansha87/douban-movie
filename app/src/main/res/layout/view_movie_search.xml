@@ -10,7 +10,7 @@
 
     <view
         android:id="@+id/view_search_src_text"
-        class="com.demon.doubanmovies.widget.SearchMovieView$SearchAutoComplete"
+        class="com.demon.doubanmovies.widget.SearchMovieView$SearchAutoCompleteView"
         android:layout_width="@dimen/size_0dp"
         android:layout_height="@dimen/size_36dp"
         android:layout_gravity="bottom"
@@ -33,8 +33,8 @@
         android:layout_height="@dimen/size_36dp"
         android:layout_gravity="center_vertical"
         android:focusable="true"
-        android:paddingLeft="@dimen/size_4dp"
-        android:paddingRight="@dimen/size_8dp"
+        android:paddingStart="@dimen/size_4dp"
+        android:paddingEnd="@dimen/size_8dp"
         android:src="@drawable/ic_clear"
         tools:ignore="ContentDescription"
         />

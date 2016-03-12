@@ -1,7 +1,6 @@
 package com.demon.doubanmovies;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.demon.doubanmovies.utils.PrefsUtil;
 import com.google.gson.Gson;
@@ -15,7 +14,7 @@ import io.realm.RealmConfiguration;
 public class MovieApplication extends Application {
 
     public static Gson gson;
-    private static String mCrashReportId = "900019796";
+    private static final String mCrashReportId = "900019796";
 
     @Override
     public void onCreate() {
@@ -41,7 +40,7 @@ public class MovieApplication extends Application {
     }
 
     private void initGson() {
-        this.gson = new GsonBuilder().create();
+        gson = new GsonBuilder().create();
     }
 
 }

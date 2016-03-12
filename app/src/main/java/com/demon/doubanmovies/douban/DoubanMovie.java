@@ -29,6 +29,7 @@ public class DoubanMovie {
             return response;
         });
 
+        // initial Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.API)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

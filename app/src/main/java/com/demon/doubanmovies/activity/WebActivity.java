@@ -53,11 +53,15 @@ public class WebActivity extends AppCompatActivity {
         mToolbar.setTitle(mTitle);
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
         mUrl = getIntent().getStringExtra(EXTRA_URL);
         mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         mWebView = new WebView(getApplicationContext());
         mWebViewContainer.addView(mWebView);
+
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLoadWithOverviewMode(true);

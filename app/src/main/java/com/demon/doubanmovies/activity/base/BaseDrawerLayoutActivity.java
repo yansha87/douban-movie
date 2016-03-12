@@ -28,6 +28,8 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
     protected DrawerLayout mDrawerLayout;
     @Bind(R.id.nav_view)
     protected NavigationView mNavigationView;
+
+    // save item with MenuItem
     protected HashMap<Integer, MenuItem> mMenuItems;
     private ActionBarDrawerToggle mDrawerToggle;
     private TextView mNickname;
@@ -37,7 +39,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 开发时激活 StrictMode
+        // active StrictMode when debug
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
@@ -76,6 +78,11 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
     protected abstract void onMenuItemOnClick(MenuItem now);
 
+    /**
+     *
+     * @param itemId checked item id
+     * @return check new item or not
+     */
     protected boolean menuItemChecked(int itemId) {
         MenuItem old = null;
         MenuItem now;
@@ -103,9 +110,9 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
             this.mDrawerLayout.closeDrawer(this.mNavigationView);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     @Override
@@ -135,7 +142,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
         }
     }
 
-    // 更新Navigation内容
+    // update navigation content
     private void updateNav() {
         mNickname.setText(PrefsUtil.getPrefNickname(getBaseContext()));
         mSignature.setText(PrefsUtil.getPrefSignature(getBaseContext()));

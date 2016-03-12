@@ -48,6 +48,7 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
         }
     }
 
+    @SuppressWarnings("unused")
     public void setCanChildScrollUpCallback(CanChildScrollUpCallback mCanChildScrollUpCallback) {
         this.mCanChildScrollUpCallback = mCanChildScrollUpCallback;
     }

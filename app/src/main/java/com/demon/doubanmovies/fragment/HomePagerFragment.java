@@ -2,9 +2,7 @@ package com.demon.doubanmovies.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -22,15 +20,16 @@ import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
 import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
-import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.adapter.SubjectAdapter;
+import com.demon.doubanmovies.adapter.base.BaseAdapter;
+import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.model.bean.CNMovieBean;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.model.bean.USSubjectBean;
 import com.demon.doubanmovies.model.realm.SimpleSubject;
-import com.demon.doubanmovies.douban.DataManager;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
+import com.demon.doubanmovies.utils.PrefsUtil;
 import com.demon.doubanmovies.utils.RealmUtil;
 import com.google.gson.Gson;
 
@@ -55,7 +54,6 @@ import static com.demon.doubanmovies.utils.Constant.title2TypeDict;
 
 public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemClickListener {
 
-    private static final String AUTO_REFRESH = "auto refresh?";
     private static final int RECORD_COUNT = 20;
 
     private static final String KEY_FRAGMENT_TITLE = "title";
@@ -103,9 +101,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
-        if (isFirstRefresh || sharedPreferences.getBoolean(AUTO_REFRESH, false)) {
+        if (isFirstRefresh || PrefsUtil.getAutoRefresh(getActivity())) {
             updateMovieData();
             isFirstRefresh = false;
         }
@@ -189,14 +185,15 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 初始化fragment
+     * initial RecyclerView
+     * @param isComing is coming movie or not
      */
     private void initSimpleRecyclerView(boolean isComing) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
                 getResources().getInteger(R.integer.num_columns));
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // 请求网络数据前先加载上次的电影数据
+        // request load last movie data
         List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
         mSubjectAdapter = new SubjectAdapter(getActivity(), mSimpleData, isComing);
         if (getRecord() != null) {
@@ -208,7 +205,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
 
-    //更新电影数据
+    /**
+     * update movie data
+     */
     private void updateMovieData() {
         switch (mTitlePos) {
             case POS_IN_THEATERS:
@@ -228,7 +227,6 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     private void loadMovieData(String type) {
         mRefresh.setRefreshing(true);
-        // 获得开始数据
         DataManager.getInstance().getMovieData(type, 0)
                 .subscribe(new Subscriber<CNMovieBean>() {
                     @Override
@@ -250,7 +248,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 加载更多
+     * load more movie data
      */
     private void loadMoreMovieData() {
         if (mSubjectAdapter.getStart() == mStart) return;
@@ -277,6 +275,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
 
+    /**
+     * load American box movie data
+     */
     private void loadUSMovieData() {
         mRefresh.setRefreshing(true);
 
@@ -317,7 +318,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 当网络不好或中断时用以显示上一次加载的数据
+     * load last loading data when network not ok
+     * @return last loading data
      */
     private String getRecord() {
         SimpleSubject subject = Realm.getDefaultInstance().where(SimpleSubject.class)
@@ -330,7 +332,8 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 保存上一次网络请求得到的数据
+     * save last loading data into database
+     * @param beanList data need to save
      */
     private void saveRecord(List<SimpleSubjectBean> beanList) {
         String jsonStr = MovieApplication.gson.toJson(beanList, simpleSubTypeList);
@@ -338,7 +341,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * 为floatingActionBar的出现消失设置动画效果
+     * animator for FloatingActionButton disappear
      */
     private void animatorForGone() {
         Animator anim = AnimatorInflater.loadAnimator(getActivity(), R.animator.scale_gone);
@@ -352,6 +355,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         anim.start();
     }
 
+    /**
+     * animator for FloatingActionButton appear
+     */
     private void animatorForVisible() {
         Animator anim = AnimatorInflater.loadAnimator(getActivity(), R.animator.scale_visible);
         anim.addListener(new AnimatorListenerAdapter() {

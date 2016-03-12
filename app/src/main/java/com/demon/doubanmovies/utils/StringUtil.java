@@ -1,16 +1,19 @@
 package com.demon.doubanmovies.utils;
 
-import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class StringUtil {
 
+    /**
+     * get spannable string by color
+     * @param str string
+     * @param color color
+     * @return SpannableString
+     */
     public static SpannableString getSpannableString(String str, int color) {
         SpannableString span = new SpannableString(str);
         span.setSpan(new ForegroundColorSpan(
@@ -32,24 +35,5 @@ public class StringUtil {
             str.append(i == 0 ? "" : s).append(list.get(i));
         }
         return str.toString();
-    }
-
-    /**
-     * Returns a string representation of {@param set}. Used only for debugging purposes.
-     */
-    @NonNull
-    public static String setToString(@NonNull Set<String> set) {
-        Iterator<String> i = set.iterator();
-        if (!i.hasNext()) {
-            return "[]";
-        }
-        StringBuilder sb = new StringBuilder().append('[');
-        while (true) {
-            sb.append(i.next());
-            if (!i.hasNext()) {
-                return sb.append(']').toString();
-            }
-            sb.append(", ");
-        }
     }
 }

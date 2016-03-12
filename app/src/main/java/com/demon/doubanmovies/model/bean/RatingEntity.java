@@ -2,7 +2,7 @@ package com.demon.doubanmovies.model.bean;
 
 import java.io.Serializable;
 
-// 评分信息
+// rating entity
 public class RatingEntity implements Serializable {
 
     public int max;

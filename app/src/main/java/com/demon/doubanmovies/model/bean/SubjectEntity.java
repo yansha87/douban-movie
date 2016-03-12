@@ -2,6 +2,7 @@ package com.demon.doubanmovies.model.bean;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class SubjectEntity {
     public RatingEntity rating;
     public int favorite_count;

@@ -2,7 +2,7 @@ package com.demon.doubanmovies.model.bean;
 
 import java.util.List;
 
-// 作品
+// works
 public class WorksEntity {
 
     public SubjectEntity subject;

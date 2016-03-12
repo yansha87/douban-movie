@@ -69,13 +69,17 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         }
     }
 
-    // 更新 RecyclerView
+    /**
+     * update RecyclerView
+     * @param data update data
+     */
     public void update(List<T> data) {
         this.mDatas.clear();
         notifyDataSetChanged();
         addData(data);
     }
 
+    @SuppressWarnings("unused")
     public BaseRecyclerAdapter<T> refresh(Collection<T> datas) {
         if (datas == null) {
             this.mDatas = new ArrayList<>();
@@ -96,6 +100,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         return this.mDatas.size();
     }
 
+    /***
+     * convert data into view
+     * @param holder BaseRecyclerHolder
+     * @param item data item
+     * @param position position in RecyclerView
+     * @param isScrolling is scrolling or not
+     */
     public abstract void convert(BaseRecyclerHolder holder, T item, int position, boolean isScrolling);
 
     public interface OnItemClickListener {

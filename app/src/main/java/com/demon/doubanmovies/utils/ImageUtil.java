@@ -8,15 +8,22 @@ import com.demon.doubanmovies.model.bean.ImagesEntity;
 
 public class ImageUtil {
 
-    // 快速模糊算法（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
+
+    /**
+     * fast blur algorithm（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
+     * @param inputBitmap source bitmap
+     * @param radiusF blur radius
+     * @return bitmap after blur
+     */
     public static Bitmap fastBlur(Bitmap inputBitmap, float radiusF) {
         int SCALE = 8;
-        // 先缩放图片，增加模糊速度
+
+        // scale bitmap before blur to improve blur efficiency
         Bitmap bitmap = Bitmap.createScaledBitmap(inputBitmap,
                 inputBitmap.getWidth() / SCALE, inputBitmap.getHeight() / SCALE, false);
         int radius = (int) radiusF;
         if (radius < 1) {
-            return (null);
+            return null;
         }
 
         int w = bitmap.getWidth();
@@ -211,6 +218,12 @@ public class ImageUtil {
         return (bitmap);
     }
 
+    /**
+     * get display image uri by preference setting
+     * @param context context
+     * @param entity image entity
+     * @return display image uri
+     */
     public static String getDisplayImage(Context context, ImagesEntity entity) {
         String size = PrefsUtil.getPrefImageSize(context);
         // use medium image if not large image , and use small if not medium,

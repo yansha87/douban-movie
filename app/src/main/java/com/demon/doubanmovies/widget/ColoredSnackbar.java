@@ -30,6 +30,7 @@ public class ColoredSnackbar {
         return colorSnackBar(snackbar, blue);
     }
 
+    @SuppressWarnings("unused")
     public static Snackbar warning(Snackbar snackbar) {
         return colorSnackBar(snackbar, orange);
     }
@@ -38,6 +39,7 @@ public class ColoredSnackbar {
         return colorSnackBar(snackbar, red);
     }
 
+    @SuppressWarnings("unused")
     public static Snackbar confirm(Snackbar snackbar) {
         return colorSnackBar(snackbar, green);
     }
