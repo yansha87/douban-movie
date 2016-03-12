@@ -8,6 +8,7 @@ import com.demon.doubanmovies.model.bean.SubjectBean;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public class Constant {
 
     public static final SparseArray<String> menuId2TitleDict = new SparseArray<>();
     public static final SparseArray<String> title2TypeDict = new SparseArray<>();
+    public static final HashMap<String, String> dayNightSummary = new HashMap<>();
+    public static final HashMap<String, String> imageSizeSummary = new HashMap<>();
 
     public static final String HOMEPAGE = "首页";
     public static final String FAVORITE = "收藏";
@@ -44,9 +47,17 @@ public class Constant {
     public static final String MODE_NIGHT = "2";
     public static final String MODE_AUTO = "3";
 
+    public static final String MODE_DAY_SUMMARY = "白天";
+    public static final String MODE_NIGHT_SUMMARY = "夜晚";
+    public static final String MODE_AUTO_SUMMARY = "自动";
+
     public static final String IMAGE_SMALL = "1";
     public static final String IMAGE_MEDIUM = "2";
     public static final String IMAGE_LARGE = "3";
+
+    public static final String IMAGE_SMALL_SUMMARY = "小图";
+    public static final String IMAGE_MEDIUM_SUMMARY = "中图";
+    public static final String IMAGE_LARGE_SUMMARY = "大图";
 
     public static final String NICKNAME = "demon";
     public static final String SIGNATURE = "I know nothing about!";
@@ -76,5 +87,17 @@ public class Constant {
         title2TypeDict.put(POS_COMING, COMING);
         title2TypeDict.put(POS_TOP250, TOP250);
         title2TypeDict.put(POS_US_BOX, US_BOX);
+    }
+
+    static {
+        dayNightSummary.put(MODE_DAY, MODE_DAY_SUMMARY);
+        dayNightSummary.put(MODE_NIGHT, MODE_NIGHT_SUMMARY);
+        dayNightSummary.put(MODE_AUTO, MODE_AUTO_SUMMARY);
+    }
+
+    static {
+        imageSizeSummary.put(IMAGE_SMALL, IMAGE_SMALL_SUMMARY);
+        imageSizeSummary.put(IMAGE_MEDIUM, IMAGE_MEDIUM_SUMMARY);
+        imageSizeSummary.put(IMAGE_LARGE, IMAGE_LARGE_SUMMARY);
     }
 }

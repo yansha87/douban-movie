@@ -225,6 +225,8 @@ public class ImageUtil {
      * @return display image uri
      */
     public static String getDisplayImage(Context context, ImagesEntity entity) {
+        if (entity == null) return null;
+
         String size = PrefsUtil.getPrefImageSize(context);
         // use medium image if not large image , and use small if not medium,
         // so we should not need break in case
