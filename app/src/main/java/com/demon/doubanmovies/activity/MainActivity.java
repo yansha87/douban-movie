@@ -110,6 +110,12 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(localReceiver);
+    }
+
+    @Override
     protected NavigationView.OnNavigationItemSelectedListener getNavigationItemSelectedListener() {
         return item -> MainActivity.this.menuItemChecked(item.getItemId());
     }
