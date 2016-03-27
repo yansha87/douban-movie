@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="@dimen/size_2dp"
-             android:layout_marginTop="@dimen/size_2dp"
-             android:background="@color/gray_white_1000"
-             android:gravity="center"
-             android:padding="@dimen/size_6dp"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/size_2dp"
+    android:layout_marginTop="@dimen/size_2dp"
+    android:background="?android:colorBackground"
+    android:gravity="center"
+    android:padding="@dimen/size_6dp">
 
     <ImageView
         android:id="@+id/iv_item_simple_movie_image"
         android:layout_width="108dp"
         android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_item_simple_movie_text"
@@ -26,6 +24,5 @@
         android:padding="@dimen/size_2dp"
         android:singleLine="true"
         android:textColor="@color/gray_white_1000"
-        android:textSize="@dimen/size_14sp"
-        />
+        android:textSize="@dimen/size_14sp" />
 </FrameLayout>

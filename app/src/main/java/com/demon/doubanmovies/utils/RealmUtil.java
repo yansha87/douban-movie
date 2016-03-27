@@ -12,7 +12,13 @@ public class RealmUtil {
 
     private static final String TAG = "RealmUtil";
 
-    // save or update record
+    /**
+     * save or update movie record
+     *
+     * @param id       database primary key
+     * @param content  content need to be saved
+     * @param favorite is favorite or not
+     */
     public static void saveRecord(String id, String content, String favorite) {
 
         SimpleSubject subject = new SimpleSubject();
@@ -31,7 +37,12 @@ public class RealmUtil {
         }
     }
 
-    // delete movie record
+    /**
+     * delete movie record by primary key
+     *
+     * @param key   primary key name
+     * @param value primary key value
+     */
     public static void deleteRecord(String key, String value) {
         Realm realm = Realm.getDefaultInstance();
         try {
@@ -43,10 +54,15 @@ public class RealmUtil {
         } finally {
             realm.commitTransaction();
         }
-
     }
 
-    // query movie record
+    /**
+     * query movie record by primary key
+     *
+     * @param key   primary key name
+     * @param value primary key value
+     * @return RealmResults object
+     */
     public static RealmResults<SimpleSubject> queryRecord(String key, String value) {
         return Realm.getDefaultInstance()
                 .where(SimpleSubject.class)

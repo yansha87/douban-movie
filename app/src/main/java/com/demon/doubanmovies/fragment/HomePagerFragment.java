@@ -23,9 +23,9 @@ import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.SubjectAdapter;
 import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.douban.DataManager;
-import com.demon.doubanmovies.model.bean.CNMovieBean;
+import com.demon.doubanmovies.model.bean.CnMovieBean;
 import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
-import com.demon.doubanmovies.model.bean.USSubjectBean;
+import com.demon.doubanmovies.model.bean.UsSubjectBean;
 import com.demon.doubanmovies.model.realm.SimpleSubject;
 import com.demon.doubanmovies.utils.Constant;
 import com.demon.doubanmovies.utils.DensityUtil;
@@ -186,6 +186,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     /**
      * initial RecyclerView
+     *
      * @param isComing is coming movie or not
      */
     private void initSimpleRecyclerView(boolean isComing) {
@@ -196,10 +197,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
         // request load last movie data
         List<SimpleSubjectBean> mSimpleData = new ArrayList<>();
         mSubjectAdapter = new SubjectAdapter(getActivity(), mSimpleData, isComing);
-        if (getRecord() != null) {
-            mSimpleData = new Gson().fromJson(getRecord(), simpleSubTypeList);
-            mSubjectAdapter.updateList(mSimpleData, RECORD_COUNT);
-        }
+        mSimpleData = new Gson().fromJson(getRecord(), simpleSubTypeList);
+        mSubjectAdapter.updateList(mSimpleData, RECORD_COUNT);
+
         mSubjectAdapter.setOnItemClickListener(this);
         mRecyclerView.setAdapter(mSubjectAdapter);
     }
@@ -228,7 +228,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     private void loadMovieData(String type) {
         mRefresh.setRefreshing(true);
         DataManager.getInstance().getMovieData(type, 0)
-                .subscribe(new Subscriber<CNMovieBean>() {
+                .subscribe(new Subscriber<CnMovieBean>() {
                     @Override
                     public void onCompleted() {
                         mRefresh.setRefreshing(false);
@@ -240,7 +240,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                     }
 
                     @Override
-                    public void onNext(CNMovieBean bean) {
+                    public void onNext(CnMovieBean bean) {
                         mSubjectAdapter.updateList(bean.subjects, bean.total);
                         saveRecord(bean.subjects);
                     }
@@ -256,7 +256,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
         String type = title2TypeDict.get(mTitlePos);
         DataManager.getInstance().getMovieData(type, mStart)
-                .subscribe(new Subscriber<CNMovieBean>() {
+                .subscribe(new Subscriber<CnMovieBean>() {
                     @Override
                     public void onCompleted() {
                         mRefresh.setRefreshing(false);
@@ -268,7 +268,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                     }
 
                     @Override
-                    public void onNext(CNMovieBean bean) {
+                    public void onNext(CnMovieBean bean) {
                         mSubjectAdapter.loadMoreData(bean.subjects);
                     }
                 });
@@ -283,7 +283,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
         DataManager.getInstance().getMovieData()
                 .map(usMovieBean -> usMovieBean.subjects)
-                .subscribe(new Subscriber<List<USSubjectBean>>() {
+                .subscribe(new Subscriber<List<UsSubjectBean>>() {
                     @Override
                     public void onCompleted() {
                         mRefresh.setRefreshing(false);
@@ -296,9 +296,9 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
                     }
 
                     @Override
-                    public void onNext(List<USSubjectBean> usSubjectBeans) {
+                    public void onNext(List<UsSubjectBean> usSubjectBeen) {
                         List<SimpleSubjectBean> beanList = new ArrayList<>();
-                        for (USSubjectBean bean : usSubjectBeans) {
+                        for (UsSubjectBean bean : usSubjectBeen) {
                             beanList.add(bean.subject);
                         }
 
@@ -319,6 +319,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
 
     /**
      * load last loading data when network not ok
+     *
      * @return last loading data
      */
     private String getRecord() {
@@ -328,11 +329,12 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
             return subject.getJsonStr();
         }
 
-        return null;
+        return "";
     }
 
     /**
      * save last loading data into database
+     *
      * @param beanList data need to save
      */
     private void saveRecord(List<SimpleSubjectBean> beanList) {

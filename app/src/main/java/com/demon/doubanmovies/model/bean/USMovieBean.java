@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.List;
 
 // Top 250
-public class USMovieBean implements Serializable {
+public class UsMovieBean implements Serializable {
     public String date;
     public String title;
-    public List<USSubjectBean> subjects;
+    public List<UsSubjectBean> subjects;
 }

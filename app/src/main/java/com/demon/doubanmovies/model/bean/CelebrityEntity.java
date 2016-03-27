@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class CelebrityEntity implements Serializable {
 
     public ImagesEntity avatars;
+    @SuppressWarnings("unused")
     public String alt;
     public String id;
     public String name;

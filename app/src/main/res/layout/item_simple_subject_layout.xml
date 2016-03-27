@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    xmlns:tools="http://schemas.android.com/tools"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/size_4dp"
-                                    android:background="@color/gray_white_1000"
-                                    android:padding="@dimen/size_4dp"
-                                    app:cardElevation="@dimen/size_1dp"
-
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_4dp"
+    android:padding="@dimen/size_4dp"
+    app:cardElevation="@dimen/size_1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:colorBackground"
         android:orientation="vertical"
-        android:padding="@dimen/size_4dp"
-        >
+        android:padding="@dimen/size_4dp">
 
         <ImageView
             android:id="@+id/iv_item_simple_subject_image"
@@ -24,14 +21,12 @@
             android:layout_height="142dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription"
-            />
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_item_simple_subject_rating"
@@ -39,16 +34,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <RatingBar
                     android:id="@+id/rb_item_simple_subject_rating"
                     style="@style/MovieRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    />
+                    android:numStars="5" />
 
                 <TextView
                     android:id="@+id/tv_item_simple_subject_rating"
@@ -56,8 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/size_4dp"
                     android:textColor="@color/gray_500"
-                    android:textSize="@dimen/size_12sp"
-                    />
+                    android:textSize="@dimen/size_12sp" />
             </LinearLayout>
 
             <TextView
@@ -65,10 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_4dp"
+                android:background="?android:colorBackground"
                 android:singleLine="true"
-                android:textColor="@color/gray_black_1000"
-                android:textSize="@dimen/size_15sp"
-                />
+                android:textSize="@dimen/size_15sp" />
 
         </LinearLayout>
     </LinearLayout>

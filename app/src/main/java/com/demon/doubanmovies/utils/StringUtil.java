@@ -10,7 +10,8 @@ public class StringUtil {
 
     /**
      * get spannable string by color
-     * @param str string
+     *
+     * @param str   string
      * @param color color
      * @return SpannableString
      */
@@ -29,11 +30,11 @@ public class StringUtil {
         return span;
     }
 
-    public static String getListString(List<String> list, char s) {
+    public static <T> T getListString(List<T> list, char s) {
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0, size = list.size(); i < size; i++) {
             str.append(i == 0 ? "" : s).append(list.get(i));
         }
-        return str.toString();
+        return (T) str.toString();
     }
 }

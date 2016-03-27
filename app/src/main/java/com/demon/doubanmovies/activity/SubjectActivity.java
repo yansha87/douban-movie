@@ -280,6 +280,7 @@ public class SubjectActivity extends AppCompatActivity
                         .setAction("Action", null);
                 // change default color of snack bar
                 ColoredSnackbar.alert(snackbar).show();
+                return;
             }
 
             if (isFilm) {
@@ -297,6 +298,7 @@ public class SubjectActivity extends AppCompatActivity
                         .setAction("Action", null);
                 // change default color of snack bar
                 ColoredSnackbar.alert(snackbar).show();
+                return;
             }
 
             if (isFilm) {
@@ -397,8 +399,9 @@ public class SubjectActivity extends AppCompatActivity
         // load recommend movie
         mRecommendTip.setText(getString(R.string.recommend_loading));
         StringBuilder tag = new StringBuilder();
-        for (int i = 0; i < mSubject.genres.size(); i++) {
+        for (int i = 0, size = mSubject.genres.size(); i < size; i++) {
             tag.append(mSubject.genres.get(i));
+            // we need only one genre
             if (i == 1) break;
         }
         mRecommendTags = tag.toString();
@@ -516,7 +519,7 @@ public class SubjectActivity extends AppCompatActivity
     private void saveMovie() {
         if (mFile.exists()) {
             if (!mFile.delete()) {
-                Log.i(TAG, "File delete failed!" );
+                Log.i(TAG, "File delete failed!");
             }
         }
         try {

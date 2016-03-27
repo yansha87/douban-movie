@@ -21,11 +21,11 @@ public class DoubanMovie {
 
     private DoubanMovie() {
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(7676, TimeUnit.MILLISECONDS);
+        okHttpClient.setReadTimeout(8000, TimeUnit.MILLISECONDS);
 
         okHttpClient.interceptors().add(chain -> {
             Response response = chain.proceed(chain.request());
-            Log.i(TAG, "DoubanMovie: " + response.request().urlString());
+            Log.i(TAG, "DoubanMovie url: " + response.request().urlString());
             return response;
         });
 
@@ -40,7 +40,7 @@ public class DoubanMovie {
         this.doubanService = retrofit.create(DoubanService.class);
     }
 
-    public static DoubanMovie getInstance() {
+    public synchronized static DoubanMovie getInstance() {
         if (instance == null)
             instance = new DoubanMovie();
         return instance;

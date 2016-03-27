@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 // American box
 @SuppressWarnings("unused")
-public class USSubjectBean {
+public class UsSubjectBean {
 
     public int box;
     @SerializedName("new")

@@ -5,8 +5,9 @@ import java.io.Serializable;
 import java.util.List;
 
 // Top 250
-public class CNMovieBean implements Serializable {
+public class CnMovieBean implements Serializable {
     public int start;
+    @SuppressWarnings("unused")
     public int count;
     public int total;
     public String title;

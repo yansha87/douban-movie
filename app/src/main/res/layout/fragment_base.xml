@@ -21,8 +21,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_fragment"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/size_48dp"
+        android:layout_height="@dimen/size_48dp"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="@dimen/size_14dp"
         android:layout_marginEnd="@dimen/size_14dp"

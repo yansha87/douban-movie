@@ -24,7 +24,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
-
     // FootView is loading
     public static final int FOOT_LOADING = 0;
     // FootView loading completed
@@ -57,6 +56,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     /**
      * get start position of loading data
+     *
      * @return start position
      */
     public int getStart() {
@@ -65,6 +65,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     /**
      * get total data count
+     *
      * @return total data count
      */
     public int getTotalDataCount() {
@@ -77,6 +78,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     /**
      * load completed or not
+     *
      * @return load completed or not
      */
     public boolean isLoadCompleted() {
@@ -94,10 +96,12 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     /**
      * update recycle view
-     * @param data update data list
+     *
+     * @param data           update data list
      * @param totalDataCount total data count
      */
     public void updateList(List<SimpleSubjectBean> data, int totalDataCount) {
+        if (data == null) return;
         this.mData = data;
         setTotalDataCount(totalDataCount);
         notifyDataSetChanged();
@@ -105,7 +109,8 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     /**
      * create ViewHolder
-     * @param parent parent
+     *
+     * @param parent   parent
      * @param viewType view type
      * @return Foot ViewHolder or Item ViewHolder
      */
@@ -224,6 +229,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             } else {
                 setFootView(FOOT_LOADING);
             }
+
         }
 
         public void setFootView(int event) {

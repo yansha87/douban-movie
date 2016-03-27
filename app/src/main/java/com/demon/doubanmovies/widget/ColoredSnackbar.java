@@ -3,12 +3,14 @@ package com.demon.doubanmovies.widget;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.demon.doubanmovies.R;
+
 public class ColoredSnackbar {
 
-    private static final int red = 0xfff44336;
-    private static final int green = 0xff4caf50;
-    private static final int blue = 0xff2195f3;
-    private static final int orange = 0xffffc107;
+    private static final int red = R.color.red_A200;
+    private static final int green = R.color.green_A200;
+    private static final int blue = R.color.blue_A200;
+    private static final int orange = R.color.orange_A200;
 
     private static View getSnackBarLayout(Snackbar snackbar) {
         if (snackbar != null) {

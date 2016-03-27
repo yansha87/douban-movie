@@ -63,15 +63,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     }
 
     public void addData(List<T> data) {
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0, size = data.size(); i < size; i++) {
             mDatas.add(data.get(i));
             notifyItemInserted(i);
         }
     }
 
     /**
-     * update RecyclerView
-     * @param data update data
+     * update RecyclerView data
+     *
+     * @param data data need to be updated
      */
     public void update(List<T> data) {
         this.mDatas.clear();
@@ -102,9 +103,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
 
     /***
      * convert data into view
-     * @param holder BaseRecyclerHolder
-     * @param item data item
-     * @param position position in RecyclerView
+     *
+     * @param holder      BaseRecyclerHolder
+     * @param item        data item
+     * @param position    position in RecyclerView
      * @param isScrolling is scrolling or not
      */
     public abstract void convert(BaseRecyclerHolder holder, T item, int position, boolean isScrolling);

@@ -1,9 +1,9 @@
 package com.demon.doubanmovies.douban;
 
-import com.demon.doubanmovies.model.bean.CNMovieBean;
+import com.demon.doubanmovies.model.bean.CnMovieBean;
 import com.demon.doubanmovies.model.bean.CelebrityBean;
 import com.demon.doubanmovies.model.bean.SubjectBean;
-import com.demon.doubanmovies.model.bean.USMovieBean;
+import com.demon.doubanmovies.model.bean.UsMovieBean;
 
 import rx.Observable;
 
@@ -17,15 +17,14 @@ public class MovieModel {
     }
 
     private MovieModel() {
-
     }
 
-    public Observable<CNMovieBean> getMovieData(String type, int start) {
-        return DoubanMovie.getInstance().getDoubanService().getCNMovieAPI(type, start);
+    public Observable<CnMovieBean> getMovieData(String type, int start) {
+        return DoubanMovie.getInstance().getDoubanService().getCnMovieAPI(type, start);
     }
 
-    public Observable<USMovieBean> getMovieData() {
-        return DoubanMovie.getInstance().getDoubanService().getUSMovieAPI();
+    public Observable<UsMovieBean> getMovieData() {
+        return DoubanMovie.getInstance().getDoubanService().getUsMovieAPI();
     }
 
     public Observable<CelebrityBean> getCelebrityData(String id) {
@@ -36,11 +35,11 @@ public class MovieModel {
         return DoubanMovie.getInstance().getDoubanService().getSubjectAPI(id);
     }
 
-    public Observable<CNMovieBean> getSearchMovieData(String query) {
+    public Observable<CnMovieBean> getSearchMovieData(String query) {
         return DoubanMovie.getInstance().getDoubanService().getSearchMovieAPI(query);
     }
 
-    public Observable<CNMovieBean> getRecommendMovieData(String tag) {
+    public Observable<CnMovieBean> getRecommendMovieData(String tag) {
         return DoubanMovie.getInstance().getDoubanService().getRecommendMovieAPI(tag);
     }
 

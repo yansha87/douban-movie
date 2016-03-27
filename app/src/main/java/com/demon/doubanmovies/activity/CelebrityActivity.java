@@ -130,7 +130,6 @@ public class CelebrityActivity extends BaseToolbarActivity {
                 .subscribe(new Subscriber<CelebrityBean>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -148,7 +147,8 @@ public class CelebrityActivity extends BaseToolbarActivity {
     }
 
     /**
-     * setting views after get celerity data
+     * set views after get celerity data
+     *
      * @param bean celebrity bean
      */
     private void setViewAfterGetData(CelebrityBean bean) {

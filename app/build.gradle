@@ -13,7 +13,7 @@ android {
         versionName "1.0"
 
         ndk {
-            // 设置支持的SO库架构
+            // set arch support SO lib
             abiFilters 'armeabi'
         }
     }

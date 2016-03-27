@@ -6,6 +6,6 @@ import java.util.List;
 public class WorksEntity {
 
     public SubjectEntity subject;
+    @SuppressWarnings("unused")
     public List<String> roles;
-
 }

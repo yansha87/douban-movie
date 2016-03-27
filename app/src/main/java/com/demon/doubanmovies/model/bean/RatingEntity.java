@@ -3,6 +3,7 @@ package com.demon.doubanmovies.model.bean;
 import java.io.Serializable;
 
 // rating entity
+@SuppressWarnings("unused")
 public class RatingEntity implements Serializable {
 
     public int max;

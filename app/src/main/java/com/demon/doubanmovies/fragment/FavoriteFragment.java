@@ -33,11 +33,11 @@ public class FavoriteFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mView = super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         int padding = DensityUtil.dp2px(getContext(), 3f);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        return mView;
+        return view;
     }
 
     @Override
