@@ -10,9 +10,9 @@
 - [leakcanary](https://github.com/square/leakcanary)
 
 ##预览  
-![mainpage](https://github.com/demonyan/douban-movie/blob/master/screenshots/mainpage.png) ![subject](https://github.com/demonyan/douban-movie/blob/master/screenshots/subject.png)  
+![mainpage_day](https://github.com/demonyan/douban-movie/blob/master/screenshots/mainpage_day.png) ![mainpage_day](https://github.com/demonyan/douban-movie/blob/master/screenshots/mainpage_night.png)  
 
-![favorite](https://github.com/demonyan/douban-movie/blob/master/screenshots/favorite.png) ![search](https://github.com/demonyan/douban-movie/blob/master/screenshots/search.png)  
+![subject_day](https://github.com/demonyan/douban-movie/blob/master/screenshots/subject_day.png) ![subject_night](https://github.com/demonyan/douban-movie/blob/master/screenshots/subject_night.png)  
 
 ##待完善功能
 1. 适配低版本 SDK
