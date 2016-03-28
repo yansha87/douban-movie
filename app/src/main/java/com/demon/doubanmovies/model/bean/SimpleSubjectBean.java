@@ -1,10 +1,9 @@
 package com.demon.doubanmovies.model.bean;
 
-import java.io.Serializable;
 import java.util.List;
 
 // simple movie information
-public class SimpleSubjectBean implements Serializable{
+public class SimpleSubjectBean {
 
     public RatingEntity rating;
     public int collect_count;

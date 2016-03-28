@@ -19,7 +19,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
         this.initToolbar(savedInstanceState);
         this.initViews(savedInstanceState);
-        this.initData();
+        this.initDatas();
         this.initListeners();
     }
 
@@ -48,7 +48,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     /**
      * initial data
      */
-    protected abstract void initData();
+    protected abstract void initDatas();
 
     @SuppressWarnings("unused")
     protected <V extends View> V findView(int id) {

@@ -74,6 +74,9 @@ import rx.Subscriber;
 
 import static android.app.ActivityOptions.makeSceneTransitionAnimation;
 
+/**
+ * we don't need toolbar and drawer layout here, so just extends AppCompatActivity
+ */
 public class SubjectActivity extends AppCompatActivity
         implements SwipeRefreshLayout.OnRefreshListener,
         AppBarLayout.OnOffsetChangedListener,
@@ -216,6 +219,7 @@ public class SubjectActivity extends AppCompatActivity
         mRecommendMovieAdapter = new RecommendMovieAdapter(mRecommendView, null);
         mRecommendView.setAdapter(mRecommendMovieAdapter);
 
+        // image cache path
         mFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                 mId + URI_FOR_IMAGE);
 

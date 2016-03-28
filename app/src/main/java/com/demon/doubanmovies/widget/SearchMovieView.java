@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,6 @@ import butterknife.ButterKnife;
 
 public class SearchMovieView extends LinearLayout {
     static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
-    private static final String TAG = "SearchMovieView";
     @Bind(R.id.view_search_src_text)
     SearchAutoCompleteView mQueryTextView;
     @Bind(R.id.view_search_close_btn)
@@ -80,16 +78,13 @@ public class SearchMovieView extends LinearLayout {
         mQueryTextView.addTextChangedListener(new TextWatcher() {
 
             public void beforeTextChanged(CharSequence s, int start, int before, int after) {
-                Log.i(TAG, "beforeTextChanged: ");
             }
 
             public void onTextChanged(CharSequence s, int start,
                                       int before, int after) {
-                Log.i(TAG, "onTextChanged: ");
             }
 
             public void afterTextChanged(Editable s) {
-                Log.i(TAG, "afterTextChanged: ");
                 updateCloseButton();
             }
         });
@@ -104,7 +99,7 @@ public class SearchMovieView extends LinearLayout {
     }
 
     /**
-     * is landscape mode or not
+     * orientation is landscape mode or not
      * @param context context
      * @return landscape mode or portrait mode
      */
@@ -167,7 +162,7 @@ public class SearchMovieView extends LinearLayout {
     }
 
     private int getPreferredWidth() {
-        return (int) (320 * getContext().getResources().getDisplayMetrics().density + 0.5f);
+        return (int) (320 * mContext.getResources().getDisplayMetrics().density + 0.5f);
     }
 
     public void setOnQueryChangeListener(OnQueryTextListener listener) {
@@ -210,7 +205,7 @@ public class SearchMovieView extends LinearLayout {
      * set Ime visible or not
      * @param visible visible
      */
-    private void setImeVisibility(final boolean visible) {
+    private void setImeVisibility(boolean visible) {
         if (visible) {
             post(mShowImeRunnable);
         } else {
@@ -345,7 +340,7 @@ public class SearchMovieView extends LinearLayout {
     }
 
     /**
-     * class realize reflector of AutoCompleteTextView
+     * realize reflector of AutoCompleteTextView
      */
     private static class AutoCompleteTextViewReflector {
         private Method doBeforeTextChanged, doAfterTextChanged;
@@ -358,28 +353,28 @@ public class SearchMovieView extends LinearLayout {
                         .getDeclaredMethod("doBeforeTextChanged");
                 doBeforeTextChanged.setAccessible(true);
             } catch (NoSuchMethodException ignored) {
-
+                ignored.printStackTrace();
             }
             try {
                 doAfterTextChanged = AutoCompleteTextView.class
                         .getDeclaredMethod("doAfterTextChanged");
                 doAfterTextChanged.setAccessible(true);
             } catch (NoSuchMethodException ignored) {
-
+                ignored.printStackTrace();
             }
             try {
                 ensureImeVisible = AutoCompleteTextView.class
                         .getMethod("ensureImeVisible", boolean.class);
                 ensureImeVisible.setAccessible(true);
             } catch (NoSuchMethodException ignored) {
-
+                ignored.printStackTrace();
             }
             try {
                 showSoftInputUnchecked = InputMethodManager.class.getMethod(
                         "showSoftInputUnchecked", int.class, ResultReceiver.class);
                 showSoftInputUnchecked.setAccessible(true);
             } catch (NoSuchMethodException ignored) {
-
+                ignored.printStackTrace();
             }
         }
 
@@ -388,7 +383,7 @@ public class SearchMovieView extends LinearLayout {
                 try {
                     doBeforeTextChanged.invoke(view);
                 } catch (Exception ignored) {
-
+                    ignored.printStackTrace();
                 }
             }
         }
@@ -398,7 +393,7 @@ public class SearchMovieView extends LinearLayout {
                 try {
                     doAfterTextChanged.invoke(view);
                 } catch (Exception ignored) {
-
+                    ignored.printStackTrace();
                 }
             }
         }
@@ -408,7 +403,7 @@ public class SearchMovieView extends LinearLayout {
                 try {
                     ensureImeVisible.invoke(view, visible);
                 } catch (Exception ignored) {
-
+                    ignored.printStackTrace();
                 }
             }
         }
@@ -419,7 +414,7 @@ public class SearchMovieView extends LinearLayout {
                     showSoftInputUnchecked.invoke(imm, flags, null);
                     return;
                 } catch (Exception ignored) {
-
+                    ignored.printStackTrace();
                 }
             }
 

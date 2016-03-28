@@ -1,9 +1,7 @@
 package com.demon.doubanmovies.model.bean;
 
-import java.io.Serializable;
-
 // Simple celebrity information
-public class CelebrityEntity implements Serializable {
+public class CelebrityEntity {
 
     public ImagesEntity avatars;
     @SuppressWarnings("unused")

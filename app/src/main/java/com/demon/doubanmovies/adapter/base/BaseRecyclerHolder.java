@@ -19,7 +19,6 @@ import com.demon.doubanmovies.utils.ImageUtil;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
-    private static final String TAG = "BaseRecyclerHolder";
     private final SparseArray<View> mViews;
     private Context mContext;
     private final static int viewCount = 16;
@@ -51,8 +50,8 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
             if (mViews.size() < viewCount) {
                 mViews.put(viewId, view);
             } else {
-                // may be need to throw an exception
-                Log.i(TAG, "view size over viewCount");
+                // throw runtime exception
+                throw new RuntimeException("view size over view count 16");
             }
         }
 

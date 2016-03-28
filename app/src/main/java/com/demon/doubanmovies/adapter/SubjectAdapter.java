@@ -23,7 +23,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Maybe need to use BaseRecyclerAdapter instead of BaseAdapter
+ */
 public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
+
     // FootView is loading
     public static final int FOOT_LOADING = 0;
     // FootView loading completed
@@ -72,6 +76,11 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
         return mTotalDataCount;
     }
 
+    /**
+     * set total data count
+     *
+     * @param totalDataCount total data count
+     */
     public void setTotalDataCount(int totalDataCount) {
         this.mTotalDataCount = totalDataCount;
     }
@@ -95,7 +104,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * update recycle view
+     * update recycler view
      *
      * @param data           update data list
      * @param totalDataCount total data count
@@ -229,7 +238,6 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
             } else {
                 setFootView(FOOT_LOADING);
             }
-
         }
 
         public void setFootView(int event) {

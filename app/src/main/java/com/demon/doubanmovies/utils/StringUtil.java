@@ -6,7 +6,7 @@ import android.text.style.ForegroundColorSpan;
 
 import java.util.List;
 
-public class StringUtil {
+public final class StringUtil {
 
     /**
      * get spannable string by color

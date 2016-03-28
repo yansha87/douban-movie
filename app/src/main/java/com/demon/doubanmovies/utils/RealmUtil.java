@@ -1,16 +1,12 @@
 package com.demon.doubanmovies.utils;
 
-import android.util.Log;
-
 import com.demon.doubanmovies.model.realm.SimpleSubject;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class RealmUtil {
-
-    private static final String TAG = "RealmUtil";
+public final class RealmUtil {
 
     /**
      * save or update movie record
@@ -30,8 +26,6 @@ public class RealmUtil {
         try {
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(subject);
-        } catch (Exception e) {
-            Log.i(TAG, e.toString());
         } finally {
             realm.commitTransaction();
         }
@@ -45,12 +39,11 @@ public class RealmUtil {
      */
     public static void deleteRecord(String key, String value) {
         Realm realm = Realm.getDefaultInstance();
+
         try {
             realm.beginTransaction();
             realm.where(SimpleSubject.class).equalTo(key, value).
                     findFirst().removeFromRealm();
-        } catch (Exception e) {
-            Log.i(TAG, e.toString());
         } finally {
             realm.commitTransaction();
         }

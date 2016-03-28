@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import com.demon.doubanmovies.model.bean.ImagesEntity;
 
 
-public class ImageUtil {
+public final class ImageUtil {
 
 
     /**

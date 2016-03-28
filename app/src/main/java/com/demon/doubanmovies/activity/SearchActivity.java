@@ -12,8 +12,9 @@ import android.widget.Toast;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.base.BaseToolbarActivity;
 import com.demon.doubanmovies.adapter.SearchAdapter;
-import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
 import com.demon.doubanmovies.douban.DataManager;
+import com.demon.doubanmovies.model.bean.SimpleSubjectBean;
+import com.demon.doubanmovies.utils.PrefsUtil;
 import com.demon.doubanmovies.widget.SearchMovieView;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -21,13 +22,14 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import rx.Subscriber;
 
 public class SearchActivity extends BaseToolbarActivity {
-
     @Bind(R.id.rv_search)
     RecyclerView mRecyclerView;
     @Bind(R.id.tag_layout)
@@ -39,6 +41,7 @@ public class SearchActivity extends BaseToolbarActivity {
     private SearchMovieView mSearchView;
     private ProgressDialog mDialog;
 
+    // initial search tags
     private String[] mSearchTags = new String[]{"美人鱼", "西游记", "功夫熊猫", "澳门风云"};
 
     @Override
@@ -71,6 +74,10 @@ public class SearchActivity extends BaseToolbarActivity {
 
             if (mAdapter != null)
                 mAdapter.notifyDataSetChanged();
+
+            initialSearchTags();
+            // update tag flow layout
+            mTagFlowLayout.setAdapter(tagAdapter(mSearchTags));
             mTagFlowLayout.setVisibility(View.VISIBLE);
             return true;
         });
@@ -87,6 +94,8 @@ public class SearchActivity extends BaseToolbarActivity {
                 mSearchView.clearFocus();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+            } finally {
+                PrefsUtil.saveSearchTags(SearchActivity.this, new String[]{query});
             }
             return true;
         });
@@ -98,8 +107,26 @@ public class SearchActivity extends BaseToolbarActivity {
     }
 
     @Override
-    protected void initData() {
-        mTagFlowLayout.setAdapter(new TagAdapter<String>(mSearchTags) {
+    protected void initDatas() {
+        initialSearchTags();
+        mTagFlowLayout.setAdapter(tagAdapter(mSearchTags));
+    }
+
+    private void initialSearchTags() {
+        Set<String> tags = PrefsUtil.restoreSearchTags(this);
+        if (tags.size() > 0) {
+            List<String> tagList = new ArrayList<>();
+            for (String tag : tags) {
+                tagList.add(tag);
+            }
+
+            mSearchTags = new String[]{};
+            mSearchTags = tagList.toArray(mSearchTags);
+        }
+    }
+
+    private TagAdapter tagAdapter(String[] tags) {
+        return new TagAdapter<String>(tags) {
 
             @Override
             public View getView(FlowLayout parent, int position, String text) {
@@ -108,11 +135,16 @@ public class SearchActivity extends BaseToolbarActivity {
                 tv.setText(text);
                 return tv;
             }
-        });
+        };
     }
 
-    private void loadSearchData(String url) {
-        DataManager.getInstance().getSearchData(url)
+    /**
+     * load search result from server
+     *
+     * @param query query tag
+     */
+    private void loadSearchData(String query) {
+        DataManager.getInstance().getSearchData(query)
                 .subscribe(new Subscriber<List<SimpleSubjectBean>>() {
                     @Override
                     public void onCompleted() {
@@ -152,8 +184,8 @@ public class SearchActivity extends BaseToolbarActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

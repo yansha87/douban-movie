@@ -85,7 +85,7 @@ public class CelebrityActivity extends BaseToolbarActivity {
     }
 
     @Override
-    protected void initData() {
+    protected void initDatas() {
         String mId = getIntent().getStringExtra(KEY_CEL_ID);
         loadCelebrityData(mId);
     }

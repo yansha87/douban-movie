@@ -2,7 +2,7 @@ package com.demon.doubanmovies.utils;
 
 import android.content.Context;
 
-public class DensityUtil {
+public final class DensityUtil {
 
     /**
      * translate dp into px by density

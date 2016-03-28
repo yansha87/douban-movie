@@ -106,7 +106,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     }
 
     @Override
-    protected void initData() {
+    protected void initDatas() {
     }
 
     @Override

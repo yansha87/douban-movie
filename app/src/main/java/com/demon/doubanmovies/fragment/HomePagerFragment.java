@@ -2,6 +2,7 @@ package com.demon.doubanmovies.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +20,6 @@ import android.view.ViewGroup;
 import com.demon.doubanmovies.MovieApplication;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.activity.SubjectActivity;
-import com.demon.doubanmovies.adapter.AnimatorListenerAdapter;
 import com.demon.doubanmovies.adapter.SubjectAdapter;
 import com.demon.doubanmovies.adapter.base.BaseAdapter;
 import com.demon.doubanmovies.douban.DataManager;
@@ -343,7 +343,7 @@ public class HomePagerFragment extends Fragment implements BaseAdapter.OnItemCli
     }
 
     /**
-     * animator for FloatingActionButton disappear
+     * animation for FloatingActionButton disappear
      */
     private void animatorForGone() {
         Animator anim = AnimatorInflater.loadAnimator(getActivity(), R.animator.scale_gone);

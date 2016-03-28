@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 记录项目常量
  */
-public class Constant {
+public final class Constant {
 
     public static final SparseArray<String> menuId2TitleDict = new SparseArray<>();
     public static final SparseArray<String> title2TypeDict = new SparseArray<>();

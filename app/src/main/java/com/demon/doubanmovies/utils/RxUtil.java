@@ -28,7 +28,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RxUtil {
+public final class RxUtil {
     /**
      * {@link Observable.Transformer} that transforms the source observable to subscribe in the
      * io thread and observe on the Android's UI thread.
