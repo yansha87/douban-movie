@@ -18,8 +18,6 @@ import butterknife.ButterKnife;
 
 public class BaseFragment extends Fragment {
 
-    protected int layoutId = R.layout.fragment_base;
-
     @Bind(R.id.rv_fragment)
     protected RecyclerView recyclerView;
     @Bind(R.id.fresh_fragment)
@@ -28,7 +26,7 @@ public class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(layoutId, container, false);
+        View view = inflater.inflate(R.layout.fragment_base, container, false);
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

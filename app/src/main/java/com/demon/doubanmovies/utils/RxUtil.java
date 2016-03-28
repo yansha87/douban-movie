@@ -33,7 +33,7 @@ public final class RxUtil {
      * {@link Observable.Transformer} that transforms the source observable to subscribe in the
      * io thread and observe on the Android's UI thread.
      */
-    private static Observable.Transformer ioToMainThreadSchedulerTransformer;
+    private final static Observable.Transformer ioToMainThreadSchedulerTransformer;
 
     static {
         ioToMainThreadSchedulerTransformer = createIOToMainThreadScheduler();

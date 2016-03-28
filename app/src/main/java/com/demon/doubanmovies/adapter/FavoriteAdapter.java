@@ -15,7 +15,7 @@ import java.util.List;
 
 public class FavoriteAdapter extends BaseRecyclerAdapter<SubjectBean> {
 
-    protected OnItemClickListener mCallback;
+    private OnItemClickListener mCallback;
 
     public FavoriteAdapter(RecyclerView view, Collection<SubjectBean> datas) {
         super(view, datas, R.layout.item_favorite_layout);

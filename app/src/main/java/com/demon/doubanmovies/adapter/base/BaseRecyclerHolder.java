@@ -3,7 +3,6 @@ package com.demon.doubanmovies.adapter.base;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
     private final SparseArray<View> mViews;
-    private Context mContext;
+    private final Context mContext;
     private final static int viewCount = 16;
 
     public BaseRecyclerHolder(View itemView) {
@@ -43,7 +42,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      * @param <T> view type
      * @return view
      */
-    public <T extends View> T getView(int viewId) {
+    private <T extends View> T getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
             view = itemView.findViewById(viewId);

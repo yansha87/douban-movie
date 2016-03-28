@@ -13,7 +13,7 @@ import rx.Observable;
 
 public class DataManager {
     private static DataManager dataManager;
-    private MovieModel movieModel;
+    private final MovieModel movieModel;
 
     private DataManager() {
         movieModel = MovieModel.getInstance();

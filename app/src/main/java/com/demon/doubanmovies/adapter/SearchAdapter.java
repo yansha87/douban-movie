@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class SearchAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
-    protected OnItemClickListener mCallback;
+    private OnItemClickListener mCallback;
 
     public SearchAdapter(RecyclerView view, Collection<SimpleSubjectBean> datas) {
         super(view, datas, R.layout.item_search_layout);

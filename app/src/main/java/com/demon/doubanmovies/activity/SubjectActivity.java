@@ -461,11 +461,6 @@ public class SubjectActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sub, menu);
         MenuItem favorite = menu.findItem(R.id.action_sub_favorite);

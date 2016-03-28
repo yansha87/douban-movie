@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class RecommendMovieAdapter extends BaseRecyclerAdapter<SimpleSubjectBean> {
-    protected OnItemClickListener mCallback;
+    private OnItemClickListener mCallback;
 
     public RecommendMovieAdapter(RecyclerView view, Collection<SimpleSubjectBean> datas) {
         super(view, datas, R.layout.item_simple_movie_layout);

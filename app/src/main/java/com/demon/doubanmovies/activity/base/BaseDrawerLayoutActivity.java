@@ -30,7 +30,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
     protected NavigationView mNavigationView;
 
     // save item with MenuItem
-    protected HashMap<Integer, MenuItem> mMenuItems;
+    private HashMap<Integer, MenuItem> mMenuItems;
     private ActionBarDrawerToggle mDrawerToggle;
     private TextView mNickname;
     private TextView mSignature;

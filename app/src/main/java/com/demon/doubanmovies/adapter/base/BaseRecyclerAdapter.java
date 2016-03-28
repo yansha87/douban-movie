@@ -14,11 +14,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     protected final int mItemLayoutId;
     protected List<T> mDatas;
     protected boolean isScrolling;
-    protected Context mContext;
+    protected final Context mContext;
 
     private OnItemClickListener mListener;
 
-    public BaseRecyclerAdapter(RecyclerView view, Collection<T> datas, int itemLayoutId) {
+    protected BaseRecyclerAdapter(RecyclerView view, Collection<T> datas, int itemLayoutId) {
         if (datas == null) {
             this.mDatas = new ArrayList<>();
         } else if (datas instanceof List) {
@@ -74,7 +74,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
      *
      * @param data data need to be updated
      */
-    public void update(List<T> data) {
+    protected void update(List<T> data) {
         this.mDatas.clear();
         notifyDataSetChanged();
         addData(data);
@@ -92,7 +92,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         return this;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    protected void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
 
@@ -109,7 +109,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
      * @param position    position in RecyclerView
      * @param isScrolling is scrolling or not
      */
-    public abstract void convert(BaseRecyclerHolder holder, T item, int position, boolean isScrolling);
+    protected abstract void convert(BaseRecyclerHolder holder, T item, int position, boolean isScrolling);
 
     public interface OnItemClickListener {
         void onItemClick(View view, Object data, int position);

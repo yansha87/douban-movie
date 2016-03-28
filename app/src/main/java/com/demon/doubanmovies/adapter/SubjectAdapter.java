@@ -29,11 +29,11 @@ import butterknife.ButterKnife;
 public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
 
     // FootView is loading
-    public static final int FOOT_LOADING = 0;
+    private static final int FOOT_LOADING = 0;
     // FootView loading completed
-    public static final int FOOT_COMPLETED = 1;
+    private static final int FOOT_COMPLETED = 1;
     // FootView loading fail
-    public static final int FOOT_FAIL = 2;
+    private static final int FOOT_FAIL = 2;
 
     public static final String FOOT_VIEW_ID = "-1";
     // ItemView type
@@ -42,7 +42,7 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
     private static final int TYPE_FOOT = 1;
 
     private FootViewHolder mFootView;
-    private Context mContext;
+    private final Context mContext;
     private List<SimpleSubjectBean> mData;
 
     // total data count
@@ -222,8 +222,8 @@ public class SubjectAdapter extends BaseAdapter<RecyclerView.ViewHolder> {
      */
     class FootViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ProgressBar progressBar;
-        private TextView textLoadTip;
+        private final ProgressBar progressBar;
+        private final TextView textLoadTip;
 
         public FootViewHolder(final View itemView) {
             super(itemView);

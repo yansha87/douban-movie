@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class ActorAdapter extends BaseRecyclerAdapter<SimpleActorBean> {
-    protected OnItemClickListener mCallback;
+    private OnItemClickListener mCallback;
 
     public ActorAdapter(RecyclerView view, Collection<SimpleActorBean> datas) {
         super(view, datas, R.layout.item_simple_actor_layout);

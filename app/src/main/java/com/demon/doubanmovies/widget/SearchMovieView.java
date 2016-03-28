@@ -30,17 +30,17 @@ import butterknife.ButterKnife;
 
 
 public class SearchMovieView extends LinearLayout {
-    static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
+    private static final AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER = new AutoCompleteTextViewReflector();
     @Bind(R.id.view_search_src_text)
     SearchAutoCompleteView mQueryTextView;
     @Bind(R.id.view_search_close_btn)
     ImageView mClearTextButton;
 
     private boolean mClearingFocus;
-    private Context mContext;
+    private final Context mContext;
     private OnQueryTextListener mOnQueryChangeListener;
     private OnClearButtonListener mOnClearButtonListener;
-    private Runnable mShowImeRunnable = () -> {
+    private final Runnable mShowImeRunnable = () -> {
         InputMethodManager imm = (InputMethodManager)
                 getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -49,7 +49,7 @@ public class SearchMovieView extends LinearLayout {
         }
     };
 
-    private Runnable mUpdateDrawableStateRunnable = this::updateFocusedState;
+    private final Runnable mUpdateDrawableStateRunnable = this::updateFocusedState;
 
     public SearchMovieView(Context context) {
         this(context, null);
@@ -103,7 +103,7 @@ public class SearchMovieView extends LinearLayout {
      * @param context context
      * @return landscape mode or portrait mode
      */
-    static boolean isLandscapeMode(Context context) {
+    private static boolean isLandscapeMode(Context context) {
         return context.getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
     }
@@ -178,7 +178,7 @@ public class SearchMovieView extends LinearLayout {
         HIDDEN_METHOD_INVOKER.doAfterTextChanged(mQueryTextView);
     }
 
-    void onTextFocusChanged() {
+    private void onTextFocusChanged() {
         updateCloseButton();
         postUpdateFocusedState();
         if (mQueryTextView.hasFocus()) {

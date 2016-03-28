@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class WorksMovieAdapter extends BaseRecyclerAdapter<WorksEntity> {
-    protected OnItemClickListener mCallback;
+    private OnItemClickListener mCallback;
 
     public WorksMovieAdapter(RecyclerView view, Collection<WorksEntity> datas) {
         super(view, datas, R.layout.item_simple_movie_layout);

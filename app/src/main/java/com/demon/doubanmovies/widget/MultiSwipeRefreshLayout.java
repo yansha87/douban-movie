@@ -9,10 +9,12 @@ import android.util.AttributeSet;
 
 import com.demon.doubanmovies.R;
 
-
+/**
+ * A wrapper of SwipeRefreshLayout
+ */
 public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
     private CanChildScrollUpCallback mCanChildScrollUpCallback;
-    private Drawable mForegroundDrawable;
+    private final Drawable mForegroundDrawable;
 
     public MultiSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -33,8 +35,8 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
         if (this.mForegroundDrawable != null) {
             this.mForegroundDrawable.setBounds(0, 0, w, h);
         }

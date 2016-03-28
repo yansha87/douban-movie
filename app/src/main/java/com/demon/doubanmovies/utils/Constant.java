@@ -70,7 +70,7 @@ public final class Constant {
     }.getType();
 
 
-    public static int[] menuIds = new int[]{
+    public static final int[] menuIds = new int[]{
             R.id.nav_homepage,
             R.id.nav_favorite,
             R.id.nav_setting,

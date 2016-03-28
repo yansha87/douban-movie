@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class HomeFragment extends Fragment {
 
-    private static String[] TITLES = {"正在热映", "即将上映", "高分电影", "北美榜单"};
+    private final static String[] TITLES = {"正在热映", "即将上映", "高分电影", "北美榜单"};
 
     @Bind(R.id.tab_home)
     TabLayout mTabLayout;

@@ -90,11 +90,6 @@ public class CelebrityActivity extends BaseToolbarActivity {
         loadCelebrityData(mId);
     }
 
-
-    protected void onStop() {
-        super.onStop();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

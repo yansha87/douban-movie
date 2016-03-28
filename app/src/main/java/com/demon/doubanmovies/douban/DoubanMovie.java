@@ -17,7 +17,7 @@ public class DoubanMovie {
 
     private static final String TAG = "DoubanMovie";
     private static DoubanMovie instance;
-    private DoubanService doubanService;
+    private final DoubanService doubanService;
 
     private DoubanMovie() {
         OkHttpClient okHttpClient = new OkHttpClient();

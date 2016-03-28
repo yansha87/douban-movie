@@ -32,7 +32,7 @@ public class MainActivity extends BaseDrawerLayoutActivity {
     private Fragment mCurFragment;
 
     // local receiver to receive setting broadcast
-    private LocalBroadcastReceiver localReceiver = new LocalBroadcastReceiver();
+    private final LocalBroadcastReceiver localReceiver = new LocalBroadcastReceiver();
 
     @Override
     protected int getLayoutId() {

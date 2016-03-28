@@ -11,7 +11,7 @@
     <view
         android:id="@+id/view_search_src_text"
         class="com.demon.doubanmovies.widget.SearchMovieView$SearchAutoCompleteView"
-        android:layout_width="@dimen/size_0dp"
+        android:layout_width="0dp"
         android:layout_height="@dimen/size_36dp"
         android:layout_gravity="bottom"
         android:layout_weight="1"
