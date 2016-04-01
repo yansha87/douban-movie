@@ -20,7 +20,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
     private final SparseArray<View> mViews;
     private final Context mContext;
-    private final static int viewCount = 16;
+    private static final int viewCount = 16;
 
     public BaseRecyclerHolder(View itemView) {
         super(itemView);

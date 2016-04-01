@@ -11,8 +11,9 @@ public final class ImageUtil {
 
     /**
      * fast blur algorithm（http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0728/3229.html）
+     *
      * @param inputBitmap source bitmap
-     * @param radiusF blur radius
+     * @param radiusF     blur radius
      * @return bitmap after blur
      */
     public static Bitmap fastBlur(Bitmap inputBitmap, float radiusF) {
@@ -46,6 +47,7 @@ public final class ImageUtil {
         int divSum = (div + 1) >> 1;
         divSum *= divSum;
         int dv[] = new int[256 * divSum];
+        // This line precalculates a lookup table for all the possible mean values that can occur
         for (i = 0; i < 256 * divSum; i++) {
             dv[i] = (i / divSum);
         }
@@ -58,11 +60,11 @@ public final class ImageUtil {
         int[] sir;
         int rbs;
         int r1 = radius + 1;
-        int routSum, goutSum, boutSum;
-        int rinSum, ginSum, binSum;
+        int rOutSum, gOutSum, bOutSum;
+        int rInSum, gInSum, bInSum;
 
         for (y = 0; y < h; y++) {
-            rinSum = ginSum = binSum = routSum = goutSum = boutSum = rSum = gSum = bSum = 0;
+            rInSum = gInSum = bInSum = rOutSum = gOutSum = bOutSum = rSum = gSum = bSum = 0;
             for (i = -radius; i <= radius; i++) {
                 p = pix[yi + Math.min(wm, Math.max(i, 0))];
                 sir = stack[i + radius];
@@ -74,33 +76,32 @@ public final class ImageUtil {
                 gSum += sir[1] * rbs;
                 bSum += sir[2] * rbs;
                 if (i > 0) {
-                    rinSum += sir[0];
-                    ginSum += sir[1];
-                    binSum += sir[2];
+                    rInSum += sir[0];
+                    gInSum += sir[1];
+                    bInSum += sir[2];
                 } else {
-                    routSum += sir[0];
-                    goutSum += sir[1];
-                    boutSum += sir[2];
+                    rOutSum += sir[0];
+                    gOutSum += sir[1];
+                    bOutSum += sir[2];
                 }
             }
             stackPointer = radius;
 
             for (x = 0; x < w; x++) {
-
                 r[yi] = dv[rSum];
                 g[yi] = dv[gSum];
                 b[yi] = dv[bSum];
 
-                rSum -= routSum;
-                gSum -= goutSum;
-                bSum -= boutSum;
+                rSum -= rOutSum;
+                gSum -= gOutSum;
+                bSum -= bOutSum;
 
                 stackStart = stackPointer - radius + div;
                 sir = stack[stackStart % div];
 
-                routSum -= sir[0];
-                goutSum -= sir[1];
-                boutSum -= sir[2];
+                rOutSum -= sir[0];
+                gOutSum -= sir[1];
+                bOutSum -= sir[2];
 
                 if (y == 0) {
                     vMin[x] = Math.min(x + radius + 1, wm);
@@ -111,31 +112,31 @@ public final class ImageUtil {
                 sir[1] = (p & 0x00ff00) >> 8;
                 sir[2] = (p & 0x0000ff);
 
-                rinSum += sir[0];
-                ginSum += sir[1];
-                binSum += sir[2];
+                rInSum += sir[0];
+                gInSum += sir[1];
+                bInSum += sir[2];
 
-                rSum += rinSum;
-                gSum += ginSum;
-                bSum += binSum;
+                rSum += rInSum;
+                gSum += gInSum;
+                bSum += bInSum;
 
                 stackPointer = (stackPointer + 1) % div;
                 sir = stack[(stackPointer) % div];
 
-                routSum += sir[0];
-                goutSum += sir[1];
-                boutSum += sir[2];
+                rOutSum += sir[0];
+                gOutSum += sir[1];
+                bOutSum += sir[2];
 
-                rinSum -= sir[0];
-                ginSum -= sir[1];
-                binSum -= sir[2];
+                rInSum -= sir[0];
+                gInSum -= sir[1];
+                bInSum -= sir[2];
 
                 yi++;
             }
             yw += w;
         }
         for (x = 0; x < w; x++) {
-            rinSum = ginSum = binSum = routSum = goutSum = boutSum = rSum = gSum = bSum = 0;
+            rInSum = gInSum = bInSum = rOutSum = gOutSum = bOutSum = rSum = gSum = bSum = 0;
             yp = -radius * w;
             for (i = -radius; i <= radius; i++) {
                 yi = Math.max(0, yp) + x;
@@ -153,13 +154,13 @@ public final class ImageUtil {
                 bSum += b[yi] * rbs;
 
                 if (i > 0) {
-                    rinSum += sir[0];
-                    ginSum += sir[1];
-                    binSum += sir[2];
+                    rInSum += sir[0];
+                    gInSum += sir[1];
+                    bInSum += sir[2];
                 } else {
-                    routSum += sir[0];
-                    goutSum += sir[1];
-                    boutSum += sir[2];
+                    rOutSum += sir[0];
+                    gOutSum += sir[1];
+                    bOutSum += sir[2];
                 }
 
                 if (i < hm) {
@@ -172,16 +173,16 @@ public final class ImageUtil {
                 // Preserve alpha channel: ( 0xff000000 & pix[yi] )
                 pix[yi] = (0xff000000 & pix[yi]) | (dv[rSum] << 16) | (dv[gSum] << 8) | dv[bSum];
 
-                rSum -= routSum;
-                gSum -= goutSum;
-                bSum -= boutSum;
+                rSum -= rOutSum;
+                gSum -= gOutSum;
+                bSum -= bOutSum;
 
                 stackStart = stackPointer - radius + div;
                 sir = stack[stackStart % div];
 
-                routSum -= sir[0];
-                goutSum -= sir[1];
-                boutSum -= sir[2];
+                rOutSum -= sir[0];
+                gOutSum -= sir[1];
+                bOutSum -= sir[2];
 
                 if (x == 0) {
                     vMin[y] = Math.min(y + r1, hm) * w;
@@ -192,36 +193,37 @@ public final class ImageUtil {
                 sir[1] = g[p];
                 sir[2] = b[p];
 
-                rinSum += sir[0];
-                ginSum += sir[1];
-                binSum += sir[2];
+                rInSum += sir[0];
+                gInSum += sir[1];
+                bInSum += sir[2];
 
-                rSum += rinSum;
-                gSum += ginSum;
-                bSum += binSum;
+                rSum += rInSum;
+                gSum += gInSum;
+                bSum += bInSum;
 
                 stackPointer = (stackPointer + 1) % div;
                 sir = stack[stackPointer];
 
-                routSum += sir[0];
-                goutSum += sir[1];
-                boutSum += sir[2];
+                rOutSum += sir[0];
+                gOutSum += sir[1];
+                bOutSum += sir[2];
 
-                rinSum -= sir[0];
-                ginSum -= sir[1];
-                binSum -= sir[2];
+                rInSum -= sir[0];
+                gInSum -= sir[1];
+                bInSum -= sir[2];
 
                 yi += w;
             }
         }
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
-        return (bitmap);
+        return bitmap;
     }
 
     /**
      * get display image uri by preference setting
+     *
      * @param context context
-     * @param entity image entity
+     * @param entity  image entity
      * @return display image uri
      */
     public static String getDisplayImage(Context context, ImagesEntity entity) {

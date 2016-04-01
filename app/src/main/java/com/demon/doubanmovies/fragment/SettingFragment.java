@@ -59,12 +59,14 @@ public class SettingFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.settings_general);
 
+        // initial day and night mode
         ListPreference dayNightPref = (ListPreference) findPreference(DAY_NIGHT);
         Observable.just(PrefsUtil.getPrefDayNightMode(getActivity()))
                 .map(Constant.dayNightSummary::get)
                 .subscribe(dayNightPref::setSummary);
         dayNightPref.setOnPreferenceChangeListener(listener);
 
+        // initial image size
         ListPreference imageSizePref = (ListPreference) findPreference(IMAGE_SIZE);
         imageSizePref.setSummary(PrefsUtil.getPrefImageSize(getActivity()));
         Observable.just(PrefsUtil.getPrefImageSize(getActivity()))
@@ -72,15 +74,16 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 .subscribe(imageSizePref::setSummary);
         imageSizePref.setOnPreferenceChangeListener(listener);
 
+        // initial nickname and summary
         EditTextPreference namePref = (EditTextPreference) findPreference(NICKNAME);
         namePref.setSummary(PrefsUtil.getPrefNickname(getActivity()));
         namePref.setOnPreferenceChangeListener(listener);
 
+        // initial signature and summary
         EditTextPreference signPref = (EditTextPreference) findPreference(SIGNATURE);
         signPref.setSummary(PrefsUtil.getPrefSignature(getActivity()));
         signPref.setOnPreferenceChangeListener(listener);
     }
-
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
@@ -98,7 +101,6 @@ public class SettingFragment extends PreferenceFragmentCompat {
      * show licence dialog
      */
     private void showApacheLicenseDialog() {
-
         new LicensesDialog.
                 Builder(getActivity()).
                 setNotices(R.raw.notices).

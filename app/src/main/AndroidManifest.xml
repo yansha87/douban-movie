@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.demon.doubanmovies">
+    package="com.demon.doubanmovies">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- bugly permission -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".MovieApplication"
@@ -18,30 +18,33 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppWindowTranslucentStatusTheme">
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="nosensor"
-            android:theme="@style/AppWindowTranslucentStatusTheme">
+            android:screenOrientation="nosensor">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.CelebrityActivity"
-            android:screenOrientation="nosensor"/>
+            android:exported="false"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".activity.SearchActivity"
-            android:screenOrientation="nosensor"/>
+            android:exported="false"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".activity.SubjectActivity"
-            android:screenOrientation="nosensor"/>
+            android:exported="false"
+            android:screenOrientation="nosensor" />
         <activity
             android:name=".activity.WebActivity"
-            android:screenOrientation="nosensor"/>
+            android:exported="false"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>

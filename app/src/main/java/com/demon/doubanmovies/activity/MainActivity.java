@@ -127,7 +127,6 @@ public class MainActivity extends BaseDrawerLayoutActivity {
 
     @Override
     protected void onMenuItemOnClick(MenuItem now) {
-
         if (Constant.menuId2TitleDict.get(now.getItemId()) != null) {
             mActionBarHelper.setTitle(Constant.menuId2TitleDict.get(now.getItemId()));
             mTitle = Constant.menuId2TitleDict.get(now.getItemId());

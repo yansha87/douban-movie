@@ -188,6 +188,7 @@ public class SearchActivity extends BaseToolbarActivity {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
+
         return true;
     }
 

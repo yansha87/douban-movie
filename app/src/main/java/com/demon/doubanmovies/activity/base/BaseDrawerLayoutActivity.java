@@ -5,6 +5,7 @@ import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.BuildConfig;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import com.demon.doubanmovies.R;
 import com.demon.doubanmovies.utils.PrefsUtil;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -30,7 +30,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
     protected NavigationView mNavigationView;
 
     // save item with MenuItem
-    private HashMap<Integer, MenuItem> mMenuItems;
+    private ArrayMap<Integer, MenuItem> mMenuItems;
     private ActionBarDrawerToggle mDrawerToggle;
     private TextView mNickname;
     private TextView mSignature;
@@ -51,7 +51,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
         this.mDrawerLayout.addDrawerListener(new BaseDrawerListener());
 
-        this.mMenuItems = new HashMap<>();
+        this.mMenuItems = new ArrayMap<>();
         int[] menuItemIds = this.getMenuItemIds();
 
         if (menuItemIds.length > 0) {
@@ -142,8 +142,10 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
         }
     }
 
-    // update navigation content
-    private void updateNav() {
+    /**
+     * update navigation content
+     */
+    private void updateNavigation() {
         mNickname.setText(PrefsUtil.getPrefNickname(getBaseContext()));
         mSignature.setText(PrefsUtil.getPrefSignature(getBaseContext()));
     }
@@ -157,7 +159,7 @@ public abstract class BaseDrawerLayoutActivity extends BaseToolbarActivity {
 
         @Override
         public void onDrawerOpened(View drawerView) {
-            updateNav();
+            updateNavigation();
 
             BaseDrawerLayoutActivity.this.mDrawerToggle.onDrawerOpened(drawerView);
             if (BaseDrawerLayoutActivity.this.mActionBarHelper != null) {

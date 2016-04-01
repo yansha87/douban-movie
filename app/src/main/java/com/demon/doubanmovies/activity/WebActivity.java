@@ -50,6 +50,9 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
+        mUrl = getIntent().getStringExtra(EXTRA_URL);
+        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
+
         mToolbar.setTitle(mTitle);
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -57,8 +60,6 @@ public class WebActivity extends AppCompatActivity {
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mUrl = getIntent().getStringExtra(EXTRA_URL);
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
         mWebView = new WebView(getApplicationContext());
         mWebViewContainer.addView(mWebView);
 
@@ -86,13 +87,15 @@ public class WebActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mWebView != null) mWebView.onPause();
+        if (mWebView != null)
+            mWebView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mWebView != null) mWebView.onResume();
+        if (mWebView != null)
+            mWebView.onResume();
     }
 
     @Override
@@ -158,7 +161,8 @@ public class WebActivity extends AppCompatActivity {
     private class ViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url != null) view.loadUrl(url);
+            if (url != null)
+                view.loadUrl(url);
             return true;
         }
     }
